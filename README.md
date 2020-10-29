@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# PERSONAL TEACHING
+> This project is a front-end website that consumes a Ruby On Rails API. The chosen topic is a system for booking appointments with personal teachers.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Screenshots
 
-## Available Scripts
+![screenshot-1](https://user-images.githubusercontent.com/36812672/97628788-2f8a2380-19fb-11eb-8630-e80d5a270a77.png)
 
-In the project directory, you can run:
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Sign Up / Sign In
+- Register teachers
+- List of teachers
+- Teacher details and reserve
+- List of user's appointments
+- List of teacher's commitments
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Built With
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Javascript
+- React & Redux
+- Hooks
+- CSS Modules
+- Netlify
+- API from: [Personal Teaching Repository](https://github.com/sergiomauz/RoR-Personal-Teaching)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Live Demo
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Click -> [Personal Teaching!](https://react-personal-teaching.netlify.app/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## How to Install
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Install Node JS in your system. To install Node JS, you can read the [documentation](https://nodejs.org/en/docs/).
+- Clone it using **git clone** command and move to the project directory.
+- Run in your terminal **npm install**.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Tests
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- This project uses **React Testing Library** for testing classes.
+- All files are in **src/test** directory.
+- OPTIONAL: Put your public and secret keys before to test, it will help to add testing for consuming the Pet Finder API.
+- In order to run the tests, in terminal, type: ```npm test```
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Potential Features
+- Full screen mode.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+👤 **Sergio Zambrano**
 
-### Analyzing the Bundle Size
+- Portfolio: [Sergio Zambrano](https://www.szetapp.com/)
+- Github: [@sergiomauz](https://github.com/sergiomauz)
+- Twitter: [@sergiomauz](https://twitter.com/sergiomauz)
+- Linkedin: [Sergio Zambrano](https://www.linkedin.com/in/sergiomauz/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## 🤝 Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Contributions, issues and feature requests are welcome!. Feel free to check the [issues page](../../issues/).
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Show your support
 
-### Deployment
+Give a ⭐️ if you like this project!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+## Credits
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The user interface [Vespa Responsive Redesign](https://www.behance.net/gallery/26425031/Vespa-Responsive-Redesign) was designed by [Murat Korkmaz](https://www.behance.net/muratk).
+
+
+## 📝 License
+
+This project is [MIT](./LICENSE) licensed.
