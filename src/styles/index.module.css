@@ -2,25 +2,21 @@ body {
   overflow-x: hidden;
   font-family: "Proxima-Nova-Bold", sans-serif;
   color: #434b54;
-  background-color: #f1f3f2;
   font-size: 14px;
   margin: 0;
   padding: 0;
 }
 
+.dFlex {
+  display: flex !important;
+}
+
 .dFlexWrapper {
-  display: -ms-flexbox !important;
   display: flex !important;
   overflow-x: hidden;
 }
 
-.dFlex {
-  display: -ms-flexbox !important;
-  display: flex !important;
-}
-
 .justifyContentCenter {
-  -ms-flex-pack: center !important;
   justify-content: center !important;
 }
 
@@ -70,21 +66,15 @@ body {
 
 .navbar {
   position: relative;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 0.5rem 1rem;
 }
 
 .listGroup {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
@@ -92,16 +82,28 @@ body {
 }
 
 .listGroupItem {
-  position: relative;
-  display: block;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  color: #495057;
+  border-top: 1px solid #ccc;
+}
+
+.listGroupItem:first-child {
+  border-top: none;
 }
 
 .listGroupItemAction {
-  width: 100%;
-  color: #495057;
-  text-align: inherit;
+  text-decoration: none;
+  position: relative;
+  display: block;
+  padding: 1rem 1.25rem;
+}
+
+.listGroupItemAction:visited,
+.listGroupItemAction:link {
+  color: #353535;
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+
+.listGroupItemAction:hover {
+  background-color: #dce9af;
 }

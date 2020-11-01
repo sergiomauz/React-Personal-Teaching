@@ -1,13 +1,23 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
 import Sidebar from './components/Sidebar';
 import PageContent from './components/PageContent';
-import Style from './styles/index.module.css';
+
+import aStyle from './styles/index.module.css';
 
 const App = () => (
-  <div className={Style.dFlexWrapper}>
-    <Sidebar />
-    <PageContent />
-  </div>
+  <Provider store={store}>
+    <BrowserRouter>
+      <>
+        <div className={aStyle.dFlexWrapper}>
+          <Sidebar />
+          <PageContent />
+        </div>
+      </>
+    </BrowserRouter>
+  </Provider>
 );
 
 export default App;
