@@ -1,0 +1,29 @@
+@import "index.module.css";
+
+.sidebarLogo {
+  border-radius: 50%;
+  width: 10rem;
+  height: 10rem;
+}
+
+.sidebarHeading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+.sidebarWrapper {
+  min-height: 100vh;
+  margin-left: -15rem;
+  -webkit-transition: margin 0.25s ease-out;
+  -moz-transition: margin 0.25s ease-out;
+  -o-transition: margin 0.25s ease-out;
+  transition: margin 0.25s ease-out;
+  background-color: beige;
+  border: 1px solid #ccc;
+}
+
+@media (min-width: 768px) {
+  .sidebarWrapper {
+    margin-left: 0;
+  }
+}
