@@ -1,26 +1,33 @@
 import React from 'react';
-import Style from '../styles/pagecontent.module.css';
+import { Route, Switch } from 'react-router-dom';
+
+import UserAppointments from '../containers/UserAppointments';
+import TeacherDetails from '../containers/TeacherDetails';
+import TeachersList from '../containers/TeachersList';
+import SignIn from '../containers/SignIn';
+import SignUp from '../containers/SignUp';
+import NewTeacher from '../containers/NewTeacher';
+
+import pcStyle from '../styles/pagecontent.module.css';
+import aStyle from '../styles/index.module.css';
 
 const PageContent = () => (
-  <div className={Style.pageContentWrapper}>
-    <nav className="navbar bg-3778c2 d-flex justify-content-between mb-3">
-      <button className="btn bg-sidebar-item text-white" type="button" id="menu-toggle">
+  <div className={pcStyle.pageContentWrapper}>
+    <nav className={`${aStyle.navbar} ${aStyle.dFlex} ${aStyle.justifyContentBetween} ${aStyle.mb3}`}>
+      <button className={aStyle.btn} type="button">
         <i className="fa fa-bars" aria-hidden="true" />
       </button>
-      <h3 className="text-white text-uppercase m-0 title-font">SIGN IN</h3>
-      <button className="btn bg-sidebar-item text-white" type="button">
-        <i className="fa fa-search" aria-hidden="true" />
-      </button>
     </nav>
-    <div className="container-fluid">
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the body tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
+    <div className={aStyle.containerFluid}>
+      <Switch>
+        <Route exact path="/" component={TeachersList} />
+        <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/teachers" component={TeachersList} />
+        <Route exact path="/teacher/new" component={NewTeacher} />
+        <Route exact path="/teacher/:id" component={TeacherDetails} />
+        <Route exact path="/appointments" component={UserAppointments} />
+      </Switch>
     </div>
   </div>
 
