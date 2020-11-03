@@ -13,12 +13,7 @@ import aStyle from '../styles/index.module.css';
 
 const PageContent = () => (
   <div className={pcStyle.pageContentWrapper}>
-    <nav className={`${aStyle.navbar} ${aStyle.dFlex} ${aStyle.justifyContentBetween} ${aStyle.mb3}`}>
-      <button className={aStyle.btn} type="button">
-        <i className="fa fa-bars" aria-hidden="true" />
-      </button>
-    </nav>
-    <div className={aStyle.containerFluid}>
+    <div className={`${aStyle.containerFluid} ${aStyle.my5rem}`}>
       <Switch>
         <Route exact path="/" component={TeachersList} />
         <Route exact path="/signin" component={SignIn} />

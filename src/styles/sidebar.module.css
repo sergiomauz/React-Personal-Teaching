@@ -1,5 +1,9 @@
 @import "index.module.css";
 
+.toggleSidebar {
+  margin-left: 0 !important;
+}
+
 .sidebarLogo {
   border-radius: 50%;
   width: 10rem;
@@ -30,6 +34,10 @@
   .sidebarWrapper {
     margin-left: 0;
   }
+
+  .toggleSidebar {
+    margin-left: -15rem !important;
+  }
 }
 
 .sidebarBottom {
@@ -52,4 +60,12 @@
 
 .sidebarTrademark {
   padding-top: 15px;
+}
+
+.moveOutSideRight {
+  margin-right: -4.5rem;
+}
+
+.marginLeftAuto {
+  margin-left: auto;
 }

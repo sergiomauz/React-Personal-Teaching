@@ -1,22 +1,43 @@
 import React from 'react';
+import TeacherCard from '../components/TeacherCard';
+import cStyle from '../styles/teacherslist.module.css';
 
-
-const TeachersList = () => {
-  return (
-    <>
-      <h2>
-        TeachersList
-      </h2>
-      <ul>
-        <li>Itemn 1</li>
-        <li>Itemn 2</li>
-        <li>Itemn 3</li>
-        <li>Itemn 4</li>
-        <li>Itemn 5</li>
-        <li>Itemn 6</li>
+const TeachersList = () => (
+  <>
+    <h2>
+      TeachersList
+    </h2>
+    <div className={cStyle.carousel}>
+      <ul className={cStyle.carouselInner}>
+        <li className={cStyle.carouselItem}>
+          <TeacherCard />
+        </li>
+        {/* <li className={cStyle.carouselItem}>
+          <TeacherCard />
+        </li>
+        <li className={cStyle.carouselItem}>
+          <TeacherCard />
+        </li>
+        <li className={cStyle.carouselItem}>
+          <TeacherCard />
+        </li>
+        <li className={cStyle.carouselItem}>
+          <TeacherCard />
+        </li>
+        <li className={cStyle.carouselItem}>
+          <TeacherCard />
+        </li> */}
       </ul>
-    </>
-  );
-};
+
+      <a className={cStyle.carouselControlPrev} href="/">
+        <span className={cStyle.carouselControlPrevIcon} />
+      </a>
+
+      <a className={cStyle.carouselControlNext} href="/">
+        <span className={cStyle.carouselControlNextIcon} />
+      </a>
+    </div>
+  </>
+);
 
 export default TeachersList;
