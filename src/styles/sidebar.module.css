@@ -1,7 +1,36 @@
 @import "index.module.css";
 
+.sidebarWrapper {
+  min-height: 100vh;
+  margin-left: -15rem;
+  transition: margin 0.25s ease-out;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
 .toggleSidebar {
   margin-left: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .sidebarWrapper {
+    margin-left: 0;
+  }
+
+  .toggleSidebar {
+    margin-left: -15rem !important;
+  }
+}
+
+.topSidebar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  min-height: 3rem;
+  z-index: 0;
 }
 
 .sidebarLogo {
@@ -16,28 +45,6 @@
 .sidebarHeading {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
-}
-
-.sidebarWrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin 0.25s ease-out;
-  -moz-transition: margin 0.25s ease-out;
-  -o-transition: margin 0.25s ease-out;
-  transition: margin 0.25s ease-out;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  position: relative;
-}
-
-@media (min-width: 768px) {
-  .sidebarWrapper {
-    margin-left: 0;
-  }
-
-  .toggleSidebar {
-    margin-left: -15rem !important;
-  }
 }
 
 .sidebarBottom {

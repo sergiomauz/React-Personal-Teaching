@@ -13,8 +13,8 @@ const Sidebar = () => {
 
   return (
     <div ref={divSidebar} className={cStyle.sidebarWrapper}>
-      <div className={`${aStyle.navbar} ${cStyle.moveOutSideRight} ${aStyle.dFlex} ${aStyle.justifyContentRight}`}>
-        <button className={`${aStyle.btn} ${cStyle.marginLeftAuto}`} type="button" onClick={toggleSidebar}>
+      <div className={`${cStyle.topSidebar} ${cStyle.moveOutSideRight} ${aStyle.dFlex} ${aStyle.justifyContentRight}`}>
+        <button className={aStyle.btn} type="button" onClick={toggleSidebar}>
           <i className="fa fa-bars" aria-hidden="true" />
         </button>
       </div>

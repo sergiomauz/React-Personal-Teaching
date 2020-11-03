@@ -25,7 +25,7 @@ body {
 }
 
 .justifyContentRight {
-  justify-content: end !important;
+  justify-content: flex-end;
 }
 
 .container {
@@ -76,7 +76,6 @@ body {
   margin-top: 5rem;
 }
 
-
 .listGroup {
   display: flex;
   flex-direction: column;
@@ -110,17 +109,6 @@ body {
 
 .listGroupItemAction:hover {
   background-color: #dce9af;
-}
-
-.navbar {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  min-height: 3rem;
-  z-index: 0;
 }
 
 .btn {

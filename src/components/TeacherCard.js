@@ -7,7 +7,8 @@ const TeacherCard = () => (
       <img
         src="https://www.internautas.org/graficos/Ofelia_Tejerina_mujer_activista.jpg"
         alt=""
-        className={cStyle.teacherPhoto} />
+        className={cStyle.teacherPhoto}
+      />
     </div>
     <div className={cStyle.teacherInfo}>
       <h3>Teacher Name</h3>
