@@ -1,8 +1,8 @@
 @import "index.module.css";
 
 .sidebarWrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
+  min-height: 100vh;  
+  margin-left: 0;    
   transition: margin 0.25s ease-out;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -10,16 +10,16 @@
 }
 
 .toggleSidebar {
-  margin-left: 0 !important;
+  margin-left: -15rem;    
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .sidebarWrapper {
-    margin-left: 0;
+    margin-left: -15rem;    
   }
 
   .toggleSidebar {
-    margin-left: -15rem !important;
+    margin-left: 0;    
   }
 }
 
