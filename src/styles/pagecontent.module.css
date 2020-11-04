@@ -1,0 +1,44 @@
+@import "index.module.css";
+
+.sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: -15rem;
+  transition: margin 0.25s ease-out;
+  background-color: #3778c2;
+}
+
+.pageContentWrapper {
+  min-width: 450px;
+  width: 100vw;
+}
+
+.wrapper.toggled .sidebar-wrapper {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  .pageContentWrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .wrapper.toggled .sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+
+.bg-sidebar-item {
+  background-color: transparent;
+}
+
+.bg-sidebar-item:hover {
+  background-color: #ffffff1c;
+}
+
+.title-font {
+  font-size: 1.25rem;
+}

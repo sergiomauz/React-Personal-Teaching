@@ -1,20 +1,29 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
-function App() {
+import generateStore from './redux/store';
+
+import Sidebar from './components/Sidebar';
+import PageContent from './components/PageContent';
+
+import aStyle from './styles/index.module.css';
+
+const App = () => {
+  const store = generateStore();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <>
+          <div className={aStyle.dFlexWrapper}>
+            <Sidebar />
+            <PageContent />
+          </div>
+        </>
+      </BrowserRouter>
+    </Provider>
   );
-}
+};
 
 export default App;

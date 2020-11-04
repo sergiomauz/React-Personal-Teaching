@@ -1,0 +1,78 @@
+@import "index.module.css";
+
+.sidebarWrapper {
+  min-height: 100vh;
+  margin-left: 0;
+  transition: margin 0.25s ease-out;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.toggleSidebar {
+  margin-left: -15rem;
+}
+
+@media (max-width: 768px) {
+  .sidebarWrapper {
+    margin-left: -15rem;
+  }
+
+  .toggleSidebar {
+    margin-left: 0;
+  }
+}
+
+.topSidebar {
+  position: absolute;
+  right: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  min-height: 3rem;
+  z-index: 0;
+}
+
+.sidebarLogo {
+  border-radius: 50%;
+  width: 10rem;
+  height: 10rem;
+  background-image: url(../images/logo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sidebarHeading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+.sidebarBottom {
+  position: absolute;
+  text-align: center;
+  bottom: 10px;
+  width: 100%;
+}
+
+.sidebarSocialContainer a {
+  font-size: 1.25rem;
+  padding: 10px;
+  border-radius: 10px;
+  color: #353535;
+}
+
+.sidebarSocialContainer a:hover {
+  background-color: #dce9af;
+}
+
+.sidebarTrademark {
+  padding-top: 15px;
+}
+
+.moveOutSideRight {
+  margin-right: -4.5rem;
+}
+
+.marginLeftAuto {
+  margin-left: auto;
+}
