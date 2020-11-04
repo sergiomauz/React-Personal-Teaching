@@ -27,12 +27,12 @@ const NewTeacher = () => {
         <div className={aStyle.formGroup}>
           <label>
             <span className={aStyle.controlLabel}>Photo</span>
-            <input ref={txtPhoto} type="text" className={aStyle.formControl} />
+            <input ref={txtPhoto} type="file" className={aStyle.formControl} />
           </label>
         </div>
         <div className={aStyle.formGroup}>
           <label>
-            <span className={aStyle.controlLabel}>e-mail</span>
+            <span className={aStyle.controlLabel}>email</span>
             <input ref={txtEmail} type="email" className={aStyle.formControl} />
           </label>
         </div>

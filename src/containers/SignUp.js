@@ -25,7 +25,7 @@ const SignUp = () => {
         </div>
         <div className={aStyle.formGroup}>
           <label>
-            <span className={aStyle.controlLabel}>e-mail</span>
+            <span className={aStyle.controlLabel}>email</span>
             <input ref={txtEmail} type="email" className={aStyle.formControl} />
           </label>
         </div>
