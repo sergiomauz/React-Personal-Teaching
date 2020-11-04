@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef } from 'react';
 import aStyle from '../styles/index.module.css';
-import cStyle from '../styles/signin.module.css';
 
 const SignIn = () => {
   const txtUser = useRef(null);
@@ -9,11 +8,11 @@ const SignIn = () => {
 
   return (
     <>
-      <h1 className={`${cStyle.titleSignin} ${cStyle.greenColor}`}>
+      <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
         Personal Teachers
       </h1>
-      <form className={cStyle.formSignin} action="">
-        <h2 className={cStyle.titleSignin}>
+      <form className={aStyle.formContainer} action="">
+        <h2 className={aStyle.titleOne}>
           Please, Sign In
         </h2>
         <div className={aStyle.formGroup}>
