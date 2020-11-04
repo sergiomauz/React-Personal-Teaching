@@ -17,13 +17,20 @@ const SignIn = () => {
           Please, Sign In
         </h2>
         <div className={aStyle.formGroup}>
-          <input ref={txtUser} type="text" className={aStyle.formControl} placeholder="username" />
+          <label>
+            <span className={aStyle.controlLabel}>username</span>
+            <input ref={txtUser} type="text" className={aStyle.formControl} />
+          </label>
         </div>
         <div className={aStyle.formGroup}>
-          <input ref={txtPassword} type="password" className={aStyle.formControl} placeholder="password" />
+          <label>
+            <span className={aStyle.controlLabel}>password</span>
+            <input ref={txtPassword} type="password" className={aStyle.formControl} />
+          </label>
         </div>
-
-        <button type="submit" className={aStyle.btn}>Sign In</button>
+        <div className={aStyle.formGroup}>
+          <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Sign In</button>
+        </div>
       </form>
     </>
   );
