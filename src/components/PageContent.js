@@ -13,7 +13,7 @@ import aStyle from '../styles/index.module.css';
 
 const PageContent = () => (
   <div className={pcStyle.pageContentWrapper}>
-    <div className={`${aStyle.containerFluid} ${aStyle.my5rem}`}>
+    <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
       <Switch>
         <Route exact path="/" component={TeachersList} />
         <Route exact path="/signin" component={SignIn} />

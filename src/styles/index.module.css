@@ -72,8 +72,12 @@ body {
   margin-bottom: 1rem;
 }
 
-.my5rem {
+.mt5rem {
   margin-top: 5rem;
+}
+
+.pt5rem {
+  padding-top: 5rem;
 }
 
 .listGroup {
@@ -130,4 +134,22 @@ body {
 .btn:hover {
   background-color: #dce9af;
   cursor: pointer;
+}
+
+.formGroup {
+  margin: 0.75rem auto;
+}
+
+.formControl {
+  display: block;
+  width: 100%;
+  padding: 0.375rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
