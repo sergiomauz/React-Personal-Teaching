@@ -35,7 +35,8 @@ const TeacherDetails = () => {
         <div className={aStyle.formGroup}>
           <span className={aStyle.controlLabel}>Description</span>
           <div ref={txtDescription} className={aStyle.formControl}>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, consect
+            Lorem ipsum dolor sit amet, consectetuer adipiscing Lorem ipsum dolor sit amet,
+            Lorem ipsum dolor sit amet, consect
           </div>
         </div>
         <div className={aStyle.formGroup}>
