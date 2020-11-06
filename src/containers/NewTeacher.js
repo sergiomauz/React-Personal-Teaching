@@ -1,11 +1,21 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 import aStyle from '../styles/index.module.css';
+
+const mapStateToProps = state => ({
+  teachers: state.teachers.teachers,
+});
+
+const mapDispatchToProps = {
+  getTeachersList,
+};
+
 
 const NewTeacher = () => {
   const txtFullname = useRef(null);
   const txtPhoto = useRef(null);
-  const txtUser = useRef(null);
+  const txtCourse = useRef(null);
   const txtEmail = useRef(null);
   const txtPassword = useRef(null);
 
@@ -21,7 +31,13 @@ const NewTeacher = () => {
         <div className={aStyle.formGroup}>
           <label>
             <span className={aStyle.controlLabel}>fullname</span>
-            <input ref={txtFullname} type="text" className={aStyle.formControl} />
+            <input ref={txtFullname} type="text" className={aStyle.formControl} maxLength="50" />
+          </label>
+        </div>
+        <div className={aStyle.formGroup}>
+          <label>
+            <span className={aStyle.controlLabel}>email</span>
+            <input ref={txtEmail} type="email" className={aStyle.formControl} maxLength="50" />
           </label>
         </div>
         <div className={aStyle.formGroup}>
@@ -32,20 +48,14 @@ const NewTeacher = () => {
         </div>
         <div className={aStyle.formGroup}>
           <label>
-            <span className={aStyle.controlLabel}>email</span>
-            <input ref={txtEmail} type="email" className={aStyle.formControl} />
+            <span className={aStyle.controlLabel}>course</span>
+            <input ref={txtCourse} type="text" className={aStyle.formControl} maxLength="50" />
           </label>
         </div>
         <div className={aStyle.formGroup}>
           <label>
-            <span className={aStyle.controlLabel}>username</span>
-            <input ref={txtUser} type="text" className={aStyle.formControl} />
-          </label>
-        </div>
-        <div className={aStyle.formGroup}>
-          <label>
-            <span className={aStyle.controlLabel}>password</span>
-            <input ref={txtPassword} type="password" className={aStyle.formControl} />
+            <span className={aStyle.controlLabel}>description</span>
+            <textarea ref={txtPassword} className={aStyle.formControl} maxLength="150" />
           </label>
         </div>
         <div className={aStyle.formGroup}>

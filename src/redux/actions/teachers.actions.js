@@ -2,10 +2,15 @@
 import {
   GET_TEACHERS_LIST, GET_TEACHER_INFO, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from './types';
+import PersonalTeaching from '../../apis/PersonalTeaching';
 
-const getTeachersList = () => ({
-  type: GET_TEACHERS_LIST,
-});
+const getTeachersList = () => async dispatch => {
+  const requestedData = await PersonalTeaching().getTeachersList();
+  dispatch({
+    type: GET_TEACHERS_LIST,
+    payload: requestedData,
+  });
+};
 
 const getTeacherInfo = () => ({
   type: GET_TEACHER_INFO,

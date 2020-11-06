@@ -18,7 +18,7 @@ const TeacherCard = props => {
         </Link>
       </div>
       <div className={cStyle.teacherInfo}>
-        <h3>{info.teacher}</h3>
+        <h3>{info.fullname}</h3>
         <h5>{info.course}</h5>
         <p>
           {info.description.length > 50 ? `${info.description.slice(0, 50)} ...` : `${info.description}`}
@@ -31,7 +31,7 @@ const TeacherCard = props => {
 TeacherCard.propTypes = {
   info: PropTypes.shape({
     id: PropTypes.number,
-    teacher: PropTypes.string,
+    fullname: PropTypes.string,
     course: PropTypes.string,
     description: PropTypes.string,
     photo: PropTypes.string,

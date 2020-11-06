@@ -1,4 +1,4 @@
-const BACKEND_PERSONAL_TEACHING = 'http://localhost:3000/';
+const BACKEND_PERSONAL_TEACHING = 'http://localhost:3000/api/v1/';
 const API_CLOUDINARY = 'http://localhost:3000/';
 
 export {
