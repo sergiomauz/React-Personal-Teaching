@@ -1,5 +1,5 @@
 import {
-  TEACHERS_LIST, SHOW_TEACHER, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
+  GET_TEACHERS_LIST, GET_TEACHER_INFO, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from '../actions/types';
 
 const initialState = {
@@ -8,11 +8,12 @@ const initialState = {
 
 const teachersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TEACHERS_LIST:
+    case GET_TEACHERS_LIST:
       return {
         ...state,
+        teachers: action.payload,
       };
-    case SHOW_TEACHER:
+    case GET_TEACHER_INFO:
       return {
         ...state,
         teacher: action.payload,
@@ -23,6 +24,15 @@ const teachersReducer = (state = initialState, action) => {
         teachers: [
           ...state.teachers, action.payload,
         ],
+      };
+    case UPDATE_TEACHER:
+      return {
+        ...state,
+        teachers: state.teachers.map(
+          teacher => (teacher.id === action.payload.id
+            ? action.payload
+            : teacher),
+        ),
       };
     case REMOVE_TEACHER:
       return {

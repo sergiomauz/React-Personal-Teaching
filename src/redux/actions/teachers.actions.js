@@ -1,13 +1,14 @@
+// import PersonalTeaching from '../../apis/PersonalTeaching';
 import {
-  TEACHERS_LIST, SHOW_TEACHER, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
+  GET_TEACHERS_LIST, GET_TEACHER_INFO, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from './types';
 
-const getTeachers = () => ({
-  type: TEACHERS_LIST,
+const getTeachersList = () => ({
+  type: GET_TEACHERS_LIST,
 });
 
 const getTeacherInfo = () => ({
-  type: SHOW_TEACHER,
+  type: GET_TEACHER_INFO,
 });
 
 const addTeacher = teacher => ({
@@ -26,5 +27,5 @@ const removeTeacher = id => ({
 });
 
 export {
-  getTeachers, getTeacherInfo, addTeacher, removeTeacher, updateTeacher,
+  getTeachersList, getTeacherInfo, addTeacher, updateTeacher, removeTeacher,
 };
