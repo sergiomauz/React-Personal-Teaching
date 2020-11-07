@@ -1,30 +1,67 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import showErrors from '../redux/actions/errors.actions';
+import { addTeacher } from '../redux/actions/teachers.actions';
 import aStyle from '../styles/index.module.css';
 
 const mapStateToProps = state => ({
-  teachers: state.teachers.teachers,
+  errors: state.errors.errors,
 });
 
 const mapDispatchToProps = {
-  getTeachersList,
+  addTeacher,
+  showErrors,
 };
 
+const NewTeacher = props => {
+  const {
+    addTeacher, showErrors, errors,
+  } = props;
+  const [loading, setLoading] = useState(true);
 
-const NewTeacher = () => {
   const txtFullname = useRef(null);
+  const txtEmail = useRef(null);
   const txtPhoto = useRef(null);
   const txtCourse = useRef(null);
-  const txtEmail = useRef(null);
-  const txtPassword = useRef(null);
+  const txtDescription = useRef(null);
+
+  useEffect(() => {
+    showErrors({
+      error: false,
+      description: [],
+    });
+    setLoading(false);
+  }, [showErrors]);
+
+  const saveTeacher = e => {
+    e.preventDefault();
+    const [fullname, email, photo, course, description] = [
+      txtFullname.current.value,
+      txtEmail.current.value,
+      txtPhoto.current.value,
+      txtCourse.current.value,
+      txtDescription.current.value,
+    ];
+
+    const newTeacher = {
+      fullname, email, photo, course, description,
+    };
+
+    addTeacher(newTeacher);
+  };
 
   return (
     <>
       <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
         Teacher
       </h1>
-      <form className={aStyle.formContainer} action="">
+      {
+        loading
+        && <span>Loading...</span>
+      }
+      <form className={aStyle.formContainer} onSubmit={saveTeacher}>
         <h2 className={aStyle.titleOne}>
           New Teacher
         </h2>
@@ -55,15 +92,32 @@ const NewTeacher = () => {
         <div className={aStyle.formGroup}>
           <label>
             <span className={aStyle.controlLabel}>description</span>
-            <textarea ref={txtPassword} className={aStyle.formControl} maxLength="150" />
+            <textarea ref={txtDescription} className={aStyle.formControl} maxLength="150" />
           </label>
         </div>
         <div className={aStyle.formGroup}>
           <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Save</button>
         </div>
       </form>
+
     </>
   );
 };
 
-export default NewTeacher;
+NewTeacher.propTypes = {
+  showErrors: PropTypes.func.isRequired,
+  addTeacher: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    error: PropTypes.bool,
+    description: PropTypes.arrayOf(PropTypes.string),
+  }),
+};
+
+NewTeacher.defaultProps = {
+  errors: {
+    error: false,
+    description: [],
+  },
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewTeacher);

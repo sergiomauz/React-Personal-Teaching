@@ -66,7 +66,6 @@ const PersonalTeaching = () => {
   };
 
   const makeGetRequest = async (path, params = {}) => {
-    /*
     let request;
     let jsonConfig = await getConfig(params);
 
@@ -82,20 +81,18 @@ const PersonalTeaching = () => {
         };
       }
     }
-    */
-    const jsonConfig = await getConfig(params);
-    const request = await await axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig).then(onSuccess, onFail);
+
     return request;
   };
   const makePostRequest = async (path, params = {}) => {
     let request;
-    let jsonConfig = await getConfig(params);
+    let jsonConfig = await getConfig();
 
-    request = await axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig).then(onSuccess, onFail);
+    request = await axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig).then(onSuccess, onFail);
     let { isAxiosError } = { ...request };
     if (isAxiosError) {
-      jsonConfig = await getConfig(params);
-      request = await axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig).then(onSuccess, onFail);
+      jsonConfig = await getConfig();
+      request = await axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig).then(onSuccess, onFail);
       isAxiosError = { ...request }.isAxiosError;
       if (isAxiosError) {
         return {
@@ -129,13 +126,12 @@ const PersonalTeaching = () => {
   const getTeachersList = () => makeGetRequest('teachers');
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
 
+  const addTeacher = teacher => makePostRequest('teachers', teacher);
+
   return {
     getTeachersList,
     getTeacherInfo,
-
-    makeGetRequest,
-    makePutRequest,
-    makePostRequest,
+    addTeacher,
   };
 };
 

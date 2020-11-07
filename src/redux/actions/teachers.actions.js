@@ -16,10 +16,13 @@ const getTeacherInfo = () => ({
   type: GET_TEACHER_INFO,
 });
 
-const addTeacher = teacher => ({
-  type: ADD_TEACHER,
-  payload: teacher,
-});
+const addTeacher = teacher => async dispatch => {
+  const requestedData = await PersonalTeaching().addTeacher(teacher);
+  dispatch({
+    type: ADD_TEACHER,
+    payload: requestedData,
+  });
+};
 
 const updateTeacher = teacher => ({
   type: UPDATE_TEACHER,
