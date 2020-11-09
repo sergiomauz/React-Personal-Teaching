@@ -19,8 +19,15 @@ const getSession = () => async dispatch => {
   });
 };
 
-const signOut = () => true;
+const signOutRequest = () => {
+  console.log('mauricio');
+  const requestedData = PersonalTeaching().signOutRequest();
+  return {
+    type: SIGN_OUT,
+    payload: requestedData,
+  };
+};
 
 export {
-  signInRequest, getSession, signOut,
+  signInRequest, getSession, signOutRequest,
 };

@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { signOutRequest } from '../redux/actions/sessions.actions';
 import aStyle from '../styles/index.module.css';
 import cStyle from '../styles/sidebar.module.css';
 
 const Sidebar = props => {
-  const { sessions } = props;
+  const { sessionInfo } = props;
   const divSidebar = useRef(null);
 
   const toggleSidebar = e => {
@@ -25,7 +26,7 @@ const Sidebar = props => {
       </div>
       <ul className={aStyle.listGroup}>
         {
-          sessions.signedIn ? (
+          sessionInfo.signedIn ? (
             <>
               <li className={`${aStyle.listGroupItem}`}>
                 <Link className={`${aStyle.listGroupItemAction}`} to="/teachers">
@@ -43,9 +44,9 @@ const Sidebar = props => {
                 </Link>
               </li>
               <li className={`${aStyle.listGroupItem}`}>
-                <Link className={`${aStyle.listGroupItemAction}`} to="/">
+                <button type="button" className={`${aStyle.listGroupItemAction}`} onClick={() => signOutRequest()}>
                   Sign out
-                </Link>
+                </button>
               </li>
             </>
           )
@@ -93,7 +94,8 @@ const Sidebar = props => {
 };
 
 Sidebar.propTypes = {
-  sessions: PropTypes.shape({
+  signOutRequest: PropTypes.func.isRequired,
+  sessionInfo: PropTypes.shape({
     signedIn: PropTypes.bool,
     accessToken: PropTypes.string,
     refreshToken: PropTypes.string,
@@ -102,7 +104,7 @@ Sidebar.propTypes = {
 };
 
 Sidebar.defaultProps = {
-  sessions: {
+  sessionInfo: {
     signedIn: false,
     accessToken: '',
     refreshToken: '',

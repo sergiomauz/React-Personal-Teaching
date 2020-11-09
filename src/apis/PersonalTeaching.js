@@ -31,6 +31,17 @@ const PersonalTeaching = () => {
 
     return sessionObject;
   };
+  const signOutRequest = () => {
+    const sessionObject = {
+      signedIn: false,
+      accessToken: '',
+      refreshToken: '',
+      expiresAt: 0,
+    };
+    localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
+
+    return signOutRequest;
+  };
   const refreshSession = async refreshToken => {
     const request = await axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
       grant_type: 'refresh_token',
@@ -138,6 +149,7 @@ const PersonalTeaching = () => {
 
     getSession,
     signInRequest,
+    signOutRequest,
   };
 };
 
