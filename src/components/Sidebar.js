@@ -1,15 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { getSession } from '../redux/actions/sessions.actions';
 import aStyle from '../styles/index.module.css';
 import cStyle from '../styles/sidebar.module.css';
 
-const Sidebar = () => {
+const mapStateToProps = state => ({
+  sessions: state.sessions.sessions,
+});
+
+const mapDispatchToProps = {
+  getSession,
+};
+
+const Sidebar = props => {
+  const { sessions, getSession } = props;
   const divSidebar = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   const toggleSidebar = e => {
     divSidebar.current.classList.toggle(cStyle.toggleSidebar);
     e.preventDefault();
   };
+
+  useEffect(() => {
+    getSession();
+    setLoading(false);
+  }, [getSession]);
 
   return (
     <div ref={divSidebar} className={cStyle.sidebarWrapper}>
@@ -22,36 +40,46 @@ const Sidebar = () => {
         <div className={cStyle.sidebarLogo} />
       </div>
       <ul className={aStyle.listGroup}>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/signin">
-            Sign In
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/signup">
-            Sign Up
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/teachers">
-            Teachers
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/teacher/new">
-            New Teacher
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/appointments">
-            Appointments
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/">
-            Sign out
-          </Link>
-        </li>
+        {
+          sessions.signedIn ? (
+            <>
+              <li className={`${aStyle.listGroupItem}`}>
+                <Link className={`${aStyle.listGroupItemAction}`} to="/teachers">
+                  Teachers
+                </Link>
+              </li>
+              <li className={`${aStyle.listGroupItem}`}>
+                <Link className={`${aStyle.listGroupItemAction}`} to="/teacher/new">
+                  New Teacher
+                </Link>
+              </li>
+              <li className={`${aStyle.listGroupItem}`}>
+                <Link className={`${aStyle.listGroupItemAction}`} to="/appointments">
+                  Appointments
+                </Link>
+              </li>
+              <li className={`${aStyle.listGroupItem}`}>
+                <Link className={`${aStyle.listGroupItemAction}`} to="/">
+                  Sign out
+                </Link>
+              </li>
+            </>
+          )
+            : (
+              <>
+                <li className={`${aStyle.listGroupItem}`}>
+                  <Link className={`${aStyle.listGroupItemAction}`} to="/signin">
+                    Sign In
+                  </Link>
+                </li>
+                <li className={`${aStyle.listGroupItem}`}>
+                  <Link className={`${aStyle.listGroupItemAction}`} to="/signup">
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )
+        }
       </ul>
 
       <div className={cStyle.sidebarBottom}>
@@ -80,4 +108,23 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+Sidebar.propTypes = {
+  getSession: PropTypes.func.isRequired,
+  sessions: PropTypes.shape({
+    signedIn: PropTypes.bool,
+    accessToken: PropTypes.string,
+    refreshToken: PropTypes.string,
+    expiresAt: PropTypes.number,
+  }),
+};
+
+Sidebar.defaultProps = {
+  sessions: {
+    signedIn: false,
+    accessToken: '',
+    refreshToken: '',
+    expiresAt: 0,
+  },
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

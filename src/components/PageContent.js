@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import UserAppointments from '../containers/UserAppointments';
 import TeacherDetails from '../containers/TeacherDetails';
 import TeachersList from '../containers/TeachersList';
-import SignIn from '../containers/SignIn';
+import SignIn from '../containers/SignInForm';
 import SignUp from '../containers/SignUp';
 import NewTeacher from '../containers/Teacher/NewTeacher';
 

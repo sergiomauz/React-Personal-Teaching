@@ -1,4 +1,3 @@
-// import PersonalTeaching from '../../apis/PersonalTeaching';
 import {
   GET_TEACHERS_LIST, GET_TEACHER_INFO, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from './types';
