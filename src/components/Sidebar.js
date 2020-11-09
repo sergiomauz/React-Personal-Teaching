@@ -1,12 +1,21 @@
 import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { signOutRequest } from '../redux/actions/sessions.actions';
 import aStyle from '../styles/index.module.css';
 import cStyle from '../styles/sidebar.module.css';
 
+const mapStateToProps = state => ({
+  sessions: state.sessions.sessions,
+});
+
+const mapDispatchToProps = {
+  signOutRequest,
+};
+
 const Sidebar = props => {
-  const { sessionInfo } = props;
+  const { sessionInfo, signOutRequest } = props;
   const divSidebar = useRef(null);
 
   const toggleSidebar = e => {
@@ -44,7 +53,7 @@ const Sidebar = props => {
                 </Link>
               </li>
               <li className={`${aStyle.listGroupItem}`}>
-                <button type="button" className={`${aStyle.listGroupItemAction}`} onClick={() => signOutRequest()}>
+                <button type="button" className={`${aStyle.listGroupItemAction}`} onClick={signOutRequest}>
                   Sign out
                 </button>
               </li>
@@ -112,4 +121,4 @@ Sidebar.defaultProps = {
   },
 };
 
-export default Sidebar;
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

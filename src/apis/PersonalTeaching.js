@@ -31,7 +31,7 @@ const PersonalTeaching = () => {
 
     return sessionObject;
   };
-  const signOutRequest = () => {
+  const signOutRequest = async () => {
     const sessionObject = {
       signedIn: false,
       accessToken: '',
@@ -40,7 +40,7 @@ const PersonalTeaching = () => {
     };
     localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
 
-    return signOutRequest;
+    return sessionObject;
   };
   const refreshSession = async refreshToken => {
     const request = await axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
@@ -77,9 +77,12 @@ const PersonalTeaching = () => {
 
     if (sessionVar.length > 0) {
       sessionObject = JSON.parse(sessionVar);
-      if ((Math.abs(new Date()) > sessionObject.expiresAt && sessionObject.expiresAt > 0)
-        || sessionObject.expiresAt === 0) {
-        sessionObject = await refreshSession(sessionObject.refreshToken);
+      if (sessionObject.refreshToken && sessionObject.expiresAt) {
+        if (Math.abs(new Date()) > sessionObject.expiresAt
+          && sessionObject.expiresAt > 0
+          && sessionObject.refreshToken.length > 0) {
+          sessionObject = await refreshSession(sessionObject.refreshToken);
+        }
       }
     }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getSession, signOutRequest } from '../redux/actions/sessions.actions';
+import { getSession } from '../redux/actions/sessions.actions';
 import Sidebar from './Sidebar';
 import PageContent from './PageContent';
 import aStyle from '../styles/index.module.css';
@@ -12,16 +12,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getSession,
-  signOutRequest,
 };
 
 const MainContainer = props => {
-  const { sessions, getSession, signOutRequest } = props;
+  const { sessions, getSession } = props;
   const [loading, setLoading] = useState(true);
-
-  const handleSignOutRequest = () => {
-    signOutRequest();
-  };
 
   useEffect(() => {
     getSession();
@@ -34,7 +29,7 @@ const MainContainer = props => {
         !loading
         && (
           <div className={aStyle.dFlexWrapper}>
-            <Sidebar sessionInfo={sessions} signOutRequest={handleSignOutRequest} />
+            <Sidebar sessionInfo={sessions} />
             <PageContent />
           </div>
         )
@@ -45,7 +40,6 @@ const MainContainer = props => {
 
 MainContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
-  signOutRequest: PropTypes.func.isRequired,
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
     accessToken: PropTypes.string,
