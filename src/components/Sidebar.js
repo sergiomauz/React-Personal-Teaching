@@ -1,33 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getSession } from '../redux/actions/sessions.actions';
 import aStyle from '../styles/index.module.css';
 import cStyle from '../styles/sidebar.module.css';
 
-const mapStateToProps = state => ({
-  sessions: state.sessions.sessions,
-});
-
-const mapDispatchToProps = {
-  getSession,
-};
-
 const Sidebar = props => {
-  const { sessions, getSession } = props;
+  const { sessions } = props;
   const divSidebar = useRef(null);
-  const [loading, setLoading] = useState(true);
 
   const toggleSidebar = e => {
     divSidebar.current.classList.toggle(cStyle.toggleSidebar);
     e.preventDefault();
   };
-
-  useEffect(() => {
-    getSession();
-    setLoading(false);
-  }, [getSession]);
 
   return (
     <div ref={divSidebar} className={cStyle.sidebarWrapper}>
@@ -109,7 +93,6 @@ const Sidebar = props => {
 };
 
 Sidebar.propTypes = {
-  getSession: PropTypes.func.isRequired,
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
     accessToken: PropTypes.string,
@@ -127,4 +110,4 @@ Sidebar.defaultProps = {
   },
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default Sidebar;
