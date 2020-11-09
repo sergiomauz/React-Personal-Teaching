@@ -1,7 +1,7 @@
 const BACKEND_PERSONAL_TEACHING = 'http://localhost:3000/api/v1/';
-const API_CLOUDINARY = 'http://localhost:3000/';
+const ENDPOINT_FOR_UPLOAD_CLOUDINARY = 'https://api.cloudinary.com/v1_1/dowafljsv/image/upload';
 
 export {
   BACKEND_PERSONAL_TEACHING,
-  API_CLOUDINARY,
+  ENDPOINT_FOR_UPLOAD_CLOUDINARY,
 };

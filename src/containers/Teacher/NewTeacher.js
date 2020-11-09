@@ -2,9 +2,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import showErrors from '../redux/actions/errors.actions';
-import { addTeacher } from '../redux/actions/teachers.actions';
-import aStyle from '../styles/index.module.css';
+import showErrors from '../../redux/actions/errors.actions';
+import { addTeacher } from '../../redux/actions/teachers.actions';
+import aStyle from '../../styles/index.module.css';
 
 const mapStateToProps = state => ({
   errors: state.errors.errors,

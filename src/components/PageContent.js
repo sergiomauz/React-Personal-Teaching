@@ -6,7 +6,7 @@ import TeacherDetails from '../containers/TeacherDetails';
 import TeachersList from '../containers/TeachersList';
 import SignIn from '../containers/SignIn';
 import SignUp from '../containers/SignUp';
-import NewTeacher from '../containers/NewTeacher';
+import NewTeacher from '../containers/Teacher/NewTeacher';
 
 import pcStyle from '../styles/pagecontent.module.css';
 import aStyle from '../styles/index.module.css';
