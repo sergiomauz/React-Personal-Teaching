@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef } from 'react';
-import aStyle from '../styles/index.module.css';
+import aStyle from '../../styles/index.module.css';
 
 const SignUp = () => {
   const txtFullname = useRef(null);

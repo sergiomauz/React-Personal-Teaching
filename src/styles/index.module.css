@@ -110,11 +110,36 @@ body {
   border-top: none;
 }
 
-.listGroupItemAction {
+.listGroupItemButton {
   text-decoration: none;
+  background-color: transparent;
   position: relative;
   display: block;
+  color: #353535;
   padding: 1rem 1.25rem;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.listGroupItemButton:hover {
+  background-color: #dce9af;
+  cursor: pointer;
+}
+
+.listGroupItemAction {
+  text-decoration: none;
+  background-color: transparent;
+  position: relative;
+  display: block;
+  color: #353535;
+  padding: 1rem 1.25rem;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border: none;
 }
 
 .listGroupItemAction:visited,

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import TeacherCard from '../components/TeacherCard';
-import { getTeachersList } from '../redux/actions/teachers.actions';
-import aStyle from '../styles/index.module.css';
-import cStyle from '../styles/teacherslist.module.css';
+import TeacherCard from '../../components/TeacherCard';
+import { getTeachersList } from '../../redux/actions/teachers.actions';
+import aStyle from '../../styles/index.module.css';
+import cStyle from '../../styles/teacherslist.module.css';
 
 const mapStateToProps = state => ({
   teachers: state.teachers.teachers,

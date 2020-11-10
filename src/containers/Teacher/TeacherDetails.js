@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef } from 'react';
-import aStyle from '../styles/index.module.css';
-import cStyle from '../styles/teachercard.module.css';
+import aStyle from '../../styles/index.module.css';
+import cStyle from '../../styles/teachercard.module.css';
 
 const TeacherDetails = () => {
   const txtEmail = useRef(null);

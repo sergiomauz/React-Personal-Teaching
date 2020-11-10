@@ -1,60 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { getSession } from '../redux/actions/sessions.actions';
-import Sidebar from './Sidebar';
-import PageContent from './PageContent';
-import aStyle from '../styles/index.module.css';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import UserAppointments from '../containers/UserAppointments';
+import TeacherDetails from '../containers/Teacher/TeacherDetails';
+import TeachersList from '../containers/Teacher/TeachersList';
+import NewTeacher from '../containers/Teacher/NewTeacher';
 
-const mapStateToProps = state => ({
-  sessions: state.sessions.sessions,
-});
+const PageContent = () => (
+  <>
+    <Route exact path="/teachers" component={TeachersList} />
+    <Route exact path="/teacher/new" component={NewTeacher} />
+    <Route exact path="/teacher/:id" component={TeacherDetails} />
+    <Route exact path="/appointments" component={UserAppointments} />
+  </>
+);
 
-const mapDispatchToProps = {
-  getSession,
-};
-
-const MainContainer = props => {
-  const { sessions, getSession } = props;
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getSession();
-    setLoading(false);
-  }, [getSession]);
-
-  return (
-    <>
-      {
-        !loading
-        && (
-          <div className={aStyle.dFlexWrapper}>
-            <Sidebar sessionInfo={sessions} />
-            <PageContent />
-          </div>
-        )
-      }
-    </>
-  );
-};
-
-MainContainer.propTypes = {
-  getSession: PropTypes.func.isRequired,
-  sessions: PropTypes.shape({
-    signedIn: PropTypes.bool,
-    accessToken: PropTypes.string,
-    refreshToken: PropTypes.string,
-    expiresAt: PropTypes.number,
-  }),
-};
-
-MainContainer.defaultProps = {
-  sessions: {
-    signedIn: false,
-    accessToken: '',
-    refreshToken: '',
-    expiresAt: 0,
-  },
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default PageContent;

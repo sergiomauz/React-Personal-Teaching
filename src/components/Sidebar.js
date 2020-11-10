@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { signOutRequest } from '../redux/actions/sessions.actions';
 import aStyle from '../styles/index.module.css';
@@ -15,12 +15,20 @@ const mapDispatchToProps = {
 };
 
 const Sidebar = props => {
-  const { sessionInfo, signOutRequest } = props;
+  const { sessions, signOutRequest } = props;
   const divSidebar = useRef(null);
+  const history = useHistory();
 
   const toggleSidebar = e => {
-    divSidebar.current.classList.toggle(cStyle.toggleSidebar);
     e.preventDefault();
+    divSidebar.current.classList.toggle(cStyle.toggleSidebar);
+  };
+
+  const handlerSignOutRequest = e => {
+    e.preventDefault();
+    signOutRequest();
+
+    history.push('/signin');
   };
 
   return (
@@ -35,7 +43,7 @@ const Sidebar = props => {
       </div>
       <ul className={aStyle.listGroup}>
         {
-          sessionInfo.signedIn ? (
+          sessions.signedIn ? (
             <>
               <li className={`${aStyle.listGroupItem}`}>
                 <Link className={`${aStyle.listGroupItemAction}`} to="/teachers">
@@ -53,7 +61,7 @@ const Sidebar = props => {
                 </Link>
               </li>
               <li className={`${aStyle.listGroupItem}`}>
-                <button type="button" className={`${aStyle.listGroupItemAction}`} onClick={signOutRequest}>
+                <button type="button" className={`${aStyle.listGroupItemButton}`} onClick={handlerSignOutRequest}>
                   Sign out
                 </button>
               </li>
@@ -104,7 +112,7 @@ const Sidebar = props => {
 
 Sidebar.propTypes = {
   signOutRequest: PropTypes.func.isRequired,
-  sessionInfo: PropTypes.shape({
+  sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
     accessToken: PropTypes.string,
     refreshToken: PropTypes.string,
@@ -113,7 +121,7 @@ Sidebar.propTypes = {
 };
 
 Sidebar.defaultProps = {
-  sessionInfo: {
+  sessions: {
     signedIn: false,
     accessToken: '',
     refreshToken: '',

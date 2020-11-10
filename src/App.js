@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import MainContainer from './components/MainContainer';
+import PageContainer from './components/PageContainer';
 import generateStore from './redux/store';
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <MainContainer />
+        <PageContainer />
       </BrowserRouter>
     </Provider>
   );
