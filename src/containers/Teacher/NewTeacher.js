@@ -2,23 +2,19 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import showErrors from '../../redux/actions/errors.actions';
 import { addTeacher } from '../../redux/actions/teachers.actions';
 import aStyle from '../../styles/index.module.css';
 
-const mapStateToProps = state => ({
-  errors: state.errors.errors,
-});
+// const mapStateToProps = state => ({
+
+// });
 
 const mapDispatchToProps = {
   addTeacher,
-  showErrors,
 };
 
 const NewTeacher = props => {
-  const {
-    addTeacher, showErrors, errors,
-  } = props;
+  const { addTeacher } = props;
   const [loading, setLoading] = useState(true);
 
   const txtFullname = useRef(null);
@@ -28,12 +24,8 @@ const NewTeacher = props => {
   const txtDescription = useRef(null);
 
   useEffect(() => {
-    showErrors({
-      error: false,
-      description: [],
-    });
     setLoading(false);
-  }, [showErrors]);
+  });
 
   const saveTeacher = e => {
     e.preventDefault();
@@ -105,19 +97,8 @@ const NewTeacher = props => {
 };
 
 NewTeacher.propTypes = {
-  showErrors: PropTypes.func.isRequired,
   addTeacher: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    error: PropTypes.bool,
-    description: PropTypes.arrayOf(PropTypes.string),
-  }),
 };
 
-NewTeacher.defaultProps = {
-  errors: {
-    error: false,
-    description: [],
-  },
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewTeacher);
+// export default connect(mapStateToProps, mapDispatchToProps)(NewTeacher);
+export default connect(null, mapDispatchToProps)(NewTeacher);

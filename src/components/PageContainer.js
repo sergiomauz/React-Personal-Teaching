@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -20,33 +20,26 @@ const mapDispatchToProps = {
 
 const PageContainer = props => {
   const { getSession, sessions } = props;
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getSession();
-    setLoading(false);
   }, [getSession]);
 
   return (
-    <>
-      {
-        !loading
-        && (
-          <div className={aStyle.dFlexWrapper}>
-            <Sidebar />
-            <div className={pcStyle.pageContentWrapper}>
-              <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
-                <Switch>
-                  {
-                    sessions.signedIn ? <MainContainer /> : <SessionForms />
-                  }
-                </Switch>
-              </div>
-            </div>
-          </div>
-        )
-      }
-    </>
+    <div className={aStyle.dFlexWrapper}>
+      <Sidebar />
+      <div className={pcStyle.pageContentWrapper}>
+        <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
+          <Switch>
+            {
+              sessions.signedIn ?
+                <MainContainer sessionInfo={sessions} />
+                : <SessionForms sessionInfo={sessions} />
+            }
+          </Switch>
+        </div>
+      </div>
+    </div>
   );
 };
 

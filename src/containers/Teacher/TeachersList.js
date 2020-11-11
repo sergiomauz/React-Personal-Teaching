@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TeacherCard from '../../components/TeacherCard';
 import { getTeachersList } from '../../redux/actions/teachers.actions';
+
 import aStyle from '../../styles/index.module.css';
 import cStyle from '../../styles/teacherslist.module.css';
 
