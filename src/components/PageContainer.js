@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getSession } from '../redux/actions/sessions.actions';
 import Sidebar from './Sidebar';
-import MainContainer from './MainContainer';
-import SessionForms from './SessionForms';
+
+import SignInForm from '../containers/User/SignInForm';
+import SignUp from '../containers/User/SignUp';
+import UserAppointments from '../containers/Appointment/UserAppointments';
+import TeacherDetails from '../containers/Teacher/TeacherDetails';
+import TeachersList from '../containers/Teacher/TeachersList';
+import NewTeacher from '../containers/Teacher/NewTeacher';
 
 import pcStyle from '../styles/pagecontent.module.css';
 import aStyle from '../styles/index.module.css';
@@ -31,11 +36,14 @@ const PageContainer = props => {
       <div className={pcStyle.pageContentWrapper}>
         <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
           <Switch>
-            {
-              sessions.signedIn ?
-                <MainContainer sessionInfo={sessions} />
-                : <SessionForms sessionInfo={sessions} />
-            }
+            <Route exact path="/" component={SignInForm} />
+            <Route exact path="/signin" component={SignInForm} />
+            <Route exact path="/signup" component={SignUp} />
+
+            <Route exact path="/teachers" component={TeachersList} />
+            <Route exact path="/teacher/new" component={NewTeacher} />
+            <Route exact path="/teacher/:id" component={TeacherDetails} />
+            <Route exact path="/appointments" component={UserAppointments} />
           </Switch>
         </div>
       </div>
