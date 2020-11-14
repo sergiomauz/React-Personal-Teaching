@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { signInRequest } from '../../redux/actions/sessions.actions';
 import aStyle from '../../styles/index.module.css';
@@ -21,7 +21,6 @@ const SignInForm = props => {
 
   const txtUser = useRef(null);
   const txtPassword = useRef(null);
-  const history = useHistory();
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -41,22 +40,14 @@ const SignInForm = props => {
     e.preventDefault();
 
     const errorsList = lookForErrors();
-    if (errorsList.length > 0) {
-      setErrors(errorsList);
-    } else {
+    setErrors(errorsList);
+    if (errorsList.length === 0) {
       const [username, password] = [
         txtUser.current.value,
         txtPassword.current.value,
       ];
 
-      signInRequest({ username, password })
-        .then(() => {
-          history.push('/teachers');
-          setErrors([]);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      signInRequest({ username, password });
     }
   };
 

@@ -6,30 +6,34 @@ const PersonalTeaching = () => {
   const onFail = error => error;
 
   // Session methods
-  const signInRequest = async user => {
-    const request = await axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
-      grant_type: 'password',
-      username: `${user.username}`,
-      password: `${user.password}`,
-    }).then(onSuccess, onFail);
-
+  const signInRequest = user => {
     let sessionObject = {
       signedIn: false,
       accessToken: '',
       refreshToken: '',
       expiresAt: 0,
     };
-    if (request.access_token) {
-      sessionObject = {
-        signedIn: true,
-        accessToken: request.access_token,
-        refreshToken: request.refresh_token,
-        expiresAt: Math.abs(new Date()) + 1000 * request.expires_in,
-      };
-    }
-    localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
 
-    return sessionObject;
+    const request = axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
+      grant_type: 'password',
+      username: `${user.username}`,
+      password: `${user.password}`,
+    })
+      .then(({ data }) => {
+        if (data.access_token) {
+          sessionObject = {
+            signedIn: true,
+            accessToken: data.access_token,
+            refreshToken: data.refresh_token,
+            expiresAt: Math.abs(new Date()) + 1000 * data.expires_in,
+          };
+        }
+        localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
+
+        return sessionObject;
+      });
+
+    return request;
   };
   const signOutRequest = async () => {
     const sessionObject = {
