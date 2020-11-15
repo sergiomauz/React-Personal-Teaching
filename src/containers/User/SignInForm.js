@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -8,6 +9,7 @@ import aStyle from '../../styles/index.module.css';
 
 const mapStateToProps = state => ({
   sessions: state.sessions.sessions,
+  requestapi: state.requestapi.requestapi,
 });
 
 const mapDispatchToProps = {
@@ -15,7 +17,7 @@ const mapDispatchToProps = {
 };
 
 const SignInForm = props => {
-  const { signInRequest, sessions } = props;
+  const { signInRequest, sessions, requestapi } = props;
 
   const [errors, setErrors] = useState([]);
 
@@ -66,7 +68,7 @@ const SignInForm = props => {
                 <h2 className={aStyle.titleOne}>
                   Please, Sign In
                 </h2>
-                <fieldset>
+                <fieldset disabled={requestapi.working}>
                   <div className={aStyle.formGroup}>
                     <label>
                       <span className={aStyle.controlLabel}>username</span>
@@ -83,6 +85,18 @@ const SignInForm = props => {
                     <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Sign In</button>
                   </div>
                 </fieldset>
+                <ul className={aStyle.listGroupWithoutIcon}>
+                  {
+                    (errors.length > 0)
+                      ? (
+                        errors.map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                      )
+                      : (
+                        !(requestapi.working || requestapi.success)
+                        && <li className={aStyle.alertDanger}>{requestapi.details.error.message}</li>
+                      )
+                  }
+                </ul>
               </form>
             </>
           )
@@ -98,16 +112,16 @@ SignInForm.propTypes = {
     accessToken: PropTypes.string,
     refreshToken: PropTypes.string,
     expiresAt: PropTypes.number,
-  }),
-};
-
-SignInForm.defaultProps = {
-  sessions: {
-    signedIn: false,
-    accessToken: '',
-    refreshToken: '',
-    expiresAt: 0,
-  },
+  }).isRequired,
+  requestapi: PropTypes.shape({
+    working: PropTypes.bool,
+    success: PropTypes.bool,
+    details: PropTypes.shape({
+      error: PropTypes.shape({
+        message: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);

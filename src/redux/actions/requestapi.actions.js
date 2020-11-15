@@ -10,8 +10,9 @@ const requestApiSuccess = () => ({
   type: REQUEST_API_SUCCESS,
 });
 
-const requestApiError = () => ({
+const requestApiError = error => ({
   type: REQUEST_API_ERROR,
+  payload: error,
 });
 
 export {

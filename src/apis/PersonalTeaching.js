@@ -3,7 +3,23 @@ import { BACKEND_PERSONAL_TEACHING } from '../helpers/constants';
 
 const PersonalTeaching = () => {
   const onSuccess = ({ data }) => data;
-  const onFail = error => error;
+  const onFail = error => {
+    if (error.response) {
+      return ({
+        error: {
+          hasResponse: true,
+          message: error.response.data.error_description,
+        },
+      });
+    }
+
+    return ({
+      error: {
+        hasResponse: false,
+        message: error.message,
+      },
+    });
+  };
 
   // Session methods
   const signInRequest = user => {
@@ -31,7 +47,8 @@ const PersonalTeaching = () => {
         localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
 
         return sessionObject;
-      });
+      })
+      .catch(onFail);
 
     return request;
   };

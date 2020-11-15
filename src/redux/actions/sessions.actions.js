@@ -9,15 +9,21 @@ const signInRequest = user => dispatch => {
 
   PersonalTeaching().signInRequest(user)
     .then(requestedData => {
-      dispatch({
-        type: SIGN_IN_REQUEST,
-        payload: requestedData,
-      });
-
-      dispatch(requestApiSuccess());
-    })
-    .catch(() => {
-      dispatch((requestApiError()));
+      if (!requestedData.error) {
+        dispatch({
+          type: SIGN_IN_REQUEST,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: SIGN_IN_REQUEST,
+            payload: requestedData,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
     });
 };
 

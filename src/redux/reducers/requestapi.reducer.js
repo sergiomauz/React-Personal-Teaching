@@ -6,6 +6,7 @@ const initialState = {
   requestapi: {
     working: false,
     success: true,
+    details: null,
   },
 };
 
@@ -17,22 +18,25 @@ const requestApiReducer = (state = initialState, action) => {
         requestapi: {
           working: true,
           success: false,
+          details: null,
         },
       };
     case REQUEST_API_SUCCESS:
       return {
+        ...state,
         requestapi: {
-          ...state,
           working: false,
           success: true,
+          details: null,
         },
       };
     case REQUEST_API_ERROR:
       return {
+        ...state,
         requestapi: {
-          ...state,
           working: false,
           success: false,
+          details: action.payload,
         },
       };
     default:
