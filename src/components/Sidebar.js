@@ -7,7 +7,7 @@ import aStyle from '../styles/index.module.css';
 import cStyle from '../styles/sidebar.module.css';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions.sessions,
+  sessions: state.sessions,
 });
 
 const mapDispatchToProps = {
@@ -117,16 +117,7 @@ Sidebar.propTypes = {
     accessToken: PropTypes.string,
     refreshToken: PropTypes.string,
     expiresAt: PropTypes.number,
-  }),
-};
-
-Sidebar.defaultProps = {
-  sessions: {
-    signedIn: false,
-    accessToken: '',
-    refreshToken: '',
-    expiresAt: 0,
-  },
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

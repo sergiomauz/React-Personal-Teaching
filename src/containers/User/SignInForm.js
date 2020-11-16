@@ -4,12 +4,14 @@ import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { signInRequest } from '../../redux/actions/sessions.actions';
+
 import aStyle from '../../styles/index.module.css';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions.sessions,
-  requestapi: state.requestapi.requestapi,
+  sessions: state.sessions,
+  requestapi: state.requestapi,
 });
 
 const mapDispatchToProps = {
@@ -109,9 +111,6 @@ SignInForm.propTypes = {
   signInRequest: PropTypes.func.isRequired,
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
-    accessToken: PropTypes.string,
-    refreshToken: PropTypes.string,
-    expiresAt: PropTypes.number,
   }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,

@@ -3,11 +3,9 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  requestapi: {
-    working: false,
-    success: true,
-    details: null,
-  },
+  working: false,
+  success: true,
+  details: null,
 };
 
 const requestApiReducer = (state = initialState, action) => {
@@ -15,7 +13,7 @@ const requestApiReducer = (state = initialState, action) => {
     case START_REQUEST_API:
       return {
         ...state,
-        requestapi: {
+        ...{
           working: true,
           success: false,
           details: null,
@@ -24,7 +22,7 @@ const requestApiReducer = (state = initialState, action) => {
     case REQUEST_API_SUCCESS:
       return {
         ...state,
-        requestapi: {
+        ...{
           working: false,
           success: true,
           details: null,
@@ -33,7 +31,7 @@ const requestApiReducer = (state = initialState, action) => {
     case REQUEST_API_ERROR:
       return {
         ...state,
-        requestapi: {
+        ...{
           working: false,
           success: false,
           details: action.payload,

@@ -6,7 +6,7 @@ import { getSession } from '../redux/actions/sessions.actions';
 import Sidebar from './Sidebar';
 
 import SignInForm from '../containers/User/SignInForm';
-import SignUp from '../containers/User/SignUp';
+import SignUpForm from '../containers/User/SignUpForm';
 import UserAppointments from '../containers/Appointment/UserAppointments';
 import TeacherDetails from '../containers/Teacher/TeacherDetails';
 import TeachersList from '../containers/Teacher/TeachersList';
@@ -15,16 +15,12 @@ import NewTeacher from '../containers/Teacher/NewTeacher';
 import pcStyle from '../styles/pagecontent.module.css';
 import aStyle from '../styles/index.module.css';
 
-const mapStateToProps = state => ({
-  sessions: state.sessions.sessions,
-});
-
 const mapDispatchToProps = {
   getSession,
 };
 
 const PageContainer = props => {
-  const { getSession, sessions } = props;
+  const { getSession } = props;
 
   useEffect(() => {
     getSession();
@@ -38,7 +34,7 @@ const PageContainer = props => {
           <Switch>
             <Route exact path="/" component={SignInForm} />
             <Route exact path="/signin" component={SignInForm} />
-            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/signup" component={SignUpForm} />
 
             <Route exact path="/teachers" component={TeachersList} />
             <Route exact path="/teacher/new" component={NewTeacher} />
@@ -53,21 +49,6 @@ const PageContainer = props => {
 
 PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
-  sessions: PropTypes.shape({
-    signedIn: PropTypes.bool,
-    accessToken: PropTypes.string,
-    refreshToken: PropTypes.string,
-    expiresAt: PropTypes.number,
-  }),
 };
 
-PageContainer.defaultProps = {
-  sessions: {
-    signedIn: false,
-    accessToken: '',
-    refreshToken: '',
-    expiresAt: 0,
-  },
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageContainer);
+export default connect(null, mapDispatchToProps)(PageContainer);

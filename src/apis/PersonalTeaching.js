@@ -2,6 +2,17 @@ import axios from 'axios';
 import { BACKEND_PERSONAL_TEACHING } from '../helpers/constants';
 
 const PersonalTeaching = () => {
+  const onSuccessSession = ({ data }) => {
+    const sessionObject = {
+      signedIn: true,
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token,
+      expiresAt: Math.abs(new Date()) + 1000 * data.expires_in,
+    };
+    localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
+
+    return sessionObject;
+  };
   const onSuccess = ({ data }) => data;
   const onFail = error => {
     if (error.response) {
@@ -23,36 +34,17 @@ const PersonalTeaching = () => {
 
   // Session methods
   const signInRequest = user => {
-    let sessionObject = {
-      signedIn: false,
-      accessToken: '',
-      refreshToken: '',
-      expiresAt: 0,
-    };
-
     const request = axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
       grant_type: 'password',
       username: `${user.username}`,
       password: `${user.password}`,
     })
-      .then(({ data }) => {
-        if (data.access_token) {
-          sessionObject = {
-            signedIn: true,
-            accessToken: data.access_token,
-            refreshToken: data.refresh_token,
-            expiresAt: Math.abs(new Date()) + 1000 * data.expires_in,
-          };
-        }
-        localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
-
-        return sessionObject;
-      })
+      .then(onSuccessSession)
       .catch(onFail);
 
     return request;
   };
-  const signOutRequest = async () => {
+  const signOutRequest = () => {
     const sessionObject = {
       signedIn: false,
       accessToken: '',
@@ -63,31 +55,17 @@ const PersonalTeaching = () => {
 
     return sessionObject;
   };
-  const refreshSession = async refreshToken => {
-    const request = await axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
+  const refreshSession = refreshToken => {
+    const request = axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
       grant_type: 'refresh_token',
       refresh_token: `${refreshToken}`,
-    }).then(onSuccess, onFail);
+    })
+      .then(onSuccessSession)
+      .catch(onFail);
 
-    let sessionObject = {
-      signedIn: false,
-      accessToken: '',
-      refreshToken: '',
-      expiresAt: 0,
-    };
-    if (request.access_token) {
-      sessionObject = {
-        signedIn: true,
-        accessToken: request.access_token,
-        refreshToken: request.refresh_token,
-        expiresAt: Math.abs(new Date()) + 1000 * request.expires_in,
-      };
-    }
-    localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
-
-    return sessionObject;
+    return request;
   };
-  const getSession = async () => {
+  const getSession = () => {
     let sessionObject = {
       signedIn: false,
       accessToken: '',
@@ -102,14 +80,14 @@ const PersonalTeaching = () => {
         if (Math.abs(new Date()) > sessionObject.expiresAt
           && sessionObject.expiresAt > 0
           && sessionObject.refreshToken.length > 0) {
-          sessionObject = await refreshSession(sessionObject.refreshToken);
+          sessionObject = refreshSession(sessionObject.refreshToken)
+            .then(data => data);
         }
       }
     }
 
     return sessionObject;
   };
-
   const getConfig = async params => {
     const sessionObject = await getSession();
     const config = {
@@ -122,6 +100,7 @@ const PersonalTeaching = () => {
     return config;
   };
 
+  //
   const makeGetRequest = async (path, params = {}) => {
     let request;
     let jsonConfig = await getConfig(params);

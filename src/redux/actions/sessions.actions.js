@@ -19,7 +19,6 @@ const signInRequest = user => dispatch => {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: SIGN_IN_REQUEST,
-            payload: requestedData,
           });
         }
         dispatch(requestApiError(requestedData));
@@ -27,16 +26,16 @@ const signInRequest = user => dispatch => {
     });
 };
 
-const getSession = () => async dispatch => {
-  const requestedData = await PersonalTeaching().getSession();
+const getSession = () => dispatch => {
+  const requestedData = PersonalTeaching().getSession();
   dispatch({
     type: GET_SESSION,
     payload: requestedData,
   });
 };
 
-const signOutRequest = () => async dispatch => {
-  const requestedData = await PersonalTeaching().signOutRequest();
+const signOutRequest = () => dispatch => {
+  const requestedData = PersonalTeaching().signOutRequest();
   dispatch({
     type: SIGN_OUT,
     payload: requestedData,

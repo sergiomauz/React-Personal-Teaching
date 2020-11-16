@@ -3,12 +3,10 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  sessions: {
-    signedIn: false,
-    accessToken: '',
-    refreshToken: '',
-    expiresAt: 0,
-  },
+  signedIn: false,
+  accessToken: '',
+  refreshToken: '',
+  expiresAt: 0,
 };
 
 const sessionsReducer = (state = initialState, action) => {
@@ -18,7 +16,7 @@ const sessionsReducer = (state = initialState, action) => {
     case SIGN_OUT:
       return {
         ...state,
-        sessions: action.payload,
+        ...action.payload,
       };
     default:
       return state;
