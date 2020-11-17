@@ -19,7 +19,7 @@ const PersonalTeaching = () => {
       return ({
         error: {
           hasResponse: true,
-          message: error.response.data.error_description,
+          message: JSON.stringify(error.response.data),
         },
       });
     }
@@ -88,54 +88,38 @@ const PersonalTeaching = () => {
 
     return sessionObject;
   };
-  const getConfig = async params => {
-    const sessionObject = await getSession();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${sessionObject.accessToken}`,
-      },
+  const getConfig = params => {
+    const sessionObject = getSession();
+    if (sessionObject.accessToken.length > 0) {
+      return {
+        headers: {
+          Authorization: `Bearer ${sessionObject.accessToken}`,
+        },
+        params,
+      };
+    }
+
+    return {
       params,
     };
-
-    return config;
   };
 
-  //
-  const makeGetRequest = async (path, params = {}) => {
-    let request;
-    let jsonConfig = await getConfig(params);
+  // Requests methods
+  const makeGetRequest = (path, params = {}) => {
 
-    request = await axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig).then(onSuccess, onFail);
-    let { isAxiosError } = { ...request };
-    if (isAxiosError) {
-      jsonConfig = await getConfig(params);
-      request = await axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig).then(onSuccess, onFail);
-      isAxiosError = { ...request }.isAxiosError;
-      if (isAxiosError) {
-        return {
-          error: true,
-        };
-      }
-    }
+    const jsonConfig = getConfig(params);
+
+    const request = axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
+      .then(onSuccess)
+      .catch(onFail);
 
     return request;
   };
-  const makePostRequest = async (path, params = {}) => {
-    let request;
-    let jsonConfig = await getConfig();
-
-    request = await axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig).then(onSuccess, onFail);
-    let { isAxiosError } = { ...request };
-    if (isAxiosError) {
-      jsonConfig = await getConfig();
-      request = await axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig).then(onSuccess, onFail);
-      isAxiosError = { ...request }.isAxiosError;
-      if (isAxiosError) {
-        return {
-          error: true,
-        };
-      }
-    }
+  const makePostRequest = (path, params = {}) => {
+    const jsonConfig = getConfig();
+    const request = axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig)
+      .then(onSuccess)
+      .catch(onFail);
 
     return request;
   };
@@ -145,7 +129,12 @@ const PersonalTeaching = () => {
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
   const addTeacher = teacher => makePostRequest('teachers', teacher);
 
+  // User methods
+  const addUser = user => makePostRequest('users', user);
+
   return {
+    addUser,
+
     getTeachersList,
     getTeacherInfo,
     addTeacher,

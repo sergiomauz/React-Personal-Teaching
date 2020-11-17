@@ -7,7 +7,7 @@ import PersonalTeaching from '../../apis/PersonalTeaching';
 const signInRequest = user => dispatch => {
   dispatch(startRequestApi());
 
-  PersonalTeaching().signInRequest(user)
+  return PersonalTeaching().signInRequest(user)
     .then(requestedData => {
       if (!requestedData.error) {
         dispatch({
@@ -23,6 +23,8 @@ const signInRequest = user => dispatch => {
         }
         dispatch(requestApiError(requestedData));
       }
+
+      return requestedData;
     });
 };
 

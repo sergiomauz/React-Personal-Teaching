@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -44,14 +43,22 @@ const SignInForm = props => {
     e.preventDefault();
 
     const errorsList = lookForErrors();
-    setErrors(errorsList);
-    if (errorsList.length === 0) {
+    if (errorsList.length > 0) {
+      setErrors(errorsList);
+    } else {
       const [username, password] = [
         txtUser.current.value,
         txtPassword.current.value,
       ];
 
-      signInRequest({ username, password });
+      signInRequest({
+        username, password,
+      }).then(requestedData => {
+        if (requestedData.error) {
+          errorsList.push(requestedData.error.message);
+          setErrors(errorsList);
+        }
+      });
     }
   };
 
@@ -90,13 +97,10 @@ const SignInForm = props => {
                 <ul className={aStyle.listGroupWithoutIcon}>
                   {
                     (errors.length > 0)
-                      ? (
-                        errors.map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
-                      )
-                      : (
-                        !(requestapi.working || requestapi.success)
-                        && <li className={aStyle.alertDanger}>{requestapi.details.error.message}</li>
-                      )
+                    && (
+                      errors
+                        .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                    )
                   }
                 </ul>
               </form>
