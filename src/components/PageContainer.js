@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getSession } from '../redux/actions/sessions.actions';
-import Sidebar from './Sidebar';
 
+import { getSession } from '../redux/actions/sessions.actions';
+
+import Sidebar from './Sidebar';
 import SignInForm from '../containers/User/SignInForm';
 import SignUpForm from '../containers/User/SignUpForm';
 import UserAppointments from '../containers/Appointment/UserAppointments';
@@ -12,8 +13,18 @@ import TeacherDetails from '../containers/Teacher/TeacherDetails';
 import TeachersList from '../containers/Teacher/TeachersList';
 import NewTeacher from '../containers/Teacher/NewTeacher';
 
-import pcStyle from '../styles/pagecontent.module.css';
+import pcStyle from '../styles/pagecontainer.module.css';
 import aStyle from '../styles/index.module.css';
+
+import {
+  URL_INDEX,
+  URL_SIGN_IN,
+  URL_SIGN_UP,
+  URL_NEW_TEACHER,
+  URL_TEACHERS_LIST,
+  URL_TEACHER_DETAILS,
+  URL_USER_APPOINTMENTS,
+} from '../helpers/constants';
 
 const mapDispatchToProps = {
   getSession,
@@ -32,14 +43,14 @@ const PageContainer = props => {
       <div className={pcStyle.pageContentWrapper}>
         <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
           <Switch>
-            <Route exact path="/" component={SignInForm} />
-            <Route exact path="/signin" component={SignInForm} />
-            <Route exact path="/signup" component={SignUpForm} />
+            <Route exact path={URL_INDEX} component={SignInForm} />
+            <Route exact path={URL_SIGN_IN} component={SignInForm} />
+            <Route exact path={URL_SIGN_UP} component={SignUpForm} />
 
-            <Route exact path="/teachers" component={TeachersList} />
-            <Route exact path="/teacher/new" component={NewTeacher} />
-            <Route exact path="/teacher/:id" component={TeacherDetails} />
-            <Route exact path="/appointments" component={UserAppointments} />
+            <Route exact path={URL_TEACHERS_LIST} component={TeachersList} />
+            <Route exact path={URL_NEW_TEACHER} component={NewTeacher} />
+            <Route exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
+            <Route exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
           </Switch>
         </div>
       </div>
