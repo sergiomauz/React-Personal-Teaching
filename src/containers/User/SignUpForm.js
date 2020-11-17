@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { URL_TEACHERS_LIST } from '../../helpers/constants';
 import { addUser } from '../../redux/actions/users.actions';
 
 import aStyle from '../../styles/index.module.css';
@@ -23,14 +24,14 @@ const SignUpForm = props => {
     addUser,
   } = props;
 
-  const [errors, setErrors] = useState([]);
-
-  const history = useHistory();
-
   const txtFullname = useRef(null);
   const txtUser = useRef(null);
   const txtEmail = useRef(null);
   const txtPassword = useRef(null);
+
+  const history = useHistory();
+
+  const [errors, setErrors] = useState([]);
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -41,6 +42,12 @@ const SignUpForm = props => {
     if (txtEmail.current.value.trim().length === 0) {
       errorsList.push('Email field is mandatory');
     }
+
+    const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!emailRegExp.test(txtEmail.current.value.trim())) {
+      errorsList.push('Email field is not valid');
+    }
+
     if (txtUser.current.value.trim().length === 0) {
       errorsList.push('User field is mandatory');
     }
@@ -82,7 +89,7 @@ const SignUpForm = props => {
     <>
       {
         sessions.signedIn ? (
-          <Redirect to="/teachers" />
+          <Redirect to={URL_TEACHERS_LIST} />
         )
           : (
             <>
@@ -103,7 +110,7 @@ const SignUpForm = props => {
                   <div className={aStyle.formGroup}>
                     <label>
                       <span className={aStyle.controlLabel}>email</span>
-                      <input ref={txtEmail} type="email" className={aStyle.formControl} />
+                      <input ref={txtEmail} type="text" className={aStyle.formControl} />
                     </label>
                   </div>
                   <div className={aStyle.formGroup}>
@@ -124,10 +131,13 @@ const SignUpForm = props => {
                 </fieldset>
                 <ul className={aStyle.listGroupWithoutIcon}>
                   {
-                    (errors.length > 0)
+                    (!requestapi.working)
                     && (
-                      errors
-                        .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                      (errors.length > 0)
+                      && (
+                        errors
+                          .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                      )
                     )
                   }
                 </ul>

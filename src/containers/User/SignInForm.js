@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { URL_TEACHERS_LIST } from '../../helpers/constants';
 import { signInRequest } from '../../redux/actions/sessions.actions';
 
 import aStyle from '../../styles/index.module.css';
@@ -18,12 +19,15 @@ const mapDispatchToProps = {
 };
 
 const SignInForm = props => {
-  const { signInRequest, sessions, requestapi } = props;
-
-  const [errors, setErrors] = useState([]);
+  const {
+    sessions, requestapi,
+    signInRequest,
+  } = props;
 
   const txtUser = useRef(null);
   const txtPassword = useRef(null);
+
+  const [errors, setErrors] = useState([]);
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -66,7 +70,7 @@ const SignInForm = props => {
     <>
       {
         sessions.signedIn ? (
-          <Redirect to="/teachers" />
+          <Redirect to={URL_TEACHERS_LIST} />
         )
           : (
             <>
@@ -96,10 +100,13 @@ const SignInForm = props => {
                 </fieldset>
                 <ul className={aStyle.listGroupWithoutIcon}>
                   {
-                    (errors.length > 0)
+                    (!requestapi.working)
                     && (
-                      errors
-                        .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                      (errors.length > 0)
+                      && (
+                        errors
+                          .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                      )
                     )
                   }
                 </ul>

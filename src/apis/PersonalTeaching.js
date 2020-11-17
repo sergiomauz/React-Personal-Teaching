@@ -106,7 +106,6 @@ const PersonalTeaching = () => {
 
   // Requests methods
   const makeGetRequest = (path, params = {}) => {
-
     const jsonConfig = getConfig(params);
 
     const request = axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
