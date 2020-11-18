@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { URL_TEACHERS_LIST } from '../../helpers/constants';
+import { URL_TEACHERS_LIST, URL_SIGN_IN } from '../../helpers/constants';
 import { addUser } from '../../redux/actions/users.actions';
 
 import aStyle from '../../styles/index.module.css';
@@ -79,7 +79,7 @@ const SignUpForm = props => {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
         } else {
-          history.push('/signin');
+          history.push(URL_SIGN_IN);
         }
       });
     }
