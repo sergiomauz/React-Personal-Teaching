@@ -8,6 +8,10 @@ body {
   min-width: 450px;
 }
 
+.invisible {
+  display: none !important;
+}
+
 .titleOne {
   display: flex;
   justify-content: center;
@@ -288,4 +292,9 @@ fieldset {
   color: #0c5460;
   background-color: #d1ecf1;
   border-color: #bee5eb;
+}
+
+.height320px {
+  width: 100%;
+  height: 320px;
 }

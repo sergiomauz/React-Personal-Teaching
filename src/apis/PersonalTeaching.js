@@ -123,6 +123,9 @@ const PersonalTeaching = () => {
     return request;
   };
 
+  // Cloudinary methods
+  const getCloudinaryPreset = () => makeGetRequest('cloudinary');
+
   // Teacher methods
   const getTeachersList = () => makeGetRequest('teachers');
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
@@ -132,6 +135,8 @@ const PersonalTeaching = () => {
   const addUser = user => makePostRequest('users', user);
 
   return {
+    getCloudinaryPreset,
+
     addUser,
 
     getTeachersList,
