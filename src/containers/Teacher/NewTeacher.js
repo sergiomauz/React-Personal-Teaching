@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { URL_TEACHERS_LIST, URL_SIGN_IN } from '../../helpers/constants';
+import { URL_TEACHERS_LIST } from '../../helpers/constants';
 import { addTeacher } from '../../redux/actions/teachers.actions';
 
 import aStyle from '../../styles/index.module.css';
@@ -14,7 +14,6 @@ import loadingGif from '../../images/loading.gif';
 import Cloudinary from '../../apis/Cloudinary';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions,
   requestapi: state.requestapi,
 });
 
@@ -24,7 +23,7 @@ const mapDispatchToProps = {
 
 const NewTeacher = props => {
   const {
-    sessions, requestapi,
+    requestapi,
     addTeacher,
   } = props;
 
@@ -106,106 +105,88 @@ const NewTeacher = props => {
 
   return (
     <>
-      {
-        sessions.signedIn
-          ? (
-            <>
-              <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-                Teacher
-              </h1>
-              <form className={aStyle.formContainer} onSubmit={handlerSaveTeacher}>
-                <h2 className={aStyle.titleOne}>
-                  New Teacher
-                </h2>
-                <fieldset
-                  disabled={requestapi.working || loading}
-                  aria-busy={requestapi.working || loading}
-                >
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>fullname</span>
-                      <input ref={txtFullname} type="text" className={aStyle.formControl} maxLength="50" />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>email</span>
-                      <input ref={txtEmail} type="email" className={aStyle.formControl} maxLength="50" />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>Photo</span>
-                      {
-                        (loading) && <img className={aStyle.height320px} src={loadingGif} alt="Preview" />
-                      }
-                      {
-                        (uploadedImage.length > 0 && !loading) && <img className={aStyle.height320px} src={uploadedImage} alt="Preview" />
-                      }
-                      {
-                        (uploadedImage.length === 0 && !loading) && <img className={aStyle.height320px} src={photoTeacher} alt="Preview" />
-                      }
-                      <input
-                        ref={inputPhoto}
-                        type="file"
-                        className={aStyle.invisible}
-                        onChange={handlerUploadFile}
-                        accept="image/x-png,image/gif,image/jpeg"
-                      />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>course</span>
-                      <input ref={txtCourse} type="text" className={aStyle.formControl} maxLength="50" />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>description</span>
-                      <textarea ref={txtDescription} className={aStyle.formControl} maxLength="150" />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Save</button>
-                  </div>
-                </fieldset>
-                <ul className={aStyle.listGroupWithoutIcon}>
-                  {
-                    (!requestapi.working)
-                    && (
-                      (errors.length > 0)
-                      && (
-                        errors
-                          .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
-                      )
-                    )
-                  }
-                </ul>
-              </form>
-            </>
-          )
-          : (
-            <Redirect to={URL_SIGN_IN} />
-          )
-      }
+      <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
+        Teacher
+      </h1>
+      <form className={aStyle.formContainer} onSubmit={handlerSaveTeacher}>
+        <h2 className={aStyle.titleOne}>
+          New Teacher
+        </h2>
+        <fieldset
+          disabled={requestapi.working || loading}
+          aria-busy={requestapi.working || loading}
+        >
+          <div className={aStyle.formGroup}>
+            <label>
+              <span className={aStyle.controlLabel}>fullname</span>
+              <input ref={txtFullname} type="text" className={aStyle.formControl} maxLength="50" />
+            </label>
+          </div>
+          <div className={aStyle.formGroup}>
+            <label>
+              <span className={aStyle.controlLabel}>email</span>
+              <input ref={txtEmail} type="email" className={aStyle.formControl} maxLength="50" />
+            </label>
+          </div>
+          <div className={aStyle.formGroup}>
+            <label>
+              <span className={aStyle.controlLabel}>Photo</span>
+              {
+                (loading) && <img className={aStyle.height320px} src={loadingGif} alt="Preview" />
+              }
+              {
+                (uploadedImage.length > 0 && !loading) && <img className={aStyle.height320px} src={uploadedImage} alt="Preview" />
+              }
+              {
+                (uploadedImage.length === 0 && !loading) && <img className={aStyle.height320px} src={photoTeacher} alt="Preview" />
+              }
+              <input
+                ref={inputPhoto}
+                type="file"
+                className={aStyle.invisible}
+                onChange={handlerUploadFile}
+                accept="image/x-png,image/gif,image/jpeg"
+              />
+            </label>
+          </div>
+          <div className={aStyle.formGroup}>
+            <label>
+              <span className={aStyle.controlLabel}>course</span>
+              <input ref={txtCourse} type="text" className={aStyle.formControl} maxLength="50" />
+            </label>
+          </div>
+          <div className={aStyle.formGroup}>
+            <label>
+              <span className={aStyle.controlLabel}>description</span>
+              <textarea ref={txtDescription} className={aStyle.formControl} maxLength="150" />
+            </label>
+          </div>
+          <div className={aStyle.formGroup}>
+            <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Save</button>
+          </div>
+        </fieldset>
+        <ul className={aStyle.listGroupWithoutIcon}>
+          {
+            (!requestapi.working)
+            && (
+              (errors.length > 0)
+              && (
+                errors
+                  .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+              )
+            )
+          }
+        </ul>
+      </form>
     </>
   );
 };
 
 NewTeacher.propTypes = {
   addTeacher: PropTypes.func.isRequired,
-  sessions: PropTypes.shape({
-    signedIn: PropTypes.bool,
-  }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,
-    details: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.string,
-      }),
-    }),
   }).isRequired,
 };
 

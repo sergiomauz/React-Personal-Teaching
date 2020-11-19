@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import { getSession } from '../redux/actions/sessions.actions';
 
 import Sidebar from './Sidebar';
+import ProtectedRoute from './ProtectedRoute';
+import NotFound from './NotFound';
+
 import SignInForm from '../containers/User/SignInForm';
 import SignUpForm from '../containers/User/SignUpForm';
 import UserAppointments from '../containers/Appointment/UserAppointments';
@@ -47,10 +50,12 @@ const PageContainer = props => {
             <Route exact path={URL_SIGN_IN} component={SignInForm} />
             <Route exact path={URL_SIGN_UP} component={SignUpForm} />
 
-            <Route exact path={URL_TEACHERS_LIST} component={TeachersList} />
-            <Route exact path={URL_NEW_TEACHER} component={NewTeacher} />
-            <Route exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
-            <Route exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
+            <ProtectedRoute path={URL_TEACHERS_LIST} component={TeachersList} />
+            <ProtectedRoute path={URL_NEW_TEACHER} component={NewTeacher} />
+            <ProtectedRoute path={URL_TEACHER_DETAILS} component={TeacherDetails} />
+            <ProtectedRoute path={URL_USER_APPOINTMENTS} component={UserAppointments} />
+
+            <Route component={NotFound} />
           </Switch>
         </div>
       </div>

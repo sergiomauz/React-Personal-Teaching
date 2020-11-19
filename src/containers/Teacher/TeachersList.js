@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TeacherCard from '../../components/TeacherCard';
 import { getTeachersList } from '../../redux/actions/teachers.actions';
 
 import { URL_SIGN_IN } from '../../helpers/constants';
+import SignInForm from '../User/SignInForm';
+
 import aStyle from '../../styles/index.module.css';
 import cStyle from '../../styles/teacherslist.module.css';
 
@@ -33,40 +34,37 @@ const TeachersList = props => {
     <>
       {
         sessions.signedIn
-          ? (
-            <>
-              <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-                Teachers List
-              </h1>
-              <div className={cStyle.carousel}>
-                {
-                  teachers.length > 0
-                  && (
-                    <>
-                      <ul className={cStyle.carouselInner}>
-                        {
-                          teachers.map(item => (
-                            <li key={item.id} className={cStyle.carouselItem}>
-                              <TeacherCard info={item} />
-                            </li>
-                          ))
-                        }
-                      </ul>
-                      <a className={cStyle.carouselControlPrev} href="/">
-                        <span className={cStyle.carouselControlPrevIcon} />
-                      </a>
-                      <a className={cStyle.carouselControlNext} href="/">
-                        <span className={cStyle.carouselControlNextIcon} />
-                      </a>
-                    </>
-                  )
-                }
-              </div>
-            </>
-          )
-          : (
-            <Redirect to={URL_SIGN_IN} />
-          )
+        && (
+          <>
+            <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
+              Teachers List
+            </h1>
+            <div className={cStyle.carousel}>
+              {
+                teachers.length > 0
+                && (
+                  <>
+                    <ul className={cStyle.carouselInner}>
+                      {
+                        teachers.map(item => (
+                          <li key={item.id} className={cStyle.carouselItem}>
+                            <TeacherCard info={item} />
+                          </li>
+                        ))
+                      }
+                    </ul>
+                    <a className={cStyle.carouselControlPrev} href="/">
+                      <span className={cStyle.carouselControlPrevIcon} />
+                    </a>
+                    <a className={cStyle.carouselControlNext} href="/">
+                      <span className={cStyle.carouselControlNextIcon} />
+                    </a>
+                  </>
+                )
+              }
+            </div>
+          </>
+        )
       }
     </>
   );
