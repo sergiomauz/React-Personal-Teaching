@@ -107,10 +107,8 @@ const NewTeacher = props => {
   return (
     <>
       {
-        !sessions.signedIn ? (
-          <Redirect to={URL_SIGN_IN} />
-        )
-          : (
+        sessions.signedIn
+          ? (
             <>
               <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
                 Teacher
@@ -186,6 +184,9 @@ const NewTeacher = props => {
                 </ul>
               </form>
             </>
+          )
+          : (
+            <Redirect to={URL_SIGN_IN} />
           )
       }
     </>

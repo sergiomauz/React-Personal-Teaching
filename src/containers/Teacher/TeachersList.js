@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import TeacherCard from '../../components/TeacherCard';
 import { getTeachersList } from '../../redux/actions/teachers.actions';
 
+import { URL_SIGN_IN } from '../../helpers/constants';
 import aStyle from '../../styles/index.module.css';
 import cStyle from '../../styles/teacherslist.module.css';
 
@@ -31,10 +32,8 @@ const TeachersList = props => {
   return (
     <>
       {
-        !sessions.signedIn
+        sessions.signedIn
           ? (
-            <Redirect to="/signin" />
-          ) : (
             <>
               <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
                 Teachers List
@@ -64,6 +63,9 @@ const TeachersList = props => {
                 }
               </div>
             </>
+          )
+          : (
+            <Redirect to={URL_SIGN_IN} />
           )
       }
     </>

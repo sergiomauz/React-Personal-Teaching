@@ -45,23 +45,23 @@ const Sidebar = props => {
         {
           sessions.signedIn ? (
             <>
-              <li className={`${aStyle.listGroupItem}`}>
-                <Link className={`${aStyle.listGroupItemAction}`} to="/teachers">
+              <li className={aStyle.listGroupItem}>
+                <Link className={aStyle.listGroupItemAction} to="/teachers">
                   Teachers
                 </Link>
               </li>
-              <li className={`${aStyle.listGroupItem}`}>
+              <li className={aStyle.listGroupItem}>
                 <Link className={`${aStyle.listGroupItemAction}`} to="/teacher/new">
                   New Teacher
                 </Link>
               </li>
-              <li className={`${aStyle.listGroupItem}`}>
+              <li className={aStyle.listGroupItem}>
                 <Link className={`${aStyle.listGroupItemAction}`} to="/appointments">
                   Appointments
                 </Link>
               </li>
-              <li className={`${aStyle.listGroupItem}`}>
-                <button type="button" className={`${aStyle.listGroupItemButton}`} onClick={handlerSignOutRequest}>
+              <li className={aStyle.listGroupItem}>
+                <button type="button" className={aStyle.listGroupItemButton} onClick={handlerSignOutRequest}>
                   Sign out
                 </button>
               </li>
@@ -69,13 +69,13 @@ const Sidebar = props => {
           )
             : (
               <>
-                <li className={`${aStyle.listGroupItem}`}>
-                  <Link className={`${aStyle.listGroupItemAction}`} to="/signin">
+                <li className={aStyle.listGroupItem}>
+                  <Link className={aStyle.listGroupItemAction} to="/signin">
                     Sign In
                   </Link>
                 </li>
-                <li className={`${aStyle.listGroupItem}`}>
-                  <Link className={`${aStyle.listGroupItemAction}`} to="/signup">
+                <li className={aStyle.listGroupItem}>
+                  <Link className={aStyle.listGroupItemAction} to="/signup">
                     Sign Up
                   </Link>
                 </li>
