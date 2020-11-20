@@ -7,6 +7,7 @@ import { getSession } from '../redux/actions/sessions.actions';
 
 import Sidebar from './Sidebar';
 import ProtectedRoute from './ProtectedRoute';
+import PublicRoute from './PublicRoute';
 import NotFound from './NotFound';
 
 import SignInForm from '../containers/User/SignInForm';
@@ -46,9 +47,9 @@ const PageContainer = props => {
       <div className={pcStyle.pageContentWrapper}>
         <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
           <Switch>
-            <Route exact path={URL_INDEX} component={SignInForm} />
-            <Route exact path={URL_SIGN_IN} component={SignInForm} />
-            <Route exact path={URL_SIGN_UP} component={SignUpForm} />
+            <PublicRoute exact path={URL_INDEX} component={SignInForm} />
+            <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
+            <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
 
             <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
             <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />

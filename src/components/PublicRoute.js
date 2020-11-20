@@ -2,28 +2,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
-import Forbidden from './Forbidden';
+import { URL_TEACHERS_LIST } from '../helpers/constants';
 
 const mapStateToProps = state => ({
   sessions: state.sessions,
 });
 
-const ProtectedRoute = props => {
+const PublicRoute = props => {
   const { component, path, sessions } = props;
 
   return (
     sessions.signedIn
       ? (
-        <Route exact component={component} path={path} />
+        <Redirect to={URL_TEACHERS_LIST} />
       ) : (
-        <Forbidden />
+        <Route exact path={path} component={component} />
       )
   );
 };
 
-ProtectedRoute.propTypes = {
+PublicRoute.propTypes = {
   component: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
   sessions: PropTypes.shape({
@@ -31,4 +31,4 @@ ProtectedRoute.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps)(ProtectedRoute);
+export default connect(mapStateToProps)(PublicRoute);
