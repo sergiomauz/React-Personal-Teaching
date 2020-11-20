@@ -14,16 +14,12 @@ const ProtectedRoute = props => {
   const { component, path, sessions } = props;
 
   return (
-    <>
-      {
-        sessions.signedIn ? (
-          <Route component={component} path={path} />
-        )
-          : (
-            <Forbidden />
-          )
-      }
-    </>
+    sessions.signedIn ? (
+      <Route exact component={component} path={path} />
+    )
+      : (
+        <Forbidden />
+      )
   );
 };
 

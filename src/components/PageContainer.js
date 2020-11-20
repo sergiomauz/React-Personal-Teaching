@@ -50,10 +50,10 @@ const PageContainer = props => {
             <Route exact path={URL_SIGN_IN} component={SignInForm} />
             <Route exact path={URL_SIGN_UP} component={SignUpForm} />
 
-            <ProtectedRoute path={URL_TEACHERS_LIST} component={TeachersList} />
-            <ProtectedRoute path={URL_NEW_TEACHER} component={NewTeacher} />
-            <ProtectedRoute path={URL_TEACHER_DETAILS} component={TeacherDetails} />
-            <ProtectedRoute path={URL_USER_APPOINTMENTS} component={UserAppointments} />
+            <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
+            <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />
+            <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
+            <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
 
             <Route component={NotFound} />
           </Switch>
