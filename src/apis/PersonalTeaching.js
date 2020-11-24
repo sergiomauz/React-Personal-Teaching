@@ -55,8 +55,8 @@ const PersonalTeaching = () => {
 
     return sessionObject;
   };
-  const refreshSession = refreshToken => {
-    const request = axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
+  const refreshSession = async refreshToken => {
+    const request = await axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
       grant_type: 'refresh_token',
       refresh_token: `${refreshToken}`,
     })
@@ -65,8 +65,9 @@ const PersonalTeaching = () => {
 
     return request;
   };
-  const getSession = () => {
-    let sessionObject = {
+  const getSession = async () => {
+    let sessionObject;
+    const notSignedIn = {
       signedIn: false,
       accessToken: '',
       refreshToken: '',
@@ -77,19 +78,23 @@ const PersonalTeaching = () => {
     if (sessionVar.length > 0) {
       sessionObject = JSON.parse(sessionVar);
       if (sessionObject.refreshToken && sessionObject.expiresAt) {
-        if (Math.abs(new Date()) > sessionObject.expiresAt
+        if (Math.abs(new Date()) > sessionObject.expiresAt - 300
           && sessionObject.expiresAt > 0
           && sessionObject.refreshToken.length > 0) {
-          sessionObject = refreshSession(sessionObject.refreshToken)
+          sessionObject = await refreshSession(sessionObject.refreshToken)
             .then(data => data);
         }
       }
     }
 
+    if (sessionObject.error) {
+      return notSignedIn;
+    }
+
     return sessionObject;
   };
-  const getConfig = params => {
-    const sessionObject = getSession();
+  const getConfig = async params => {
+    const sessionObject = await getSession();
     if (sessionObject.accessToken.length > 0) {
       return {
         headers: {
@@ -105,8 +110,8 @@ const PersonalTeaching = () => {
   };
 
   // Requests methods
-  const makeGetRequest = (path, params = {}) => {
-    const jsonConfig = getConfig(params);
+  const makeGetRequest = async (path, params = {}) => {
+    const jsonConfig = await getConfig(params);
 
     const request = axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
       .then(onSuccess)
@@ -114,8 +119,8 @@ const PersonalTeaching = () => {
 
     return request;
   };
-  const makePostRequest = (path, params = {}) => {
-    const jsonConfig = getConfig();
+  const makePostRequest = async (path, params = {}) => {
+    const jsonConfig = await getConfig();
     const request = axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig)
       .then(onSuccess)
       .catch(onFail);

@@ -3,7 +3,8 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  teachers: [],
+  list: [],
+  details: null,
 };
 
 const teachersReducer = (state = initialState, action) => {
@@ -11,24 +12,24 @@ const teachersReducer = (state = initialState, action) => {
     case GET_TEACHERS_LIST:
       return {
         ...state,
-        teachers: action.payload,
+        list: action.payload,
       };
     case GET_TEACHER_INFO:
       return {
         ...state,
-        teacher: action.payload,
+        details: action.payload,
       };
     case ADD_TEACHER:
       return {
         ...state,
-        teachers: [
-          ...state.teachers, action.payload,
+        list: [
+          ...state.list, action.payload,
         ],
       };
     case UPDATE_TEACHER:
       return {
         ...state,
-        teachers: state.teachers.map(
+        list: state.list.map(
           teacher => (teacher.id === action.payload.id
             ? action.payload
             : teacher),
@@ -37,7 +38,7 @@ const teachersReducer = (state = initialState, action) => {
     case REMOVE_TEACHER:
       return {
         ...state,
-        teachers: state.teachers.filter(teacher => teacher.id !== action.payload),
+        list: state.teachers.filter(teacher => teacher.id !== action.payload),
       };
     default:
       return state;

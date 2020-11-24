@@ -4,12 +4,28 @@ import {
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
-const getTeachersList = () => async dispatch => {
-  const requestedData = await PersonalTeaching().getTeachersList();
-  dispatch({
-    type: GET_TEACHERS_LIST,
-    payload: requestedData,
-  });
+const getTeachersList = () => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().getTeachersList()
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_TEACHERS_LIST,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_TEACHERS_LIST,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
 };
 
 const getTeacherInfo = () => ({
