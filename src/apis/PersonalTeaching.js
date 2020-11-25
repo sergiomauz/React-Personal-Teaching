@@ -145,12 +145,14 @@ const PersonalTeaching = () => {
   // User methods
   const getUsersList = () => makeGetRequest('users');
   const addUser = user => makePostRequest('users', user);
+  const removeUser = id => makeDeleteRequest(`users/${id}`);
 
   return {
     getCloudinaryPreset,
 
     getUsersList,
     addUser,
+    removeUser,
 
     getTeachersList,
     getTeacherInfo,

@@ -2,26 +2,36 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getUsersList } from '../../redux/actions/users.actions';
+import { getUsersList, removeUser } from '../../redux/actions/users.actions';
 
 import aStyle from '../../styles/index.module.css';
 
 const mapStateToProps = state => ({
+  requestapi: state.requestapi,
   users: state.users.list,
 });
 
 const mapDispatchToProps = {
   getUsersList,
+  removeUser,
 };
 
 const UsersList = props => {
   const {
-    getUsersList, users,
+    getUsersList, removeUser,
+    users,
   } = props;
 
   useEffect(() => {
     getUsersList();
   }, [getUsersList]);
+
+  const handlerRemoveUser = (e, id) => {
+    e.preventDefault();
+    if (window.confirm('Are you sure?')) {
+      removeUser(id);
+    }
+  };
 
   return (
     <>
@@ -40,7 +50,7 @@ const UsersList = props => {
                       <td>{item.fullname}</td>
                       <td>{item.email}</td>
                       <td>{item.username}</td>
-                      <td><button type="button">Delete</button></td>
+                      <td><button type="button" onClick={e => handlerRemoveUser(e, item.id)}>Delete</button></td>
                     </tr>
                   ))
                 }
@@ -55,6 +65,7 @@ const UsersList = props => {
 
 UsersList.propTypes = {
   getUsersList: PropTypes.func.isRequired,
+  removeUser: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     fullname: PropTypes.string,

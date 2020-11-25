@@ -57,14 +57,33 @@ const addUser = user => dispatch => {
     });
 };
 
+const removeUser = id => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().removeUser(id)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: REMOVE_USER,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: REMOVE_USER,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
+
 const updateUser = user => ({
   type: UPDATE_USER,
   payload: user,
-});
-
-const removeUser = id => ({
-  type: REMOVE_USER,
-  payload: id,
 });
 
 export {
