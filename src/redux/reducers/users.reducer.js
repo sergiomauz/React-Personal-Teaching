@@ -3,7 +3,8 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  users: [],
+  list: [],
+  user: null,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -11,7 +12,7 @@ const usersReducer = (state = initialState, action) => {
     case GET_USERS_LIST:
       return {
         ...state,
-        users: action.payload,
+        list: action.payload,
       };
     case GET_USER_INFO:
       return {
@@ -21,14 +22,14 @@ const usersReducer = (state = initialState, action) => {
     case ADD_USER:
       return {
         ...state,
-        users: [
+        list: [
           ...state.users, action.payload,
         ],
       };
     case UPDATE_USER:
       return {
         ...state,
-        users: state.users.map(
+        list: state.users.map(
           user => (user.id === action.payload.id
             ? action.payload
             : user),
@@ -37,7 +38,7 @@ const usersReducer = (state = initialState, action) => {
     case REMOVE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.payload),
+        list: state.list.filter(user => user.id !== action.payload.id),
       };
     default:
       return state;

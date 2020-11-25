@@ -1,10 +1,7 @@
 const URL_INDEX = '/';
 const URL_SIGN_IN = '/signin';
 const URL_SIGN_UP = '/signup';
-
 const URL_USERS_LIST = '/users';
-const URL_NEW_USER = '/users/new';
-const URL_USER_DETAILS = '/user/:id';
 
 const URL_NEW_TEACHER = '/teacher/new';
 const URL_TEACHERS_LIST = '/teachers';
@@ -24,8 +21,6 @@ export {
   URL_SIGN_IN,
   URL_SIGN_UP,
   URL_USERS_LIST,
-  URL_NEW_USER,
-  URL_USER_DETAILS,
 
   URL_NEW_TEACHER,
   URL_TEACHERS_LIST,

@@ -16,7 +16,7 @@ const mapDispatchToProps = {
 
 const UsersList = props => {
   const {
-    getUsersList, teachers,
+    getUsersList, users,
   } = props;
 
   useEffect(() => {
@@ -26,22 +26,25 @@ const UsersList = props => {
   return (
     <>
       <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-        Teachers List
+        Users List
       </h1>
       <div>
         {
-          teachers.length > 0
+          users.length > 0
           && (
             <>
-              <ul className={cStyle.carouselInner}>
+              <table>
                 {
-                  teachers.map(item => (
-                    <li key={item.id}>
-
-                    </li>
+                  users.map(item => (
+                    <tr key={item.id}>
+                      <td>{item.fullname}</td>
+                      <td>{item.email}</td>
+                      <td>{item.username}</td>
+                      <td><button type="button">Delete</button></td>
+                    </tr>
                   ))
                 }
-              </ul>
+              </table>
             </>
           )
         }
@@ -52,17 +55,16 @@ const UsersList = props => {
 
 UsersList.propTypes = {
   getUsersList: PropTypes.func.isRequired,
-  teachers: PropTypes.arrayOf(PropTypes.shape({
+  users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    teacher: PropTypes.string,
-    course: PropTypes.string,
-    description: PropTypes.string,
-    photo: PropTypes.string,
+    fullname: PropTypes.string,
+    email: PropTypes.string,
+    username: PropTypes.string,
   })),
 };
 
 UsersList.defaultProps = {
-  teachers: [],
+  users: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersList);
