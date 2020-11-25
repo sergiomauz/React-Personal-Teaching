@@ -4,7 +4,7 @@ import {
 
 const initialState = {
   list: [],
-  details: null,
+  teacher: null,
 };
 
 const teachersReducer = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const teachersReducer = (state = initialState, action) => {
     case GET_TEACHER_INFO:
       return {
         ...state,
-        details: action.payload,
+        teacher: action.payload.teacher,
       };
     case ADD_TEACHER:
       return {
@@ -38,7 +38,7 @@ const teachersReducer = (state = initialState, action) => {
     case REMOVE_TEACHER:
       return {
         ...state,
-        list: state.teachers.filter(teacher => teacher.id !== action.payload),
+        list: state.list.filter(teacher => teacher.id !== action.payload.id),
       };
     default:
       return state;

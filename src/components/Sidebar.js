@@ -51,6 +51,11 @@ const Sidebar = props => {
                 </Link>
               </li>
               <li className={aStyle.listGroupItem}>
+                <Link className={aStyle.listGroupItemAction} to="/users">
+                  Users
+                </Link>
+              </li>
+              <li className={aStyle.listGroupItem}>
                 <Link className={`${aStyle.listGroupItemAction}`} to="/teacher/new">
                   New Teacher
                 </Link>

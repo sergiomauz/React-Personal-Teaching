@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import TeacherCard from '../../components/TeacherCard';
+import TeacherCard from './TeacherCard';
 import { getTeachersList } from '../../redux/actions/teachers.actions';
 
 import aStyle from '../../styles/index.module.css';

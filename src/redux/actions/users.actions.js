@@ -5,9 +5,29 @@ import {
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
-const getUsersList = () => ({
-  type: GET_USERS_LIST,
-});
+const getUsersList = () => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().getUsersList()
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_USERS_LIST,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_USERS_LIST,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 const getUserInfo = () => ({
   type: GET_USER_INFO,

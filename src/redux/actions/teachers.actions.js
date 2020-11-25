@@ -28,9 +28,28 @@ const getTeachersList = () => dispatch => {
     });
 };
 
-const getTeacherInfo = () => ({
-  type: GET_TEACHER_INFO,
-});
+const getTeacherInfo = id => dispatch => {
+  dispatch(startRequestApi());
+  return PersonalTeaching().getTeacherInfo(id)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_TEACHER_INFO,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_TEACHER_INFO,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 const addTeacher = teacher => dispatch => {
   dispatch(startRequestApi());
@@ -56,14 +75,33 @@ const addTeacher = teacher => dispatch => {
     });
 };
 
+const removeTeacher = id => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().removeTeacher(id)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: REMOVE_TEACHER,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: REMOVE_TEACHER,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
+
 const updateTeacher = teacher => ({
   type: UPDATE_TEACHER,
   payload: teacher,
-});
-
-const removeTeacher = id => ({
-  type: REMOVE_TEACHER,
-  payload: id,
 });
 
 export {

@@ -55,8 +55,8 @@ const PersonalTeaching = () => {
 
     return sessionObject;
   };
-  const refreshSession = async refreshToken => {
-    const request = await axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
+  const refreshSession = refreshToken => {
+    const request = axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
       grant_type: 'refresh_token',
       refresh_token: `${refreshToken}`,
     })
@@ -65,7 +65,7 @@ const PersonalTeaching = () => {
 
     return request;
   };
-  const getSession = async () => {
+  const getSession = () => {
     let sessionObject;
     const notSignedIn = {
       signedIn: false,
@@ -81,20 +81,16 @@ const PersonalTeaching = () => {
         if (Math.abs(new Date()) > sessionObject.expiresAt - 300
           && sessionObject.expiresAt > 0
           && sessionObject.refreshToken.length > 0) {
-          sessionObject = await refreshSession(sessionObject.refreshToken)
+          sessionObject = refreshSession(sessionObject.refreshToken)
             .then(data => data);
         }
       }
     }
 
-    if (sessionObject.error) {
-      return notSignedIn;
-    }
-
     return sessionObject;
   };
-  const getConfig = async params => {
-    const sessionObject = await getSession();
+  const getConfig = params => {
+    const sessionObject = getSession();
     if (sessionObject.accessToken.length > 0) {
       return {
         headers: {
@@ -110,8 +106,8 @@ const PersonalTeaching = () => {
   };
 
   // Requests methods
-  const makeGetRequest = async (path, params = {}) => {
-    const jsonConfig = await getConfig(params);
+  const makeGetRequest = (path, params = {}) => {
+    const jsonConfig = getConfig(params);
 
     const request = axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
       .then(onSuccess)
@@ -119,9 +115,18 @@ const PersonalTeaching = () => {
 
     return request;
   };
-  const makePostRequest = async (path, params = {}) => {
-    const jsonConfig = await getConfig();
+  const makePostRequest = (path, params = {}) => {
+    const jsonConfig = getConfig();
     const request = axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig)
+      .then(onSuccess)
+      .catch(onFail);
+
+    return request;
+  };
+  const makeDeleteRequest = (path, params = {}) => {
+    const jsonConfig = getConfig(params);
+
+    const request = axios.delete(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
       .then(onSuccess)
       .catch(onFail);
 
@@ -135,18 +140,22 @@ const PersonalTeaching = () => {
   const getTeachersList = () => makeGetRequest('teachers');
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
   const addTeacher = teacher => makePostRequest('teachers', teacher);
+  const removeTeacher = id => makeDeleteRequest(`teachers/${id}`);
 
   // User methods
+  const getUsersList = () => makeGetRequest('users');
   const addUser = user => makePostRequest('users', user);
 
   return {
     getCloudinaryPreset,
 
+    getUsersList,
     addUser,
 
     getTeachersList,
     getTeacherInfo,
     addTeacher,
+    removeTeacher,
 
     getSession,
     signInRequest,

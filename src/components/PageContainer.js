@@ -24,6 +24,9 @@ import {
   URL_INDEX,
   URL_SIGN_IN,
   URL_SIGN_UP,
+  URL_USERS_LIST,
+  URL_NEW_USER,
+  URL_USER_DETAILS,
   URL_NEW_TEACHER,
   URL_TEACHERS_LIST,
   URL_TEACHER_DETAILS,
@@ -50,6 +53,9 @@ const PageContainer = props => {
             <PublicRoute exact path={URL_INDEX} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
+            <ProtectedRoute exact path={URL_USERS_LIST} component={UserAppointments} />
+            <ProtectedRoute exact path={URL_NEW_USER} component={UserAppointments} />
+            <ProtectedRoute exact path={URL_USER_DETAILS} component={UserAppointments} />
 
             <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
             <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />
