@@ -43,7 +43,7 @@ const UsersList = props => {
           users.length > 0
           && (
             <>
-              <table>
+              <table className={aStyle.table}>
                 {
                   users.map(item => (
                     <tr key={item.id}>

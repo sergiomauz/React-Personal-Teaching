@@ -6,6 +6,7 @@ const URL_USERS_LIST = '/users';
 const URL_NEW_TEACHER = '/teacher/new';
 const URL_TEACHERS_LIST = '/teachers';
 const URL_TEACHER_DETAILS = '/teacher/:id';
+const URL_EDIT_TEACHER = '/teacher/:id/edit';
 const URL_USER_APPOINTMENTS = '/appointments';
 
 const CLOUD_NAME = '{CLOUD_NAME}';
@@ -21,9 +22,10 @@ export {
   URL_SIGN_IN,
   URL_SIGN_UP,
   URL_USERS_LIST,
+  URL_USER_APPOINTMENTS,
 
   URL_NEW_TEACHER,
+  URL_EDIT_TEACHER,
   URL_TEACHERS_LIST,
   URL_TEACHER_DETAILS,
-  URL_USER_APPOINTMENTS,
 };

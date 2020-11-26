@@ -123,6 +123,14 @@ const PersonalTeaching = () => {
 
     return request;
   };
+  const makePutRequest = (path, params = {}) => {
+    const jsonConfig = getConfig();
+    const request = axios.put(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig)
+      .then(onSuccess)
+      .catch(onFail);
+
+    return request;
+  };
   const makeDeleteRequest = (path, params = {}) => {
     const jsonConfig = getConfig(params);
 
@@ -140,6 +148,7 @@ const PersonalTeaching = () => {
   const getTeachersList = () => makeGetRequest('teachers');
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
   const addTeacher = teacher => makePostRequest('teachers', teacher);
+  const updateTeacher = (id, teacher) => makePutRequest(`teachers/${id}`, teacher);
   const removeTeacher = id => makeDeleteRequest(`teachers/${id}`);
 
   // User methods
@@ -152,6 +161,7 @@ const PersonalTeaching = () => {
 
     getUsersList,
     addUser,
+    updateTeacher,
     removeUser,
 
     getTeachersList,

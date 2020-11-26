@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { URL_TEACHERS_LIST } from '../../helpers/constants';
-import { addTeacher } from '../../redux/actions/teachers.actions';
+import { getTeacherInfo, updateTeacher } from '../../redux/actions/teachers.actions';
 
 import aStyle from '../../styles/index.module.css';
 import photoTeacher from '../../images/teacher.jpg';
@@ -15,17 +15,22 @@ import Cloudinary from '../../apis/Cloudinary';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
+  teacher: state.teachers.teacher,
 });
 
 const mapDispatchToProps = {
-  addTeacher,
+  getTeacherInfo,
+  updateTeacher,
 };
 
 const EditTeacher = props => {
   const {
-    requestapi,
-    addTeacher,
+    match,
+    getTeacherInfo, updateTeacher,
+    requestapi, teacher,
   } = props;
+  const { params } = match;
+  const { id } = params;
 
   const txtFullname = useRef(null);
   const txtEmail = useRef(null);
@@ -90,7 +95,7 @@ const EditTeacher = props => {
         txtDescription.current.value,
       ];
 
-      addTeacher({
+      updateTeacher(id, {
         fullname, email, photo, course, description,
       }).then(requestedData => {
         if (requestedData.error) {
@@ -103,91 +108,127 @@ const EditTeacher = props => {
     }
   };
 
+  useEffect(() => {
+    getTeacherInfo(id);
+  }, [id, getTeacherInfo]);
+
   return (
     <>
-      <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-        Teacher
-      </h1>
-      <form className={aStyle.formContainer} onSubmit={handlerSaveTeacher}>
-        <h2 className={aStyle.titleOne}>
-          New Teacher
-        </h2>
-        <fieldset
-          disabled={requestapi.working || loading}
-          aria-busy={requestapi.working || loading}
-        >
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>fullname</span>
-              <input ref={txtFullname} type="text" className={aStyle.formControl} maxLength="50" />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>email</span>
-              <input ref={txtEmail} type="email" className={aStyle.formControl} maxLength="50" />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>Photo</span>
-              {
-                (loading) && <img className={aStyle.height320px} src={loadingGif} alt="Preview" />
-              }
-              {
-                (uploadedImage.length > 0 && !loading) && <img className={aStyle.height320px} src={uploadedImage} alt="Preview" />
-              }
-              {
-                (uploadedImage.length === 0 && !loading) && <img className={aStyle.height320px} src={photoTeacher} alt="Preview" />
-              }
-              <input
-                ref={inputPhoto}
-                type="file"
-                className={aStyle.invisible}
-                onChange={handlerUploadFile}
-                accept="image/x-png,image/gif,image/jpeg"
-              />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>course</span>
-              <input ref={txtCourse} type="text" className={aStyle.formControl} maxLength="50" />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>description</span>
-              <textarea ref={txtDescription} className={aStyle.formControl} maxLength="150" />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Save</button>
-          </div>
-        </fieldset>
-        <ul className={aStyle.listGroupWithoutIcon}>
-          {
-            (!requestapi.working)
-            && (
-              (errors.length > 0)
-              && (
-                errors
-                  .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
-              )
-            )
-          }
-        </ul>
-      </form>
+      {
+        teacher && (
+          <>
+            <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
+              Teacher
+            </h1>
+            <form className={aStyle.formContainer} onSubmit={handlerSaveTeacher}>
+              <h2 className={aStyle.titleOne}>
+                Edit Teacher
+              </h2>
+              <fieldset
+                disabled={requestapi.working || loading}
+                aria-busy={requestapi.working || loading}
+              >
+                <div className={aStyle.formGroup}>
+                  <label>
+                    <span className={aStyle.controlLabel}>fullname</span>
+                    <input ref={txtFullname} type="text" className={aStyle.formControl} defaultValue={teacher.fullname} maxLength="50" />
+                  </label>
+                </div>
+                <div className={aStyle.formGroup}>
+                  <label>
+                    <span className={aStyle.controlLabel}>email</span>
+                    <input ref={txtEmail} type="email" className={aStyle.formControl} defaultValue={teacher.email} maxLength="50" />
+                  </label>
+                </div>
+                <div className={aStyle.formGroup}>
+                  <label>
+                    <span className={aStyle.controlLabel}>Photo</span>
+                    {
+                      (loading) && <img className={aStyle.height320px} src={loadingGif} alt="Preview" />
+                    }
+                    {
+                      (teacher.photo.length > 0
+                        && uploadedImage.length === 0
+                        && !loading) && <img className={aStyle.height320px} src={teacher.photo} alt="Preview" />
+                    }
+                    {
+                      (teacher.photo.length === 0
+                        && uploadedImage.length === 0
+                        && !loading) && <img className={aStyle.height320px} src={photoTeacher} alt="Preview" />
+                    }
+                    {
+                      (uploadedImage.length > 0 && !loading) && <img className={aStyle.height320px} src={uploadedImage} alt="Preview" />
+                    }
+                    <input
+                      ref={inputPhoto}
+                      type="file"
+                      className={aStyle.invisible}
+                      onChange={handlerUploadFile}
+                      accept="image/x-png,image/gif,image/jpeg"
+                    />
+                  </label>
+                </div>
+                <div className={aStyle.formGroup}>
+                  <label>
+                    <span className={aStyle.controlLabel}>course</span>
+                    <input ref={txtCourse} type="text" className={aStyle.formControl} defaultValue={teacher.course} maxLength="50" />
+                  </label>
+                </div>
+                <div className={aStyle.formGroup}>
+                  <label>
+                    <span className={aStyle.controlLabel}>description</span>
+                    <textarea ref={txtDescription} className={aStyle.formControl} defaultValue={teacher.description} maxLength="150" />
+                  </label>
+                </div>
+                <div className={aStyle.formGroup}>
+                  <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Save</button>
+                </div>
+              </fieldset>
+              <ul className={aStyle.listGroupWithoutIcon}>
+                {
+                  (!requestapi.working)
+                  && (
+                    (errors.length > 0)
+                    && (
+                      errors
+                        .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                    )
+                  )
+                }
+              </ul>
+            </form>
+          </>
+        )
+      }
     </>
+
   );
 };
 
 EditTeacher.propTypes = {
-  addTeacher: PropTypes.func.isRequired,
+  getTeacherInfo: PropTypes.func.isRequired,
+  updateTeacher: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,
   }).isRequired,
+  teacher: PropTypes.shape({
+    id: PropTypes.number,
+    fullname: PropTypes.string,
+    email: PropTypes.string,
+    course: PropTypes.string,
+    description: PropTypes.string,
+    photo: PropTypes.string,
+  }),
+};
+
+EditTeacher.defaultProps = {
+  teacher: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTeacher);

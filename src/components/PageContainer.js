@@ -17,6 +17,7 @@ import UserAppointments from '../containers/Appointment/UserAppointments';
 import TeacherDetails from '../containers/Teacher/TeacherDetails';
 import TeachersList from '../containers/Teacher/TeachersList';
 import NewTeacher from '../containers/Teacher/NewTeacher';
+import EditTeacher from '../containers/Teacher/EditTeacher';
 
 import pcStyle from '../styles/pagecontainer.module.css';
 import aStyle from '../styles/index.module.css';
@@ -27,6 +28,7 @@ import {
   URL_SIGN_UP,
   URL_USERS_LIST,
   URL_NEW_TEACHER,
+  URL_EDIT_TEACHER,
   URL_TEACHERS_LIST,
   URL_TEACHER_DETAILS,
   URL_USER_APPOINTMENTS,
@@ -53,11 +55,12 @@ const PageContainer = props => {
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
             <ProtectedRoute exact path={URL_USERS_LIST} component={UsersList} />
+            <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
 
             <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
             <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />
+            <ProtectedRoute exact path={URL_EDIT_TEACHER} component={EditTeacher} />
             <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
-            <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
 
             <Route component={NotFound} />
           </Switch>

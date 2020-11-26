@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { removeTeacher } from '../../redux/actions/teachers.actions';
-
 import cStyle from '../../styles/teachercard.module.css';
 
 const mapStateToProps = state => ({
@@ -12,23 +10,11 @@ const mapStateToProps = state => ({
   teachers: state.teachers,
 });
 
-const mapDispatchToProps = {
-  removeTeacher,
-};
-
 const TeacherCard = props => {
   const {
     info,
     requestapi,
-    removeTeacher,
   } = props;
-
-  const handlerRemoveTeacher = e => {
-    e.preventDefault();
-    if (window.confirm('Are you sure?')) {
-      removeTeacher(info.id);
-    }
-  };
 
   return (
     <div
@@ -51,14 +37,12 @@ const TeacherCard = props => {
         <p>
           {info.description.length > 50 ? `${info.description.slice(0, 50)} ...` : `${info.description}`}
         </p>
-        <button type="button" onClick={handlerRemoveTeacher}>Remove</button>
       </div>
     </div>
   );
 };
 
 TeacherCard.propTypes = {
-  removeTeacher: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,
@@ -72,4 +56,4 @@ TeacherCard.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeacherCard);
+export default connect(mapStateToProps)(TeacherCard);

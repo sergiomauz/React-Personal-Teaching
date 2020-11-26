@@ -99,10 +99,29 @@ const removeTeacher = id => dispatch => {
     });
 };
 
-const updateTeacher = teacher => ({
-  type: UPDATE_TEACHER,
-  payload: teacher,
-});
+const updateTeacher = (id, teacher) => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().updateTeacher(id, teacher)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: UPDATE_TEACHER,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: UPDATE_TEACHER,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 export {
   getTeachersList, getTeacherInfo, addTeacher, updateTeacher, removeTeacher,
