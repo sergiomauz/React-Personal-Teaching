@@ -81,16 +81,22 @@ const EditTeacher = props => {
   };
 
   const handlerSaveTeacher = e => {
+    let newImage;
     e.preventDefault();
 
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
     } else {
+      if (uploadedImage.length === 0) {
+        newImage = teacher.photo;
+      } else {
+        newImage = uploadedImage;
+      }
       const [fullname, email, photo, course, description] = [
         txtFullname.current.value,
         txtEmail.current.value,
-        uploadedImage,
+        newImage,
         txtCourse.current.value,
         txtDescription.current.value,
       ];
@@ -216,6 +222,11 @@ EditTeacher.propTypes = {
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,
+    details: PropTypes.shape({
+      error: PropTypes.shape({
+        message: PropTypes.string,
+      }),
+    }),
   }).isRequired,
   teacher: PropTypes.shape({
     id: PropTypes.number,

@@ -12,6 +12,7 @@ import NotFound from './NotFound';
 
 import SignInForm from '../containers/User/SignInForm';
 import SignUpForm from '../containers/User/SignUpForm';
+import EditUser from '../containers/User/EditUser';
 import UsersList from '../containers/User/UsersList';
 import UserAppointments from '../containers/Appointment/UserAppointments';
 import TeacherDetails from '../containers/Teacher/TeacherDetails';
@@ -26,6 +27,7 @@ import {
   URL_INDEX,
   URL_SIGN_IN,
   URL_SIGN_UP,
+  URL_EDIT_USER,
   URL_USERS_LIST,
   URL_NEW_TEACHER,
   URL_EDIT_TEACHER,
@@ -54,8 +56,9 @@ const PageContainer = props => {
             <PublicRoute exact path={URL_INDEX} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
-            <ProtectedRoute exact path={URL_USERS_LIST} component={UsersList} />
+            <ProtectedRoute exact path={URL_EDIT_USER} component={EditUser} />
             <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
+            <ProtectedRoute exact path={URL_USERS_LIST} component={UsersList} />
 
             <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
             <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />

@@ -17,19 +17,19 @@ const usersReducer = (state = initialState, action) => {
     case GET_USER_INFO:
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,
       };
     case ADD_USER:
       return {
         ...state,
         list: [
-          ...state.users, action.payload,
+          ...state.list, action.payload,
         ],
       };
     case UPDATE_USER:
       return {
         ...state,
-        list: state.users.map(
+        list: state.list.map(
           user => (user.id === action.payload.id
             ? action.payload
             : user),

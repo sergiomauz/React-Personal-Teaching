@@ -67,12 +67,6 @@ const PersonalTeaching = () => {
   };
   const getSession = () => {
     let sessionObject;
-    const notSignedIn = {
-      signedIn: false,
-      accessToken: '',
-      refreshToken: '',
-      expiresAt: 0,
-    };
     const sessionVar = (localStorage.getItem('sessionVar') || '');
 
     if (sessionVar.length > 0) {
@@ -153,25 +147,29 @@ const PersonalTeaching = () => {
 
   // User methods
   const getUsersList = () => makeGetRequest('users');
+  const getUserInfo = id => makeGetRequest(`users/${id}`);
   const addUser = user => makePostRequest('users', user);
+  const updateUser = (id, user) => makePutRequest(`users/${id}`, user);
   const removeUser = id => makeDeleteRequest(`users/${id}`);
 
   return {
+    getSession,
+    signInRequest,
+    signOutRequest,
+
     getCloudinaryPreset,
 
     getUsersList,
+    getUserInfo,
     addUser,
-    updateTeacher,
+    updateUser,
     removeUser,
 
     getTeachersList,
     getTeacherInfo,
     addTeacher,
+    updateTeacher,
     removeTeacher,
-
-    getSession,
-    signInRequest,
-    signOutRequest,
   };
 };
 

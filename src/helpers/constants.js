@@ -1,6 +1,7 @@
 const URL_INDEX = '/';
 const URL_SIGN_IN = '/signin';
 const URL_SIGN_UP = '/signup';
+const URL_EDIT_USER = '/user/:id/edit';
 const URL_USERS_LIST = '/users';
 
 const URL_NEW_TEACHER = '/teacher/new';
@@ -21,6 +22,7 @@ export {
   URL_INDEX,
   URL_SIGN_IN,
   URL_SIGN_UP,
+  URL_EDIT_USER,
   URL_USERS_LIST,
   URL_USER_APPOINTMENTS,
 

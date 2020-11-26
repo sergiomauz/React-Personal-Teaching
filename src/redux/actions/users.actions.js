@@ -29,9 +29,28 @@ const getUsersList = () => dispatch => {
     });
 };
 
-const getUserInfo = () => ({
-  type: GET_USER_INFO,
-});
+const getUserInfo = id => dispatch => {
+  dispatch(startRequestApi());
+  return PersonalTeaching().getUserInfo(id)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_USER_INFO,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_USER_INFO,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 const addUser = user => dispatch => {
   dispatch(startRequestApi());
@@ -81,10 +100,29 @@ const removeUser = id => dispatch => {
     });
 };
 
-const updateUser = user => ({
-  type: UPDATE_USER,
-  payload: user,
-});
+const updateUser = (id, user) => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().updateUser(id, user)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: UPDATE_USER,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: UPDATE_USER,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 export {
   getUsersList, getUserInfo, addUser, updateUser, removeUser,

@@ -1,5 +1,7 @@
+/* eslint-disable no-alert */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { getUsersList, removeUser } from '../../redux/actions/users.actions';
@@ -44,16 +46,19 @@ const UsersList = props => {
           && (
             <>
               <table className={aStyle.table}>
-                {
-                  users.map(item => (
-                    <tr key={item.id}>
-                      <td>{item.fullname}</td>
-                      <td>{item.email}</td>
-                      <td>{item.username}</td>
-                      <td><button type="button" onClick={e => handlerRemoveUser(e, item.id)}>Delete</button></td>
-                    </tr>
-                  ))
-                }
+                <tbody>
+                  {
+                    users.map(item => (
+                      <tr key={item.id}>
+                        <td>{item.fullname}</td>
+                        <td>{item.email}</td>
+                        <td>{item.username}</td>
+                        <td><Link to={`/user/${item.id}/edit`}>Edit</Link></td>
+                        <td><button type="button" onClick={e => handlerRemoveUser(e, item.id)}>Delete</button></td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </table>
             </>
           )
