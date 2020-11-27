@@ -153,8 +153,9 @@ const PersonalTeaching = () => {
   const updateUser = (id, user) => makePutRequest(`users/${id}`, user);
   const removeUser = id => makeDeleteRequest(`users/${id}`);
 
-  //
+  // Appointment methods
   const addAppointment = appointment => makePostRequest('appointments', appointment);
+  const removeAppointment = id => makeDeleteRequest(`appointments/${id}`);
 
   return {
     getSession,
@@ -177,6 +178,7 @@ const PersonalTeaching = () => {
     removeTeacher,
 
     addAppointment,
+    removeAppointment,
   };
 };
 

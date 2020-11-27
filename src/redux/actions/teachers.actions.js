@@ -1,5 +1,5 @@
 import {
-  GET_TEACHERS_LIST, GET_TEACHER_INFO, GET_TEACHER_AVAILABILITY,
+  GET_TEACHERS_LIST, GET_TEACHER_INFO, GET_TEACHER_AVAILABILITY, CLEAR_TEACHER_AVAILABILITY,
   ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from './types';
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
@@ -31,6 +31,7 @@ const getTeachersList = () => dispatch => {
 
 const getTeacherInfo = id => dispatch => {
   dispatch(startRequestApi());
+
   return PersonalTeaching().getTeacherInfo(id)
     .then(requestedData => {
       if (!requestedData.error) {
@@ -74,6 +75,10 @@ const getTeacherAvailability = (id, date) => dispatch => {
       return requestedData;
     });
 };
+
+const clearTeacherAvailability = () => dispatch => dispatch({
+  type: CLEAR_TEACHER_AVAILABILITY,
+});
 
 const addTeacher = teacher => dispatch => {
   dispatch(startRequestApi());
@@ -149,6 +154,6 @@ const updateTeacher = (id, teacher) => dispatch => {
 
 export {
   getTeachersList, getTeacherInfo,
-  getTeacherAvailability,
+  getTeacherAvailability, clearTeacherAvailability,
   addTeacher, updateTeacher, removeTeacher,
 };

@@ -1,5 +1,6 @@
 import {
-  GET_TEACHERS_LIST, GET_TEACHER_INFO, GET_TEACHER_AVAILABILITY,
+  GET_TEACHERS_LIST, GET_TEACHER_INFO,
+  GET_TEACHER_AVAILABILITY, CLEAR_TEACHER_AVAILABILITY,
   ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from '../actions/types';
 
@@ -28,6 +29,16 @@ const teachersReducer = (state = initialState, action) => {
         teacher: {
           ...state.teacher,
           availability: action.payload,
+        },
+      };
+    case CLEAR_TEACHER_AVAILABILITY:
+      return {
+        list: [
+          ...state.list,
+        ],
+        teacher: {
+          ...state.teacher,
+          availability: [],
         },
       };
     case ADD_TEACHER:

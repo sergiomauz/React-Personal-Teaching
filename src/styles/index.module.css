@@ -177,6 +177,41 @@ body {
   cursor: pointer;
 }
 
+.btnSuccess {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btnSuccess:hover {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34;
+  min-width: 300px;
+}
+
+.btnSuccess:focus, .btnSuccess.focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
+.btnSuccess.disabled, .btnSuccess:disabled {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btnSuccess:not(:disabled):not(.disabled):active, .btnSuccess:not(:disabled):not(.disabled).active,
+.show > .btnSuccess.dropdown-toggle {
+  color: #fff;
+  background-color: #1e7e34;
+  border-color: #1c7430;
+}
+
+.btnSuccess:not(:disabled):not(.disabled):active:focus, .btnSuccess:not(:disabled):not(.disabled).active:focus,
+.show > .btnSuccess.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
 .formGroup {
   margin: 0.75rem auto;
   position: relative;
@@ -221,7 +256,7 @@ body {
   border-radius: 50px;
   padding: 25px;
   margin: 0 auto;
-  max-width: 350px;
+  max-width: 800px;
   width: 100%;
   background-color: #fff;
 }
@@ -326,3 +361,17 @@ fieldset {
   background-color: #fff;
 }
 
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.colXs6 {
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}

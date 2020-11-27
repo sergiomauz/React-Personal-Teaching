@@ -1,8 +1,14 @@
+/* eslint-disable no-alert */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import {
+  removeTeacher,
+} from '../../redux/actions/teachers.actions';
+
+import aStyle from '../../styles/index.module.css';
 import cStyle from '../../styles/teachercard.module.css';
 
 const mapStateToProps = state => ({
@@ -10,11 +16,28 @@ const mapStateToProps = state => ({
   teachers: state.teachers,
 });
 
+const mapDispatchToProps = {
+  removeTeacher,
+};
+
 const TeacherCard = props => {
   const {
     info,
     requestapi,
+    removeTeacher,
   } = props;
+
+  const handlerRemoveTeacher = e => {
+    e.preventDefault();
+    const errorsList = [];
+    if (window.confirm('Are you sure?')) {
+      removeTeacher(info.id).then(requestedData => {
+        if (requestedData.error) {
+          errorsList.push(requestedData.error.message);
+        }
+      });
+    }
+  };
 
   return (
     <div
@@ -38,11 +61,16 @@ const TeacherCard = props => {
           {info.description.length > 50 ? `${info.description.slice(0, 50)} ...` : `${info.description}`}
         </p>
       </div>
+      <div className={aStyle.formGroup}>
+        <button type="button" onClick={handlerRemoveTeacher}>Remove</button>
+        <Link to={`/teacher/${info.id}/edit`}>Edit</Link>
+      </div>
     </div>
   );
 };
 
 TeacherCard.propTypes = {
+  removeTeacher: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,
@@ -56,4 +84,4 @@ TeacherCard.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps)(TeacherCard);
+export default connect(mapStateToProps, mapDispatchToProps)(TeacherCard);
