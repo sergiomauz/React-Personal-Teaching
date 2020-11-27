@@ -141,6 +141,7 @@ const PersonalTeaching = () => {
   // Teacher methods
   const getTeachersList = () => makeGetRequest('teachers');
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
+  const getTeacherAvailability = (id, date) => makeGetRequest(`teachers/${id}/availability/${date}`);
   const addTeacher = teacher => makePostRequest('teachers', teacher);
   const updateTeacher = (id, teacher) => makePutRequest(`teachers/${id}`, teacher);
   const removeTeacher = id => makeDeleteRequest(`teachers/${id}`);
@@ -151,6 +152,9 @@ const PersonalTeaching = () => {
   const addUser = user => makePostRequest('users', user);
   const updateUser = (id, user) => makePutRequest(`users/${id}`, user);
   const removeUser = id => makeDeleteRequest(`users/${id}`);
+
+  //
+  const addAppointment = appointment => makePostRequest('appointments', appointment);
 
   return {
     getSession,
@@ -167,9 +171,12 @@ const PersonalTeaching = () => {
 
     getTeachersList,
     getTeacherInfo,
+    getTeacherAvailability,
     addTeacher,
     updateTeacher,
     removeTeacher,
+
+    addAppointment,
   };
 };
 

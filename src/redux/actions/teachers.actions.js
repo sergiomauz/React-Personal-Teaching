@@ -1,5 +1,6 @@
 import {
-  GET_TEACHERS_LIST, GET_TEACHER_INFO, ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
+  GET_TEACHERS_LIST, GET_TEACHER_INFO, GET_TEACHER_AVAILABILITY,
+  ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
 } from './types';
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
@@ -42,6 +43,29 @@ const getTeacherInfo = id => dispatch => {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_TEACHER_INFO,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
+
+const getTeacherAvailability = (id, date) => dispatch => {
+  dispatch(startRequestApi());
+  return PersonalTeaching().getTeacherAvailability(id, date)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_TEACHER_AVAILABILITY,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_TEACHER_AVAILABILITY,
           });
         }
         dispatch(requestApiError(requestedData));
@@ -124,5 +148,7 @@ const updateTeacher = (id, teacher) => dispatch => {
 };
 
 export {
-  getTeachersList, getTeacherInfo, addTeacher, updateTeacher, removeTeacher,
+  getTeachersList, getTeacherInfo,
+  getTeacherAvailability,
+  addTeacher, updateTeacher, removeTeacher,
 };
