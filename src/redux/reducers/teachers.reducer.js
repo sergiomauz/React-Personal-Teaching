@@ -28,7 +28,7 @@ const teachersReducer = (state = initialState, action) => {
         ],
         teacher: {
           ...state.teacher,
-          availability: action.payload,
+          ...action.payload,
         },
       };
     case CLEAR_TEACHER_AVAILABILITY:

@@ -20,9 +20,6 @@ import TeachersList from '../containers/Teacher/TeachersList';
 import NewTeacher from '../containers/Teacher/NewTeacher';
 import EditTeacher from '../containers/Teacher/EditTeacher';
 
-import pcStyle from '../styles/pagecontainer.module.css';
-import aStyle from '../styles/index.module.css';
-
 import {
   URL_INDEX,
   URL_SIGN_IN,
@@ -48,10 +45,10 @@ const PageContainer = props => {
   }, [getSession]);
 
   return (
-    <div className={aStyle.dFlexWrapper}>
+    <div className="d-flex flex-flex-wrap">
       <Sidebar />
-      <div className={pcStyle.pageContentWrapper}>
-        <div className={`${aStyle.containerFluid} ${aStyle.pt5rem}`}>
+      <div className="container">
+        <div className="container-fluid pt-5">
           <Switch>
             <PublicRoute exact path={URL_INDEX} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />

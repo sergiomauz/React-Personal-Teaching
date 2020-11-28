@@ -1,0 +1,55 @@
+body {
+  overflow-x: hidden;
+  font-family: "Proxima-Nova-Bold", sans-serif;
+  color: #434b54;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  min-width: 450px;
+}
+
+.teacher-photo {
+  min-width: 200px;
+  max-width: 300px;  
+  min-height: 200px;
+  max-height: 300px;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  margin: auto;
+  border: 2px solid #97bf10;
+}
+
+.control-label {
+  transform: translate(0, 8px) scale(0.75);
+  background-color: #fff;
+  display: block;
+  width: min-content;
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.title-one {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.green-color {
+  color: #97bf10;
+}
+
+.form-container {
+  position: relative;
+  border-top: 3px solid #97bf10;
+  border-bottom: 3px solid #97bf10;
+  border-left: none;
+  border-right: none;
+  border-radius: 50px;
+  padding: 25px;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #fff;
+}

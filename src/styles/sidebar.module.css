@@ -76,3 +76,26 @@
 .marginLeftAuto {
   margin-left: auto;
 }
+
+.listGroupItemAction {
+  text-decoration: none;
+  background-color: transparent;
+  position: relative;
+  display: block;
+  color: #353535;
+  padding: 1rem 1.25rem;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border: none;
+}
+
+.listGroupItemAction:visited,
+.listGroupItemAction:link {
+  color: #353535;
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+
+.listGroupItemAction:hover {
+  background-color: #dce9af;
+}
