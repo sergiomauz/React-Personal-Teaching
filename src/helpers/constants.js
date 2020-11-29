@@ -3,12 +3,13 @@ const URL_SIGN_IN = '/signin';
 const URL_SIGN_UP = '/signup';
 const URL_EDIT_USER = '/user/:id/edit';
 const URL_USERS_LIST = '/users';
+const URL_USER_APPOINTMENTS = '/appointments';
 
 const URL_NEW_TEACHER = '/teacher/new';
 const URL_TEACHERS_LIST = '/teachers';
 const URL_TEACHER_DETAILS = '/teacher/:id';
 const URL_EDIT_TEACHER = '/teacher/:id/edit';
-const URL_USER_APPOINTMENTS = '/appointments';
+const URL_TEACHER_APPOINTMENTS = '/teacher/:id/appointments';
 
 const CLOUD_NAME = '{CLOUD_NAME}';
 const BACKEND_PERSONAL_TEACHING = 'http://localhost:3000/api/v1/';
@@ -30,4 +31,5 @@ export {
   URL_EDIT_TEACHER,
   URL_TEACHERS_LIST,
   URL_TEACHER_DETAILS,
+  URL_TEACHER_APPOINTMENTS,
 };

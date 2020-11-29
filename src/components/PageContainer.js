@@ -15,6 +15,7 @@ import SignUpForm from '../containers/User/SignUpForm';
 import EditUser from '../containers/User/EditUser';
 import UsersList from '../containers/User/UsersList';
 import UserAppointments from '../containers/Appointment/UserAppointments';
+import TeacherAppointments from '../containers/Appointment/TeacherAppointments';
 import TeacherDetails from '../containers/Teacher/TeacherDetails';
 import TeachersList from '../containers/Teacher/TeachersList';
 import NewTeacher from '../containers/Teacher/NewTeacher';
@@ -31,6 +32,7 @@ import {
   URL_TEACHERS_LIST,
   URL_TEACHER_DETAILS,
   URL_USER_APPOINTMENTS,
+  URL_TEACHER_APPOINTMENTS,
 } from '../helpers/constants';
 
 const mapDispatchToProps = {
@@ -61,6 +63,7 @@ const PageContainer = props => {
             <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />
             <ProtectedRoute exact path={URL_EDIT_TEACHER} component={EditTeacher} />
             <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
+            <ProtectedRoute exact path={URL_TEACHER_APPOINTMENTS} component={TeacherAppointments} />
 
             <Route component={NotFound} />
           </Switch>

@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {
-  removeTeacher,
-} from '../../redux/actions/teachers.actions';
+import { removeTeacher } from '../../redux/actions/teachers.actions';
 
-import aStyle from '../../styles/index.module.css';
-import cStyle from '../../styles/teachercard.module.css';
+import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
@@ -41,29 +38,26 @@ const TeacherCard = props => {
 
   return (
     <div
-      className={cStyle.teacherCard}
+      className="card border-0"
       disabled={requestapi.working}
       aria-busy={requestapi.working}
     >
-      <div className={cStyle.photoContainer}>
-        <Link to={`/teacher/${info.id}`}>
-          <img
-            src={info.photo}
-            alt=""
-            className={cStyle.teacherPhoto}
-          />
-        </Link>
-      </div>
-      <div className={cStyle.teacherInfo}>
+
+      <Link to={`/teacher/${info.id}`} className="form-group">
+        <img
+          src={info.photo}
+          alt=""
+          className="img-fluid teacher-photo"
+        />
+      </Link>
+      <div className="form-group">
         <h3>{info.fullname}</h3>
         <h5>{info.course}</h5>
-        <p>
-          {info.description.length > 50 ? `${info.description.slice(0, 50)} ...` : `${info.description}`}
-        </p>
       </div>
-      <div className={aStyle.formGroup}>
-        <button type="button" onClick={handlerRemoveTeacher}>Remove</button>
-        <Link to={`/teacher/${info.id}/edit`}>Edit</Link>
+      <div className="d-flex justify-items-center">
+        <Link to={`/teacher/${info.id}/appointments`} className="btn btn-outline-success">Appointments</Link>
+        <Link to={`/teacher/${info.id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
+        <button type="button" onClick={handlerRemoveTeacher} className="btn btn-outline-danger">Remove</button>
       </div>
     </div>
   );
