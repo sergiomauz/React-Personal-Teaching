@@ -92,7 +92,7 @@ const SignInForm = props => {
                 </label>
               </div>
               <div className="form-group d-flex justify-content-center">
-                <button type="submit" className="btn btn-success">Sign In</button>
+                <button type="submit" className="btn btn-outline-success">Sign In</button>
               </div>
               <div className="form-group">
                 <ul className="list-group border-0">

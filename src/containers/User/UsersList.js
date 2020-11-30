@@ -56,7 +56,7 @@ const UsersList = props => {
                 {
                   users.length > 0
                   && (
-                    <table className="table table-hover">
+                    <table className="table table-sm table-hover">
                       <thead className="green-background">
                         <tr>
                           <th className="text-center">FULLNAME</th>
@@ -69,11 +69,24 @@ const UsersList = props => {
                         {
                           users.map(item => (
                             <tr key={item.id}>
-                              <td>{item.fullname}</td>
+                              <td className="d-flex">
+                                {
+                                  item.admin && <div className="badge badge-info mr-2 p-1">admin</div>
+                                }
+                                <span>{item.fullname}</span>
+                              </td>
                               <td>{item.email}</td>
                               <td>{item.username}</td>
-                              <td><Link to={`/user/${item.id}/edit`} className="btn btn-outline-info">Edit</Link></td>
-                              <td><button type="button" onClick={e => handlerRemoveUser(e, item.id)} className="btn btn-outline-danger">Delete</button></td>
+                              <td>
+                                <Link to={`/user/${item.id}/edit`} className="btn btn-sm btn-outline-info">Edit</Link>
+                              </td>
+                              <td>
+                                {
+                                  !item.admin && (
+                                    <button type="button" onClick={e => handlerRemoveUser(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
+                                  )
+                                }
+                              </td>
                             </tr>
                           ))
                         }
@@ -107,6 +120,7 @@ UsersList.propTypes = {
     fullname: PropTypes.string,
     email: PropTypes.string,
     username: PropTypes.string,
+    admin: PropTypes.bool,
   })),
 };
 
