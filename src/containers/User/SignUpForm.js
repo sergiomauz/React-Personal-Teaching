@@ -1,16 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { URL_TEACHERS_LIST, URL_SIGN_IN } from '../../helpers/constants';
+import { URL_SIGN_IN } from '../../helpers/constants';
 import { addUser } from '../../redux/actions/users.actions';
 
-import aStyle from '../../styles/index.module.css';
+import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions,
   requestapi: state.requestapi,
 });
 
@@ -20,7 +19,7 @@ const mapDispatchToProps = {
 
 const SignUpForm = props => {
   const {
-    sessions, requestapi,
+    requestapi,
     addUser,
   } = props;
 
@@ -87,73 +86,76 @@ const SignUpForm = props => {
 
   return (
     <>
-      {
-        sessions.signedIn ? (
-          <Redirect to={URL_TEACHERS_LIST} />
-        )
-          : (
-            <>
-              <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-                Personal Teachers
-              </h1>
-              <form className={aStyle.formContainer} onSubmit={handlerSignUp}>
-                <h2 className={aStyle.titleOne}>
-                  New User
-                </h2>
-                <fieldset disabled={requestapi.working}>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>fullname</span>
-                      <input ref={txtFullname} type="text" className={aStyle.formControl} />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>email</span>
-                      <input ref={txtEmail} type="text" className={aStyle.formControl} />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>username</span>
-                      <input ref={txtUser} type="text" className={aStyle.formControl} />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <label>
-                      <span className={aStyle.controlLabel}>password</span>
-                      <input ref={txtPassword} type="password" className={aStyle.formControl} />
-                    </label>
-                  </div>
-                  <div className={aStyle.formGroup}>
-                    <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Sign Up</button>
-                  </div>
-                </fieldset>
-                <ul className={aStyle.listGroupWithoutIcon}>
+      <h1 className="title-one green-color">
+        Personal Teachers
+      </h1>
+      <form className="card form-container mb-3" onSubmit={handlerSignUp}>
+        <h2 className="title-one">
+          New User
+        </h2>
+        <fieldset
+          className="card-body"
+          disabled={requestapi.working}
+          aria-busy={requestapi.working}
+        >
+          <div className="row">
+            <div className="col-12 offset-md-2 col-md-8 p-0">
+              <div className="form-group">
+                <label className="w-100">
+                  <span className="control-label">fullname</span>
+                  <input ref={txtFullname} type="text" className="form-control" />
+                </label>
+              </div>
+              <div className="form-group">
+                <label className="w-100">
+                  <span className="control-label">email</span>
+                  <input ref={txtEmail} type="text" className="form-control" />
+                </label>
+              </div>
+              <div className="form-group">
+                <label className="w-100">
+                  <span className="control-label">username</span>
+                  <input ref={txtUser} type="text" className="form-control" />
+                </label>
+              </div>
+              <div className="form-group">
+                <label className="w-100">
+                  <span className="control-label">password</span>
+                  <input ref={txtPassword} type="password" className="form-control" />
+                </label>
+              </div>
+              <div className="form-group d-flex justify-content-center">
+                <button type="submit" className="btn btn-success">Sign Up</button>
+              </div>
+              <div className="form-group">
+                <ul className="list-group border-0">
                   {
                     (!requestapi.working)
                     && (
                       (errors.length > 0)
                       && (
                         errors
-                          .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
+                          .map(item => (
+                            <li key={item} className="list-group-item border-0">
+                              <div className="alert alert-danger my-0">{item}</div>
+                            </li>
+                          ))
                       )
                     )
                   }
                 </ul>
-              </form>
-            </>
-          )
-      }
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+      </form>
     </>
   );
 };
 
 SignUpForm.propTypes = {
   addUser: PropTypes.func.isRequired,
-  sessions: PropTypes.shape({
-    signedIn: PropTypes.bool,
-  }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,

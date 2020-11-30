@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 
 import { signInRequest } from '../../redux/actions/sessions.actions';
 
-import aStyle from '../../styles/index.module.css';
+import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions,
   requestapi: state.requestapi,
 });
 
@@ -66,42 +65,56 @@ const SignInForm = props => {
 
   return (
     <>
-      <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
+      <h1 className="title-one green-color">
         Personal Teachers
       </h1>
-      <form className={aStyle.formContainer} onSubmit={handlerSignIn}>
-        <h2 className={aStyle.titleOne}>
+      <form className="card form-container mb-3" onSubmit={handlerSignIn}>
+        <h2 className="title-one">
           Please, Sign In
         </h2>
-        <fieldset disabled={requestapi.working}>
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>username</span>
-              <input ref={txtUser} type="text" className={aStyle.formControl} />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <label>
-              <span className={aStyle.controlLabel}>password</span>
-              <input ref={txtPassword} type="password" className={aStyle.formControl} />
-            </label>
-          </div>
-          <div className={aStyle.formGroup}>
-            <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Sign In</button>
+        <fieldset
+          className="card-body"
+          disabled={requestapi.working}
+          aria-busy={requestapi.working}
+        >
+          <div className="row">
+            <div className="col-12 offset-md-2 col-md-8 p-0">
+              <div className="form-group">
+                <label className="w-100">
+                  <span className="control-label">username</span>
+                  <input ref={txtUser} type="text" className="form-control" />
+                </label>
+              </div>
+              <div className="form-group">
+                <label className="w-100">
+                  <span className="control-label">password</span>
+                  <input ref={txtPassword} type="password" className="form-control" />
+                </label>
+              </div>
+              <div className="form-group d-flex justify-content-center">
+                <button type="submit" className="btn btn-success">Sign In</button>
+              </div>
+              <div className="form-group">
+                <ul className="list-group border-0">
+                  {
+                    (!requestapi.working)
+                    && (
+                      (errors.length > 0)
+                      && (
+                        errors
+                          .map(item => (
+                            <li key={item} className="list-group-item border-0">
+                              <div className="alert alert-danger my-0">{item}</div>
+                            </li>
+                          ))
+                      )
+                    )
+                  }
+                </ul>
+              </div>
+            </div>
           </div>
         </fieldset>
-        <ul className={aStyle.listGroupWithoutIcon}>
-          {
-            (!requestapi.working)
-            && (
-              (errors.length > 0)
-              && (
-                errors
-                  .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
-              )
-            )
-          }
-        </ul>
       </form>
     </>
   );

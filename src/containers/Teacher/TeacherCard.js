@@ -10,7 +10,6 @@ import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
-  teachers: state.teachers,
 });
 
 const mapDispatchToProps = {
@@ -42,7 +41,6 @@ const TeacherCard = props => {
       disabled={requestapi.working}
       aria-busy={requestapi.working}
     >
-
       <Link to={`/teacher/${info.id}`} className="form-group">
         <img
           src={info.photo}

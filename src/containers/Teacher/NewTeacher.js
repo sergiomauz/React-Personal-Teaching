@@ -165,7 +165,7 @@ const NewTeacher = props => {
                 </label>
               </div>
               <div className="form-group d-flex justify-content-center">
-                <button type="submit" className="btn btn-success">Save</button>
+                <button type="submit" className="btn btn-outline-success">Save</button>
               </div>
               <div className="form-group">
                 <ul className="list-group border-0">

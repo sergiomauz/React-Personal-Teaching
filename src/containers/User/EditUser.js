@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { URL_USERS_LIST } from '../../helpers/constants';
 import { getUserInfo, updateUser } from '../../redux/actions/users.actions';
 
-import aStyle from '../../styles/index.module.css';
+import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
@@ -89,57 +89,67 @@ const EditUser = props => {
   }, [id, getUserInfo]);
 
   return (
-    <>
-      {
-        user && (
-          <>
-            <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-              Personal Teachers
-            </h1>
-            <form className={aStyle.formContainer} onSubmit={handlerSaveUser}>
-              <h2 className={aStyle.titleOne}>
-                Edit User
-              </h2>
-              <fieldset disabled={requestapi.working}>
-                <div className={aStyle.formGroup}>
-                  <label>
-                    <span className={aStyle.controlLabel}>fullname</span>
-                    <input ref={txtFullname} type="text" className={aStyle.formControl} defaultValue={user.fullname} />
+    user && (
+      <>
+        <h1 className="title-one green-color">
+          Users
+        </h1>
+        <form className="card form-container mb-3" onSubmit={handlerSaveUser}>
+          <h2 className="title-one">
+            Edit User
+          </h2>
+          <fieldset
+            className="card-body"
+            disabled={requestapi.working}
+            aria-busy={requestapi.working}
+          >
+            <div className="row">
+              <div className="col-12 offset-md-2 col-md-8 p-0">
+                <div className="form-group">
+                  <label className="w-100">
+                    <span className="control-label">fullname</span>
+                    <input ref={txtFullname} type="text" className="form-control" defaultValue={user.fullname} />
                   </label>
                 </div>
-                <div className={aStyle.formGroup}>
-                  <label>
-                    <span className={aStyle.controlLabel}>email</span>
-                    <input ref={txtEmail} type="text" className={aStyle.formControl} defaultValue={user.email} />
+                <div className="form-group">
+                  <label className="w-100">
+                    <span className="control-label">email</span>
+                    <input ref={txtEmail} type="text" className="form-control" defaultValue={user.email} />
                   </label>
                 </div>
-                <div className={aStyle.formGroup}>
-                  <label>
-                    <span className={aStyle.controlLabel}>username</span>
-                    <input ref={txtUser} type="text" className={aStyle.formControl} defaultValue={user.username} />
+                <div className="form-group">
+                  <label className="w-100">
+                    <span className="control-label">username</span>
+                    <input ref={txtUser} type="text" className="form-control" defaultValue={user.username} />
                   </label>
                 </div>
-                <div className={aStyle.formGroup}>
-                  <button type="submit" className={`${aStyle.btn} ${aStyle.centerBlock} ${aStyle.my3}`}>Save</button>
+                <div className="form-group d-flex justify-content-center">
+                  <button type="submit" className="btn btn-outline-success">Save</button>
                 </div>
-              </fieldset>
-              <ul className={aStyle.listGroupWithoutIcon}>
-                {
-                  (!requestapi.working)
-                  && (
-                    (errors.length > 0)
-                    && (
-                      errors
-                        .map(item => <li key={item} className={aStyle.alertDanger}>{item}</li>)
-                    )
-                  )
-                }
-              </ul>
-            </form>
-          </>
-        )
-      }
-    </>
+                <div className="form-group">
+                  <ul className="list-group border-0">
+                    {
+                      (!requestapi.working)
+                      && (
+                        (errors.length > 0)
+                        && (
+                          errors
+                            .map(item => (
+                              <li key={item} className="list-group-item border-0">
+                                <div className="alert alert-danger my-0">{item}</div>
+                              </li>
+                            ))
+                        )
+                      )
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </>
+    )
   );
 };
 

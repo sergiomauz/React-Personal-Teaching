@@ -62,7 +62,7 @@ const Sidebar = props => {
               </li>
               <li className={aStyle.listGroupItem}>
                 <Link className={`${aStyle.listGroupItemAction}`} to="/appointments">
-                  Appointments
+                  My appointments
                 </Link>
               </li>
               <li className={aStyle.listGroupItem}>

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { getUsersList, removeUser } from '../../redux/actions/users.actions';
 
-import aStyle from '../../styles/index.module.css';
+import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
@@ -20,6 +20,7 @@ const mapDispatchToProps = {
 
 const UsersList = props => {
   const {
+    requestapi,
     getUsersList, removeUser,
     users,
   } = props;
@@ -37,32 +38,53 @@ const UsersList = props => {
 
   return (
     <>
-      <h1 className={`${aStyle.titleOne} ${aStyle.greenColor}`}>
-        Users List
+      <h1 className="title-one green-color">
+        Users
       </h1>
-      <div>
-        {
-          users.length > 0
-          && (
-            <>
-              <table className={aStyle.table}>
-                <tbody>
-                  {
-                    users.map(item => (
-                      <tr key={item.id}>
-                        <td>{item.fullname}</td>
-                        <td>{item.email}</td>
-                        <td>{item.username}</td>
-                        <td><Link to={`/user/${item.id}/edit`}>Edit</Link></td>
-                        <td><button type="button" onClick={e => handlerRemoveUser(e, item.id)}>Delete</button></td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-            </>
-          )
-        }
+      <div className="card form-container mb-3">
+        <h2 className="title-one">
+          Users List
+        </h2>
+        <div
+          className="card-body"
+          disabled={requestapi.working}
+          aria-busy={requestapi.working}
+        >
+          <div className="row">
+            <div className="col-12 offset-md-1 col-md-10 p-0">
+              <div className="table-responsive">
+                {
+                  users.length > 0
+                  && (
+                    <table className="table table-hover">
+                      <thead className="green-background">
+                        <tr>
+                          <th className="text-center">FULLNAME</th>
+                          <th className="text-center">EMAIL</th>
+                          <th className="text-center">USERNAME</th>
+                          <th colSpan="2" className="text-center">-</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          users.map(item => (
+                            <tr key={item.id}>
+                              <td>{item.fullname}</td>
+                              <td>{item.email}</td>
+                              <td>{item.username}</td>
+                              <td><Link to={`/user/${item.id}/edit`} className="btn btn-outline-info">Edit</Link></td>
+                              <td><button type="button" onClick={e => handlerRemoveUser(e, item.id)} className="btn btn-outline-danger">Delete</button></td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                    </table>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -71,6 +93,15 @@ const UsersList = props => {
 UsersList.propTypes = {
   getUsersList: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,
+  requestapi: PropTypes.shape({
+    working: PropTypes.bool,
+    success: PropTypes.bool,
+    details: PropTypes.shape({
+      error: PropTypes.shape({
+        message: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     fullname: PropTypes.string,

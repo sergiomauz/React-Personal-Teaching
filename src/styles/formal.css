@@ -47,7 +47,12 @@ body {
 }
 
 .green-color {
-  color: #97bf10;
+  color: #97bf10 !important;
+}
+
+.green-background {
+  background-color: #97bf10 !important;
+  color: #fff;
 }
 
 .form-container {
@@ -107,4 +112,20 @@ body {
 .carousel-control-right {
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
+}
+
+.btn-success {
+  background-color: #97bf10;
+  border-color: #ccc;
+}
+
+.btn-outline-success {
+  color: #97bf10;
+  border-color: #97bf10;
+}
+
+.btn-outline-success:hover {
+  background-color: #97bf10;
+  border-color: #ccc;
+  color: #fff;
 }
