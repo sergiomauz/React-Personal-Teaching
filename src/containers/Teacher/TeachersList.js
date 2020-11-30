@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -20,6 +20,26 @@ const TeachersList = props => {
     teachers,
     getTeachersList,
   } = props;
+
+  const [selectedCard, setSelectedCard] = useState(0);
+
+  const handlerMovePreviousCard = e => {
+    e.preventDefault();
+    if (selectedCard === 0) {
+      setSelectedCard(teachers.length - 1);
+    } else {
+      setSelectedCard(selectedCard - 1);
+    }
+  };
+
+  const handlerMoveNextCard = e => {
+    e.preventDefault();
+    if (selectedCard === teachers.length - 1) {
+      setSelectedCard(0);
+    } else {
+      setSelectedCard(selectedCard + 1);
+    }
+  };
 
   useEffect(() => {
     getTeachersList();
@@ -48,10 +68,10 @@ const TeachersList = props => {
                         }
                       </ul>
                       <div className="d-flex justify-content-between carousel-control-container">
-                        <button type="button" className="carousel-control-left">
+                        <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
                           <span className="carousel-control-prev-icon" />
                         </button>
-                        <button type="button" className="carousel-control-right">
+                        <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
                           <span className="carousel-control-next-icon" />
                         </button>
                       </div>

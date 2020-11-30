@@ -2,7 +2,9 @@ import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { signOutRequest } from '../redux/actions/sessions.actions';
+
 import aStyle from '../styles/index.module.css';
 import cStyle from '../styles/sidebar.module.css';
 
