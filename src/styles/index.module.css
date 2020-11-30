@@ -190,24 +190,28 @@ body {
   min-width: 300px;
 }
 
-.btnSuccess:focus, .btnSuccess.focus {
+.btnSuccess:focus,
+.btnSuccess.focus {
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
 }
 
-.btnSuccess.disabled, .btnSuccess:disabled {
+.btnSuccess.disabled,
+.btnSuccess:disabled {
   color: #fff;
   background-color: #28a745;
   border-color: #28a745;
 }
 
-.btnSuccess:not(:disabled):not(.disabled):active, .btnSuccess:not(:disabled):not(.disabled).active,
+.btnSuccess:not(:disabled):not(.disabled):active,
+.btnSuccess:not(:disabled):not(.disabled).active,
 .show > .btnSuccess.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
 }
 
-.btnSuccess:not(:disabled):not(.disabled):active:focus, .btnSuccess:not(:disabled):not(.disabled).active:focus,
+.btnSuccess:not(:disabled):not(.disabled):active:focus,
+.btnSuccess:not(:disabled):not(.disabled).active:focus,
 .show > .btnSuccess.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
 }
@@ -261,17 +265,16 @@ body {
   background-color: #fff;
 }
 
-div[disabled]
-{
+div[disabled] {
   pointer-events: none;
   opacity: 0.6;
-  background: rgba(200, 54, 54, 0.5);  
+  background: rgba(200, 54, 54, 0.5);
   background-color: yellow;
   filter: alpha(opacity=50);
-  zoom: 1;  
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";  
-  -moz-opacity: 0.5; 
-  -khtml-opacity: 0.5;  
+  zoom: 1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
 }
 
 fieldset {
@@ -333,7 +336,6 @@ fieldset {
   width: 100%;
   height: 320px;
 }
-
 
 .table {
   width: 100%;

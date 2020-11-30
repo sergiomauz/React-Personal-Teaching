@@ -54,7 +54,7 @@ const TeacherCard = props => {
         <h3>{info.fullname}</h3>
         <h5>{info.course}</h5>
       </div>
-      <div className="d-flex justify-items-center">
+      <div className="d-flex justify-content-center">
         <Link to={`/teacher/${info.id}/appointments`} className="btn btn-outline-success">Appointments</Link>
         <Link to={`/teacher/${info.id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
         <button type="button" onClick={handlerRemoveTeacher} className="btn btn-outline-danger">Remove</button>

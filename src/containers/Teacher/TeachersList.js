@@ -30,7 +30,7 @@ const TeachersList = props => {
       <h1 className="title-one green-color">
         Teachers List
       </h1>
-      <div className="card form-container mb-5">
+      <div className="card form-container">
         <div className="card-body">
           <div className="row">
             <div className="col-12 p-0">
@@ -38,9 +38,6 @@ const TeachersList = props => {
                 teachers.length > 0
                 && (
                   <>
-                    <button type="button" className="carousel-control-left">
-                      <span className="carousel-control-prev-icon" />
-                    </button>
                     <ul className="list-group text-center w-100">
                       {
                         teachers.map(item => (
@@ -50,9 +47,14 @@ const TeachersList = props => {
                         ))
                       }
                     </ul>
-                    <button type="button" className="carousel-control-right">
-                      <span className="carousel-control-next-icon" />
-                    </button>
+                    <div className="d-flex justify-content-between carousel-control-container">
+                      <button type="button" className="carousel-control-left">
+                        <span className="carousel-control-prev-icon" />
+                      </button>
+                      <button type="button" className="carousel-control-right">
+                        <span className="carousel-control-next-icon" />
+                      </button>
+                    </div>
                   </>
                 )
               }

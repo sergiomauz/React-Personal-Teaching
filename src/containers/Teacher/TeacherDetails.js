@@ -193,7 +193,6 @@ const TeacherDetails = props => {
                         )
                       }
                     </div>
-
                     <div className="form-group">
                       {
                         (!requestapi.working)

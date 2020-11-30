@@ -8,9 +8,18 @@ body {
   min-width: 450px;
 }
 
+.invisible {
+  display: none !important;
+}
+
+.height320px {
+  width: 100%;
+  height: 320px;
+}
+
 .teacher-photo {
   min-width: 200px;
-  max-width: 300px;  
+  max-width: 300px;
   min-height: 200px;
   max-height: 300px;
   width: 100%;
@@ -45,42 +54,10 @@ body {
   position: relative;
   border-top: 3px solid #97bf10;
   border-bottom: 3px solid #97bf10;
-  border-left: 2px solid red;
-  border-right: 2px solid red;
+  border-left: 0;
+  border-right: 0;
   border-radius: 50px;
   background-color: #fff;
-}
-
-.photo-container {
-  display: flex;
-  padding: 25px 0 0 0;
-  justify-content: center;
-}
-
-.carousel {
-  position: relative;
-  height: 575px;
-  margin: 0 auto;
-  max-width: 850px;
-  width: 100%;
-}
-
-.carousel-list {
-  position: absolute;
-  overflow: hidden;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.carousel-item {
-  position: relative;
-  float: left;
-  margin-right: -100%;
-  width: 100%;
-  height: 100%;
 }
 
 .carousel-control-prev-icon,
@@ -105,34 +82,29 @@ body {
   background-position: center;
 }
 
-.carousel-control-left {
-  position: relative;
-  float: inline-start;  
-  z-index: 1;
-  background-color: #97bf10;
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
-  padding: 15px;
-  border: 0;
-
+.carousel-control-container {
+  position: absolute;
   top: 50%;
+  width: 100%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
 
+.carousel-control-left,
 .carousel-control-right {
-  position: relative;
-  float: inline-end;  
   z-index: 1;
   background-color: #97bf10;
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
   padding: 15px;
   border: 0;
+}
 
-  bottom: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+.carousel-control-left {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+.carousel-control-right {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
 }
