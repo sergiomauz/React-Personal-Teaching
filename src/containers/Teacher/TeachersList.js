@@ -58,15 +58,9 @@ const TeachersList = props => {
                 teachers.length > 0
                   ? (
                     <>
-                      <ul className="list-group text-center w-100">
-                        {
-                          teachers.map(item => (
-                            <li key={item.id} className="list-group-item border-0">
-                              <TeacherCard info={item} />
-                            </li>
-                          ))
-                        }
-                      </ul>
+                      <div className="text-center w-100">
+                        <TeacherCard info={teachers[selectedCard]} />
+                      </div>
                       <div className="d-flex justify-content-between carousel-control-container">
                         <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
                           <span className="carousel-control-prev-icon" />

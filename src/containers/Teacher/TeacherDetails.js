@@ -59,13 +59,13 @@ const TeacherDetails = props => {
     e.preventDefault();
 
     if (window.confirm('Are you sure?')) {
-      const [teachers_id, scheduled_for] = [
+      const [teacher_id, scheduled_for] = [
         id,
         `${txtAppointmentDate.current.value} ${time}:00`,
       ];
 
       addAppointment({
-        teachers_id, scheduled_for,
+        teacher_id, scheduled_for,
       }).then(requestedData => {
         if (!requestedData.error) {
           history.push(URL_USER_APPOINTMENTS);

@@ -1,17 +1,57 @@
 import {
-  GET_APPOINTMENTS_LIST, GET_APPOINTMENT_INFO, ADD_APPOINTMENT, UPDATE_APPOINTMENT,
-  REMOVE_APPOINTMENT,
+  GET_USER_APPOINTMENTS_LIST, GET_TEACHER_APPOINTMENTS_LIST,
+  ADD_APPOINTMENT, REMOVE_APPOINTMENT,
 } from './types';
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
-const getAppointmentsList = () => ({
-  type: GET_APPOINTMENTS_LIST,
-});
+const getUserAppointmentsList = () => dispatch => {
+  dispatch(startRequestApi());
 
-const getAppointmentInfo = () => ({
-  type: GET_APPOINTMENT_INFO,
-});
+  return PersonalTeaching().getUserAppointmentsList()
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_USER_APPOINTMENTS_LIST,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_USER_APPOINTMENTS_LIST,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
+
+const getTeacherAppointmentsList = () => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().getTeacherAppointmentsList()
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_TEACHER_APPOINTMENTS_LIST,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_TEACHER_APPOINTMENTS_LIST,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 const addAppointment = appointment => dispatch => {
   dispatch(startRequestApi());
@@ -37,16 +77,12 @@ const addAppointment = appointment => dispatch => {
     });
 };
 
-const updateAppointment = appointment => ({
-  type: UPDATE_APPOINTMENT,
-  payload: appointment,
-});
-
 const removeAppointment = id => ({
   type: REMOVE_APPOINTMENT,
   payload: id,
 });
 
 export {
-  getAppointmentsList, getAppointmentInfo, addAppointment, updateAppointment, removeAppointment,
+  getUserAppointmentsList, getTeacherAppointmentsList,
+  addAppointment, removeAppointment,
 };

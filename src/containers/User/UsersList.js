@@ -25,16 +25,16 @@ const UsersList = props => {
     users,
   } = props;
 
-  useEffect(() => {
-    getUsersList();
-  }, [getUsersList]);
-
   const handlerRemoveUser = (e, id) => {
     e.preventDefault();
     if (window.confirm('Are you sure?')) {
       removeUser(id);
     }
   };
+
+  useEffect(() => {
+    getUsersList();
+  }, [getUsersList]);
 
   return (
     <>
@@ -69,9 +69,9 @@ const UsersList = props => {
                         {
                           users.map(item => (
                             <tr key={item.id}>
-                              <td className="d-flex">
+                              <td>
                                 {
-                                  item.admin && <div className="badge badge-info mr-2 p-1">admin</div>
+                                  item.admin && <span className="badge badge-info mr-2 p-1">admin</span>
                                 }
                                 <span>{item.fullname}</span>
                               </td>
@@ -109,11 +109,6 @@ UsersList.propTypes = {
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
     success: PropTypes.bool,
-    details: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.string,
-      }),
-    }),
   }).isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

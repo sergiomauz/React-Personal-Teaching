@@ -1,23 +1,19 @@
 import {
-  GET_APPOINTMENTS_LIST, GET_APPOINTMENT_INFO, ADD_APPOINTMENT, UPDATE_APPOINTMENT,
-  REMOVE_APPOINTMENT,
+  GET_USER_APPOINTMENTS_LIST, GET_TEACHER_APPOINTMENTS_LIST,
+  ADD_APPOINTMENT, REMOVE_APPOINTMENT,
 } from '../actions/types';
 
 const initialState = {
-  appointments: [],
+  list: [],
 };
 
 const appointmentsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_APPOINTMENTS_LIST:
+    case GET_USER_APPOINTMENTS_LIST:
+    case GET_TEACHER_APPOINTMENTS_LIST:
       return {
         ...state,
-        appointments: action.payload,
-      };
-    case GET_APPOINTMENT_INFO:
-      return {
-        ...state,
-        appointment: action.payload,
+        list: action.payload,
       };
     case ADD_APPOINTMENT:
       return {
@@ -25,15 +21,6 @@ const appointmentsReducer = (state = initialState, action) => {
         appointments: [
           ...state.appointments, action.payload,
         ],
-      };
-    case UPDATE_APPOINTMENT:
-      return {
-        ...state,
-        appointments: state.appointments.map(
-          appointment => (appointment.id === action.payload.id
-            ? action.payload
-            : appointment),
-        ),
       };
     case REMOVE_APPOINTMENT:
       return {

@@ -27,6 +27,8 @@ body {
   border-radius: 50%;
   margin: auto;
   border: 2px solid #97bf10;
+  position: relative; 
+  z-index: 3;
 }
 
 .control-label {
