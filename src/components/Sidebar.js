@@ -46,28 +46,28 @@ const Sidebar = props => {
         {
           sessions.signedIn ? (
             <>
-              <li className="list-group-item">
+              <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/teachers">
                   Teachers
                 </Link>
               </li>
-              <li className="list-group-item">
+              <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/users">
                   Users
                 </Link>
               </li>
-              <li className="list-group-item">
+              <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/teacher/new">
                   New Teacher
                 </Link>
               </li>
-              <li className="list-group-item">
+              <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/appointments">
                   My appointments
                 </Link>
               </li>
-              <li className="list-group-item">
-                <button type="button" className=".list-group-item-button" onClick={handlerSignOutRequest}>
+              <li className="list-group-item p-0">
+                <button type="button" className="list-group-item-button" onClick={handlerSignOutRequest}>
                   Sign out
                 </button>
               </li>
@@ -75,12 +75,12 @@ const Sidebar = props => {
           )
             : (
               <>
-                <li className="list-group-item">
+                <li className="list-group-item p-0">
                   <Link className="list-group-item-action" to="/signin">
                     Sign In
                   </Link>
                 </li>
-                <li className="list-group-item">
+                <li className="list-group-item p-0">
                   <Link className="list-group-item-action" to="/signup">
                     Sign Up
                   </Link>

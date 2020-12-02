@@ -32,7 +32,7 @@ div[disabled] {
   border-radius: 50%;
   margin: auto;
   border: 2px solid #97bf10;
-  position: relative; 
+  position: relative;
   z-index: 3;
 }
 
@@ -131,7 +131,9 @@ div[disabled] {
   border-color: #97bf10;
 }
 
-.btn-outline-success:hover {
+.btn-outline-success:hover,
+.btn-outline-success:active,
+.btn-outline-success:focus {
   background-color: #97bf10;
   border-color: #ccc;
   color: #fff;
@@ -237,6 +239,24 @@ div[disabled] {
   background-color: #dce9af;
 }
 
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  width: 15rem;
+  list-style: none;
+}
+
+.list-group-item {
+  color: #495057;
+  border-top: 1px solid #ccc;
+}
+
+.list-group-item:first-child {
+  border-top: none;
+}
+
 .list-group-item-button {
   text-decoration: none;
   background-color: transparent;
@@ -255,22 +275,4 @@ div[disabled] {
 .list-group-item-button:hover {
   background-color: #dce9af;
   cursor: pointer;
-}
-
-.list-group {
-  display: flex;
-  flex-direction: column;
-  padding-left: 0;
-  margin-bottom: 0;
-  width: 15rem;
-  list-style: none;
-}
-
-.list-group-item {
-  color: #495057;
-  border-top: 1px solid #ccc;
-}
-
-.list-group-item:first-child {
-  border-top: none;
 }

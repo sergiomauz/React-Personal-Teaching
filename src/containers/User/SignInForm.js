@@ -95,7 +95,7 @@ const SignInForm = props => {
                 <button type="submit" className="btn btn-outline-success">Sign In</button>
               </div>
               <div className="form-group">
-                <ul className="list-group border-0">
+                <ul className="list-group border-0 w-100">
                   {
                     (!requestapi.working)
                     && (
