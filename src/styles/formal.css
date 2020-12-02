@@ -8,6 +8,11 @@ body {
   min-width: 450px;
 }
 
+div[disabled] {
+  background-color: #97bf106e;
+  border-radius: 45px;
+}
+
 .invisible {
   display: none !important;
 }
@@ -130,4 +135,142 @@ body {
   background-color: #97bf10;
   border-color: #ccc;
   color: #fff;
+}
+
+.sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: 0;
+  transition: margin 0.25s ease-out;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.toggle-sidebar {
+  margin-left: -15rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar-wrapper {
+    margin-left: -15rem;
+  }
+
+  .toggle-sidebar {
+    margin-left: 0;
+  }
+}
+
+.top-sidebar {
+  position: absolute;
+  right: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  min-height: 3rem;
+  z-index: 0;
+}
+
+.sidebar-logo {
+  border-radius: 50%;
+  width: 10rem;
+  height: 10rem;
+  background-image: url(../images/logo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+.sidebar-bottom {
+  position: absolute;
+  text-align: center;
+  bottom: 10px;
+  width: 100%;
+}
+
+.sidebar-social-container a {
+  font-size: 1.25rem;
+  padding: 10px;
+  border-radius: 10px;
+  color: #353535;
+}
+
+.sidebar-social-container a:hover {
+  background-color: #dce9af;
+}
+
+.sidebar-trademark {
+  padding-top: 15px;
+}
+
+.move-out-side-right {
+  margin-right: -4.5rem;
+}
+
+.marginLeftAuto {
+  margin-left: auto;
+}
+
+.list-group-item-action {
+  text-decoration: none;
+  background-color: transparent;
+  position: relative;
+  display: block;
+  color: #353535;
+  padding: 1rem 1.25rem;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border: none;
+}
+
+.list-group-item-action:visited,
+.list-group-item-action:link {
+  color: #353535;
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+
+.list-group-item-action:hover {
+  background-color: #dce9af;
+}
+
+.list-group-item-button {
+  text-decoration: none;
+  background-color: transparent;
+  position: relative;
+  display: block;
+  color: #353535;
+  padding: 1rem 1.25rem;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.list-group-item-button:hover {
+  background-color: #dce9af;
+  cursor: pointer;
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  width: 15rem;
+  list-style: none;
+}
+
+.list-group-item {
+  color: #495057;
+  border-top: 1px solid #ccc;
+}
+
+.list-group-item:first-child {
+  border-top: none;
 }

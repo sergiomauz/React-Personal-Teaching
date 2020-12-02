@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 
 import { signOutRequest } from '../redux/actions/sessions.actions';
 
-import aStyle from '../styles/index.module.css';
-import cStyle from '../styles/sidebar.module.css';
+import '../styles/formal.css';
 
 const mapStateToProps = state => ({
   sessions: state.sessions,
@@ -23,7 +22,7 @@ const Sidebar = props => {
 
   const toggleSidebar = e => {
     e.preventDefault();
-    divSidebar.current.classList.toggle(cStyle.toggleSidebar);
+    divSidebar.current.classList.toggle('toggle-sidebar');
   };
 
   const handlerSignOutRequest = e => {
@@ -34,41 +33,41 @@ const Sidebar = props => {
   };
 
   return (
-    <div ref={divSidebar} className={cStyle.sidebarWrapper}>
-      <div className={`${cStyle.topSidebar} ${cStyle.moveOutSideRight} ${aStyle.dFlex} ${aStyle.justifyContentRight}`}>
-        <button className={aStyle.btn} type="button" onClick={toggleSidebar}>
+    <div ref={divSidebar} className="sidebar-wrapper">
+      <div className="top-sidebar move-out-side-right d-flex justify-content-right">
+        <button className="btn btn-outline-success" type="button" onClick={toggleSidebar}>
           <i className="fa fa-bars" aria-hidden="true" />
         </button>
       </div>
-      <div className={`${cStyle.sidebarHeading} ${aStyle.dFlex} ${aStyle.justifyContentCenter}`}>
-        <div className={cStyle.sidebarLogo} />
+      <div className="sidebar-heading d-flex justify-content-center">
+        <div className="sidebar-logo" />
       </div>
-      <ul className={aStyle.listGroup}>
+      <ul className="list-group">
         {
           sessions.signedIn ? (
             <>
-              <li className={aStyle.listGroupItem}>
-                <Link className={aStyle.listGroupItemAction} to="/teachers">
+              <li className="list-group-item">
+                <Link className="list-group-item-action" to="/teachers">
                   Teachers
                 </Link>
               </li>
-              <li className={aStyle.listGroupItem}>
-                <Link className={aStyle.listGroupItemAction} to="/users">
+              <li className="list-group-item">
+                <Link className="list-group-item-action" to="/users">
                   Users
                 </Link>
               </li>
-              <li className={aStyle.listGroupItem}>
-                <Link className={`${aStyle.listGroupItemAction}`} to="/teacher/new">
+              <li className="list-group-item">
+                <Link className="list-group-item-action" to="/teacher/new">
                   New Teacher
                 </Link>
               </li>
-              <li className={aStyle.listGroupItem}>
-                <Link className={`${aStyle.listGroupItemAction}`} to="/appointments">
+              <li className="list-group-item">
+                <Link className="list-group-item-action" to="/appointments">
                   My appointments
                 </Link>
               </li>
-              <li className={aStyle.listGroupItem}>
-                <button type="button" className={aStyle.listGroupItemButton} onClick={handlerSignOutRequest}>
+              <li className="list-group-item">
+                <button type="button" className=".list-group-item-button" onClick={handlerSignOutRequest}>
                   Sign out
                 </button>
               </li>
@@ -76,13 +75,13 @@ const Sidebar = props => {
           )
             : (
               <>
-                <li className={aStyle.listGroupItem}>
-                  <Link className={aStyle.listGroupItemAction} to="/signin">
+                <li className="list-group-item">
+                  <Link className="list-group-item-action" to="/signin">
                     Sign In
                   </Link>
                 </li>
-                <li className={aStyle.listGroupItem}>
-                  <Link className={aStyle.listGroupItemAction} to="/signup">
+                <li className="list-group-item">
+                  <Link className="list-group-item-action" to="/signup">
                     Sign Up
                   </Link>
                 </li>
@@ -91,8 +90,8 @@ const Sidebar = props => {
         }
       </ul>
 
-      <div className={cStyle.sidebarBottom}>
-        <div className={cStyle.sidebarSocialContainer}>
+      <div className="sidebar-bottom">
+        <div className="sidebar-social-container">
           <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-twitter" />
           </a>
@@ -109,7 +108,7 @@ const Sidebar = props => {
             <i className="fab fa-pinterest-p" />
           </a>
         </div>
-        <div className={cStyle.sidebarTrademark}>
+        <div className="sidebar-trademark">
           React Personal Teachers &trade; &reg;
         </div>
       </div>

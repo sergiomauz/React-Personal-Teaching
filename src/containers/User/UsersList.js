@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -25,10 +25,18 @@ const UsersList = props => {
     users,
   } = props;
 
+  const [errors, setErrors] = useState([]);
+
   const handlerRemoveUser = (e, id) => {
     e.preventDefault();
     if (window.confirm('Are you sure?')) {
-      removeUser(id);
+      const errorsList = [];
+      removeUser(id).then(requestedData => {
+        if (requestedData.error) {
+          errorsList.push(requestedData.error.message);
+          setErrors(errorsList);
+        }
+      });
     }
   };
 
@@ -95,6 +103,24 @@ const UsersList = props => {
                   )
                 }
               </div>
+            </div>
+            <div className="form-group">
+              <ul className="list-group border-0">
+                {
+                  (!requestapi.working)
+                  && (
+                    (errors.length > 0)
+                    && (
+                      errors
+                        .map(item => (
+                          <li key={item} className="list-group-item border-0">
+                            <div className="alert alert-danger my-0">{item}</div>
+                          </li>
+                        ))
+                    )
+                  )
+                }
+              </ul>
             </div>
           </div>
         </div>

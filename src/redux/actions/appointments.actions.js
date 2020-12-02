@@ -29,10 +29,10 @@ const getUserAppointmentsList = () => dispatch => {
     });
 };
 
-const getTeacherAppointmentsList = () => dispatch => {
+const getTeacherAppointmentsList = teacherId => dispatch => {
   dispatch(startRequestApi());
 
-  return PersonalTeaching().getTeacherAppointmentsList()
+  return PersonalTeaching().getTeacherAppointmentsList(teacherId)
     .then(requestedData => {
       if (!requestedData.error) {
         dispatch({
@@ -77,10 +77,29 @@ const addAppointment = appointment => dispatch => {
     });
 };
 
-const removeAppointment = id => ({
-  type: REMOVE_APPOINTMENT,
-  payload: id,
-});
+const removeAppointment = id => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().removeAppointment(id)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: REMOVE_APPOINTMENT,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: REMOVE_APPOINTMENT,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
 
 export {
   getUserAppointmentsList, getTeacherAppointmentsList,

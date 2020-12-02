@@ -88,7 +88,7 @@ const TeacherDetails = props => {
             errorsList.push(requestedData.error.message);
           } else if (requestedData.availability) {
             if (requestedData.availability.length === 0) {
-              errorsList.push('This day will be really busy.');
+              errorsList.push('There are no availability for this day.');
             }
           }
           setErrors(errorsList);

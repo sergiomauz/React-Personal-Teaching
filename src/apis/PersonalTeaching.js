@@ -155,7 +155,7 @@ const PersonalTeaching = () => {
 
   // Appointment methods
   const getUserAppointmentsList = () => makeGetRequest('appointments');
-  const getTeacherAppointmentsList = teacherId => makeGetRequest(`teacher/${teacherId}/appointments`);
+  const getTeacherAppointmentsList = teacherId => makeGetRequest(`teachers/${teacherId}/appointments`);
   const addAppointment = appointment => makePostRequest('appointments', appointment);
   const removeAppointment = id => makeDeleteRequest(`appointments/${id}`);
 
