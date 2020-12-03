@@ -68,11 +68,12 @@ const PageContainer = props => {
     requestapi.details,
     requestapi.success,
     requestapi.working,
-    signOutRequest]);
+    signOutRequest,
+    getMyProfile]);
 
   useEffect(() => {
     if (sessions.signedIn) {
-      getMyProfile();
+      // getMyProfile();
     }
   }, [sessions.signedIn, getMyProfile]);
 

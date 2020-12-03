@@ -6,7 +6,7 @@ import { startRequestApi, requestApiSuccess, requestApiError } from './requestap
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
 const getUserAppointmentsList = () => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_USER_APPOINTMENTS_LIST));
 
   return PersonalTeaching().getUserAppointmentsList()
     .then(requestedData => {
@@ -15,14 +15,14 @@ const getUserAppointmentsList = () => dispatch => {
           type: GET_USER_APPOINTMENTS_LIST,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_USER_APPOINTMENTS_LIST));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_USER_APPOINTMENTS_LIST,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_USER_APPOINTMENTS_LIST, requestedData));
       }
 
       return requestedData;
@@ -30,7 +30,7 @@ const getUserAppointmentsList = () => dispatch => {
 };
 
 const getTeacherAppointmentsList = teacherId => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_TEACHER_APPOINTMENTS_LIST));
 
   return PersonalTeaching().getTeacherAppointmentsList(teacherId)
     .then(requestedData => {
@@ -39,14 +39,14 @@ const getTeacherAppointmentsList = teacherId => dispatch => {
           type: GET_TEACHER_APPOINTMENTS_LIST,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_TEACHER_APPOINTMENTS_LIST));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_TEACHER_APPOINTMENTS_LIST,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_TEACHER_APPOINTMENTS_LIST, requestedData));
       }
 
       return requestedData;
@@ -54,7 +54,7 @@ const getTeacherAppointmentsList = teacherId => dispatch => {
 };
 
 const addAppointment = appointment => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(ADD_APPOINTMENT));
 
   return PersonalTeaching().addAppointment(appointment)
     .then(requestedData => {
@@ -63,14 +63,14 @@ const addAppointment = appointment => dispatch => {
           type: ADD_APPOINTMENT,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(ADD_APPOINTMENT));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: ADD_APPOINTMENT,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(ADD_APPOINTMENT, requestedData));
       }
 
       return requestedData;
@@ -78,7 +78,7 @@ const addAppointment = appointment => dispatch => {
 };
 
 const removeAppointment = id => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(REMOVE_APPOINTMENT));
 
   return PersonalTeaching().removeAppointment(id)
     .then(requestedData => {
@@ -87,14 +87,14 @@ const removeAppointment = id => dispatch => {
           type: REMOVE_APPOINTMENT,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(REMOVE_APPOINTMENT));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: REMOVE_APPOINTMENT,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(REMOVE_APPOINTMENT, requestedData));
       }
 
       return requestedData;

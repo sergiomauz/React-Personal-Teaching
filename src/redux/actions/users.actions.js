@@ -6,7 +6,7 @@ import { startRequestApi, requestApiSuccess, requestApiError } from './requestap
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
 const getUsersList = () => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_USERS_LIST));
 
   return PersonalTeaching().getUsersList()
     .then(requestedData => {
@@ -15,14 +15,14 @@ const getUsersList = () => dispatch => {
           type: GET_USERS_LIST,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_USERS_LIST));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_USERS_LIST,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_USERS_LIST, requestedData));
       }
 
       return requestedData;
@@ -30,7 +30,7 @@ const getUsersList = () => dispatch => {
 };
 
 const getUserInfo = id => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_USER_INFO));
   return PersonalTeaching().getUserInfo(id)
     .then(requestedData => {
       if (!requestedData.error) {
@@ -38,14 +38,14 @@ const getUserInfo = id => dispatch => {
           type: GET_USER_INFO,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_USER_INFO));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_USER_INFO,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_USER_INFO, requestedData));
       }
 
       return requestedData;
@@ -53,7 +53,7 @@ const getUserInfo = id => dispatch => {
 };
 
 const getMyProfile = () => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_MY_PROFILE));
 
   return PersonalTeaching().getMyProfile()
     .then(requestedData => {
@@ -62,14 +62,14 @@ const getMyProfile = () => dispatch => {
           type: GET_MY_PROFILE,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_MY_PROFILE));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_MY_PROFILE,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_MY_PROFILE, requestedData));
       }
 
       return requestedData;
@@ -77,7 +77,7 @@ const getMyProfile = () => dispatch => {
 };
 
 const addUser = user => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(ADD_USER));
 
   return PersonalTeaching().addUser(user)
     .then(requestedData => {
@@ -86,14 +86,14 @@ const addUser = user => dispatch => {
           type: ADD_USER,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(ADD_USER));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: ADD_USER,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(ADD_USER, requestedData));
       }
 
       return requestedData;
@@ -101,7 +101,7 @@ const addUser = user => dispatch => {
 };
 
 const removeUser = id => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(REMOVE_USER));
 
   return PersonalTeaching().removeUser(id)
     .then(requestedData => {
@@ -110,14 +110,14 @@ const removeUser = id => dispatch => {
           type: REMOVE_USER,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(REMOVE_USER));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: REMOVE_USER,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(REMOVE_USER, requestedData));
       }
 
       return requestedData;
@@ -125,7 +125,7 @@ const removeUser = id => dispatch => {
 };
 
 const updateUser = (id, user) => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(UPDATE_USER));
 
   return PersonalTeaching().updateUser(id, user)
     .then(requestedData => {
@@ -134,14 +134,14 @@ const updateUser = (id, user) => dispatch => {
           type: UPDATE_USER,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(UPDATE_USER));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: UPDATE_USER,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(UPDATE_USER, requestedData));
       }
 
       return requestedData;

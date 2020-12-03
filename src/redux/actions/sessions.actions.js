@@ -5,7 +5,7 @@ import { startRequestApi, requestApiSuccess, requestApiError } from './requestap
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
 const signInRequest = user => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(SIGN_IN_REQUEST));
 
   return PersonalTeaching().signInRequest(user)
     .then(requestedData => {
@@ -14,14 +14,14 @@ const signInRequest = user => dispatch => {
           type: SIGN_IN_REQUEST,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(SIGN_IN_REQUEST));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: SIGN_IN_REQUEST,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(SIGN_IN_REQUEST, requestedData));
       }
 
       return requestedData;
@@ -33,11 +33,23 @@ const getSession = () => dispatch => {
 
   if (requestedSession) {
     if (requestedSession instanceof Promise) {
+      dispatch(startRequestApi(GET_SESSION));
       requestedSession.then(requestedData => {
-        dispatch({
-          type: GET_SESSION,
-          payload: requestedData,
-        });
+        if (!requestedData.error) {
+          dispatch({
+            type: GET_SESSION,
+            payload: requestedData,
+          });
+          dispatch(requestApiSuccess(GET_SESSION));
+        } else {
+          if (requestedData.error.hasResponse) {
+            dispatch({
+              type: GET_SESSION,
+            });
+          }
+          dispatch(requestApiError(GET_SESSION, requestedData));
+        }
+        return requestedData;
       });
     } else {
       dispatch({

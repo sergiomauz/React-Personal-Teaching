@@ -6,7 +6,7 @@ import { startRequestApi, requestApiSuccess, requestApiError } from './requestap
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
 const getTeachersList = () => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_TEACHERS_LIST));
 
   return PersonalTeaching().getTeachersList()
     .then(requestedData => {
@@ -15,14 +15,14 @@ const getTeachersList = () => dispatch => {
           type: GET_TEACHERS_LIST,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_TEACHERS_LIST));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_TEACHERS_LIST,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_TEACHERS_LIST, requestedData));
       }
 
       return requestedData;
@@ -30,7 +30,7 @@ const getTeachersList = () => dispatch => {
 };
 
 const getTeacherInfo = id => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_TEACHER_INFO));
 
   return PersonalTeaching().getTeacherInfo(id)
     .then(requestedData => {
@@ -39,14 +39,14 @@ const getTeacherInfo = id => dispatch => {
           type: GET_TEACHER_INFO,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_TEACHER_INFO));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_TEACHER_INFO,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_TEACHER_INFO, requestedData));
       }
 
       return requestedData;
@@ -54,7 +54,7 @@ const getTeacherInfo = id => dispatch => {
 };
 
 const getTeacherAvailability = (id, date) => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(GET_TEACHER_AVAILABILITY));
   return PersonalTeaching().getTeacherAvailability(id, date)
     .then(requestedData => {
       if (!requestedData.error) {
@@ -62,14 +62,14 @@ const getTeacherAvailability = (id, date) => dispatch => {
           type: GET_TEACHER_AVAILABILITY,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(GET_TEACHER_AVAILABILITY));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_TEACHER_AVAILABILITY,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(GET_TEACHER_AVAILABILITY, requestedData));
       }
 
       return requestedData;
@@ -81,7 +81,7 @@ const clearTeacherAvailability = () => dispatch => dispatch({
 });
 
 const addTeacher = teacher => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(ADD_TEACHER));
 
   return PersonalTeaching().addTeacher(teacher)
     .then(requestedData => {
@@ -90,14 +90,14 @@ const addTeacher = teacher => dispatch => {
           type: ADD_TEACHER,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(ADD_TEACHER));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: ADD_TEACHER,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(ADD_TEACHER, requestedData));
       }
 
       return requestedData;
@@ -105,7 +105,7 @@ const addTeacher = teacher => dispatch => {
 };
 
 const removeTeacher = id => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(REMOVE_TEACHER));
 
   return PersonalTeaching().removeTeacher(id)
     .then(requestedData => {
@@ -114,14 +114,14 @@ const removeTeacher = id => dispatch => {
           type: REMOVE_TEACHER,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(REMOVE_TEACHER));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: REMOVE_TEACHER,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(REMOVE_TEACHER, requestedData));
       }
 
       return requestedData;
@@ -129,7 +129,7 @@ const removeTeacher = id => dispatch => {
 };
 
 const updateTeacher = (id, teacher) => dispatch => {
-  dispatch(startRequestApi());
+  dispatch(startRequestApi(UPDATE_TEACHER));
 
   return PersonalTeaching().updateTeacher(id, teacher)
     .then(requestedData => {
@@ -138,14 +138,14 @@ const updateTeacher = (id, teacher) => dispatch => {
           type: UPDATE_TEACHER,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess());
+        dispatch(requestApiSuccess(UPDATE_TEACHER));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: UPDATE_TEACHER,
           });
         }
-        dispatch(requestApiError(requestedData));
+        dispatch(requestApiError(UPDATE_TEACHER, requestedData));
       }
 
       return requestedData;

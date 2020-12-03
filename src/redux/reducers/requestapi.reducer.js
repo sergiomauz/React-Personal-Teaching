@@ -5,6 +5,7 @@ import {
 const initialState = {
   working: false,
   success: true,
+  action: '',
   details: null,
 };
 
@@ -16,6 +17,7 @@ const requestApiReducer = (state = initialState, action) => {
         ...{
           working: true,
           success: false,
+          action: action.payload.action,
           details: null,
         },
       };
@@ -25,16 +27,20 @@ const requestApiReducer = (state = initialState, action) => {
         ...{
           working: false,
           success: true,
+          action: action.payload.action,
           details: null,
         },
       };
     case REQUEST_API_ERROR:
+      console.log(action);
+      console.log(action.payload);
       return {
         ...state,
         ...{
           working: false,
           success: false,
-          details: action.payload,
+          action: action.payload.action,
+          details: action.payload.error,
         },
       };
     default:
