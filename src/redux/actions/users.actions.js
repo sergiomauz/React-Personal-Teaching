@@ -1,6 +1,6 @@
 // import PersonalTeaching from '../../apis/PersonalTeaching';
 import {
-  GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER,
+  GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER, GET_MY_PROFILE,
 } from './types';
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
@@ -43,6 +43,30 @@ const getUserInfo = id => dispatch => {
         if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_USER_INFO,
+          });
+        }
+        dispatch(requestApiError(requestedData));
+      }
+
+      return requestedData;
+    });
+};
+
+const getMyProfile = () => dispatch => {
+  dispatch(startRequestApi());
+
+  return PersonalTeaching().getMyProfile()
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: GET_MY_PROFILE,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess());
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: GET_MY_PROFILE,
           });
         }
         dispatch(requestApiError(requestedData));
@@ -125,5 +149,5 @@ const updateUser = (id, user) => dispatch => {
 };
 
 export {
-  getUsersList, getUserInfo, addUser, updateUser, removeUser,
+  getUsersList, getUserInfo, getMyProfile, addUser, updateUser, removeUser,
 };

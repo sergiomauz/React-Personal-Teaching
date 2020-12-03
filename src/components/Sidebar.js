@@ -4,11 +4,13 @@ import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { signOutRequest } from '../redux/actions/sessions.actions';
+import { URL_SIGN_IN } from '../helpers/constants';
 
 import '../styles/formal.css';
 
 const mapStateToProps = state => ({
   sessions: state.sessions,
+  myprofile: state.users.myprofile,
 });
 
 const mapDispatchToProps = {
@@ -16,7 +18,7 @@ const mapDispatchToProps = {
 };
 
 const Sidebar = props => {
-  const { sessions, signOutRequest } = props;
+  const { sessions, myprofile, signOutRequest } = props;
   const divSidebar = useRef(null);
   const history = useHistory();
 
@@ -29,7 +31,7 @@ const Sidebar = props => {
     e.preventDefault();
     signOutRequest();
 
-    history.push('/signin');
+    history.push(URL_SIGN_IN);
   };
 
   return (
@@ -51,16 +53,28 @@ const Sidebar = props => {
                   Teachers
                 </Link>
               </li>
-              <li className="list-group-item p-0">
-                <Link className="list-group-item-action" to="/users">
-                  Users
-                </Link>
-              </li>
-              <li className="list-group-item p-0">
-                <Link className="list-group-item-action" to="/teacher/new">
-                  New Teacher
-                </Link>
-              </li>
+              {
+                myprofile && (
+                  <>
+                    {
+                      myprofile.admin && (
+                        <>
+                          <li className="list-group-item p-0">
+                            <Link className="list-group-item-action" to="/users">
+                              Users
+                            </Link>
+                          </li>
+                          <li className="list-group-item p-0">
+                            <Link className="list-group-item-action" to="/teacher/new">
+                              New Teacher
+                            </Link>
+                          </li>
+                        </>
+                      )
+                    }
+                  </>
+                )
+              }
               <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/appointments">
                   My appointments
@@ -118,12 +132,19 @@ const Sidebar = props => {
 
 Sidebar.propTypes = {
   signOutRequest: PropTypes.func.isRequired,
+  myprofile: PropTypes.shape({
+    admin: PropTypes.bool,
+  }),
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
     accessToken: PropTypes.string,
     refreshToken: PropTypes.string,
     expiresAt: PropTypes.number,
   }).isRequired,
+};
+
+Sidebar.defaultProps = {
+  myprofile: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

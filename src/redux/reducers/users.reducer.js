@@ -1,9 +1,10 @@
 import {
-  GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER,
+  GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER, GET_MY_PROFILE,
 } from '../actions/types';
 
 const initialState = {
   list: [],
+  myprofile: null,
   user: null,
 };
 
@@ -18,6 +19,11 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload.user,
+      };
+    case GET_MY_PROFILE:
+      return {
+        ...state,
+        myprofile: action.payload.myprofile,
       };
     case ADD_USER:
       return {

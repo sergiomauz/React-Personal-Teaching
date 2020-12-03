@@ -3,7 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getSession } from '../redux/actions/sessions.actions';
+import { getSession, signOutRequest } from '../redux/actions/sessions.actions';
+import { getMyProfile } from '../redux/actions/users.actions';
 
 import Sidebar from './Sidebar';
 import ProtectedRoute from './ProtectedRoute';
@@ -35,16 +36,45 @@ import {
   URL_TEACHER_APPOINTMENTS,
 } from '../helpers/constants';
 
+const mapStateToProps = state => ({
+  requestapi: state.requestapi,
+  sessions: state.sessions,
+});
+
 const mapDispatchToProps = {
-  getSession,
+  getSession, getMyProfile, signOutRequest,
 };
 
 const PageContainer = props => {
-  const { getSession } = props;
+  const {
+    sessions, requestapi,
+    getSession, getMyProfile, signOutRequest,
+  } = props;
 
   useEffect(() => {
     getSession();
   }, [getSession]);
+
+  useEffect(() => {
+    if (requestapi.details) {
+      if (requestapi.details.error) {
+        if (sessions.signedIn && !requestapi.working && !requestapi.success) {
+          signOutRequest();
+        }
+      }
+    }
+  }, [
+    sessions.signedIn,
+    requestapi.details,
+    requestapi.success,
+    requestapi.working,
+    signOutRequest]);
+
+  useEffect(() => {
+    if (sessions.signedIn) {
+      getMyProfile();
+    }
+  }, [sessions.signedIn, getMyProfile]);
 
   return (
     <div className="d-flex flex-flex-wrap">
@@ -75,6 +105,20 @@ const PageContainer = props => {
 
 PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
+  getMyProfile: PropTypes.func.isRequired,
+  signOutRequest: PropTypes.func.isRequired,
+  requestapi: PropTypes.shape({
+    working: PropTypes.bool,
+    success: PropTypes.bool,
+    details: PropTypes.shape({
+      error: PropTypes.shape({
+        message: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+  sessions: PropTypes.shape({
+    signedIn: PropTypes.bool,
+  }).isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(PageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(PageContainer);

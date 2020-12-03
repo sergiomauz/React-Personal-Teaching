@@ -75,23 +75,40 @@ const PersonalTeaching = () => {
         if (Math.abs(new Date()) > sessionObject.expiresAt - 300
           && sessionObject.expiresAt > 0
           && sessionObject.refreshToken.length > 0) {
-          sessionObject = refreshSession(sessionObject.refreshToken)
-            .then(data => data);
+          sessionObject = refreshSession(sessionObject.refreshToken);
         }
       }
     }
 
     return sessionObject;
   };
-  const getConfig = params => {
+  const getConfig = async params => {
     const sessionObject = getSession();
-    if (sessionObject.accessToken.length > 0) {
-      return {
-        headers: {
-          Authorization: `Bearer ${sessionObject.accessToken}`,
-        },
-        params,
-      };
+
+    if (sessionObject) {
+      if (sessionObject instanceof Promise) {
+        const requestedData = await sessionObject;
+        // console.log(requestedData);
+        if (requestedData) {
+          if (requestedData.accessToken.length > 0) {
+            return {
+              headers: {
+                Authorization: `Bearer ${requestedData.accessToken}`,
+              },
+              params,
+            };
+          }
+        }
+      }
+
+      if (sessionObject.accessToken.length > 0) {
+        return {
+          headers: {
+            Authorization: `Bearer ${sessionObject.accessToken}`,
+          },
+          params,
+        };
+      }
     }
 
     return {
@@ -100,8 +117,8 @@ const PersonalTeaching = () => {
   };
 
   // Requests methods
-  const makeGetRequest = (path, params = {}) => {
-    const jsonConfig = getConfig(params);
+  const makeGetRequest = async (path, params = {}) => {
+    const jsonConfig = await getConfig(params);
 
     const request = axios.get(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
       .then(onSuccess)
@@ -109,24 +126,24 @@ const PersonalTeaching = () => {
 
     return request;
   };
-  const makePostRequest = (path, params = {}) => {
-    const jsonConfig = getConfig();
+  const makePostRequest = async (path, params = {}) => {
+    const jsonConfig = await getConfig();
     const request = axios.post(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig)
       .then(onSuccess)
       .catch(onFail);
 
     return request;
   };
-  const makePutRequest = (path, params = {}) => {
-    const jsonConfig = getConfig();
+  const makePutRequest = async (path, params = {}) => {
+    const jsonConfig = await getConfig();
     const request = axios.put(`${BACKEND_PERSONAL_TEACHING}${path}`, params, jsonConfig)
       .then(onSuccess)
       .catch(onFail);
 
     return request;
   };
-  const makeDeleteRequest = (path, params = {}) => {
-    const jsonConfig = getConfig(params);
+  const makeDeleteRequest = async (path, params = {}) => {
+    const jsonConfig = await getConfig(params);
 
     const request = axios.delete(`${BACKEND_PERSONAL_TEACHING}${path}`, jsonConfig)
       .then(onSuccess)
@@ -149,6 +166,7 @@ const PersonalTeaching = () => {
   // User methods
   const getUsersList = () => makeGetRequest('users');
   const getUserInfo = id => makeGetRequest(`users/${id}`);
+  const getMyProfile = () => makeGetRequest('users/myprofile');
   const addUser = user => makePostRequest('users', user);
   const updateUser = (id, user) => makePutRequest(`users/${id}`, user);
   const removeUser = id => makeDeleteRequest(`users/${id}`);
@@ -168,6 +186,7 @@ const PersonalTeaching = () => {
 
     getUsersList,
     getUserInfo,
+    getMyProfile,
     addUser,
     updateUser,
     removeUser,

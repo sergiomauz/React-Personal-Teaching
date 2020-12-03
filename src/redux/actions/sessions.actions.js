@@ -29,11 +29,27 @@ const signInRequest = user => dispatch => {
 };
 
 const getSession = () => dispatch => {
-  const requestedData = PersonalTeaching().getSession();
-  dispatch({
-    type: GET_SESSION,
-    payload: requestedData,
-  });
+  const requestedSession = PersonalTeaching().getSession();
+
+  if (requestedSession) {
+    if (requestedSession instanceof Promise) {
+      requestedSession.then(requestedData => {
+        dispatch({
+          type: GET_SESSION,
+          payload: requestedData,
+        });
+      });
+    } else {
+      dispatch({
+        type: GET_SESSION,
+        payload: requestedSession,
+      });
+    }
+  } else {
+    dispatch({
+      type: GET_SESSION,
+    });
+  }
 };
 
 const signOutRequest = () => dispatch => {
@@ -45,5 +61,5 @@ const signOutRequest = () => dispatch => {
 };
 
 export {
-  signInRequest, getSession, signOutRequest,
+  signInRequest, signOutRequest, getSession,
 };
