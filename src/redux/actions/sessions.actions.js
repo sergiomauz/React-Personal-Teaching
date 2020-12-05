@@ -2,6 +2,7 @@ import {
   SIGN_IN_REQUEST, SIGN_OUT, GET_SESSION,
 } from './types';
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
+import { getMyProfile } from './users.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
 const signInRequest = user => dispatch => {
@@ -41,6 +42,10 @@ const getSession = () => dispatch => {
             payload: requestedData,
           });
           dispatch(requestApiSuccess(GET_SESSION));
+
+          if (requestedData.signedIn) {
+            dispatch(getMyProfile());
+          }
         } else {
           if (requestedData.error.hasResponse) {
             dispatch({
@@ -49,13 +54,16 @@ const getSession = () => dispatch => {
           }
           dispatch(requestApiError(GET_SESSION, requestedData));
         }
-        return requestedData;
       });
     } else {
       dispatch({
         type: GET_SESSION,
         payload: requestedSession,
       });
+
+      if (requestedSession.signedIn) {
+        dispatch(getMyProfile());
+      }
     }
   } else {
     dispatch({

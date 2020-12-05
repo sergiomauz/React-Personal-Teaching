@@ -24,7 +24,7 @@ const ProtectedRoute = props => {
 };
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.object.isRequired,
+  component: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,

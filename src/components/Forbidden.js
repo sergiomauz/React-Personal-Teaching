@@ -9,7 +9,7 @@ const Forbidden = () => (
       <div className="card-body">
         <div className="row">
           <div className="col-12 p-0">
-            <h3 className="title-one">You must sign in</h3>
+            <h5 className="title-one">This resource is forbidden for you</h5>
           </div>
         </div>
       </div>

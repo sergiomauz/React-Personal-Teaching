@@ -15,6 +15,7 @@ import {
 } from '../../redux/actions/teachers.actions';
 import { addAppointment } from '../../redux/actions/appointments.actions';
 
+import photoTeacher from '../../images/teacher.jpg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -122,11 +123,18 @@ const TeacherDetails = props => {
                 <div className="row">
                   <div className="col-12 col-sm-6">
                     <div className="form-group text-center">
-                      <img
-                        src={teacher.photo}
-                        alt=""
-                        className="img-fluid teacher-photo"
-                      />
+                      {
+                        teacher.photo.length > 0 ? (
+                          <img
+                            src={teacher.photo}
+                            alt=""
+                            className="img-fluid teacher-photo"
+                          />
+                        )
+                          : (
+                            <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                          )
+                      }
                     </div>
                     <div className="form-group">
                       <span className="control-label">fullname</span>

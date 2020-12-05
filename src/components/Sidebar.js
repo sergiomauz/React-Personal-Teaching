@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -43,6 +44,16 @@ const Sidebar = props => {
       </div>
       <div className="sidebar-heading d-flex justify-content-center">
         <div className="sidebar-logo" />
+      </div>
+      <div className="d-flex flex-column justify-content-center">
+        {
+          myprofile && (
+            <label className="w-100">
+              <span className="control-label font-weight-bold">USER</span>
+              <span className="form-control border-right-0 border-left-0 font-weight-bold green-color text-center">{myprofile.username}</span>
+            </label>
+          )
+        }
       </div>
       <ul className="list-group">
         {
@@ -133,6 +144,10 @@ const Sidebar = props => {
 Sidebar.propTypes = {
   signOutRequest: PropTypes.func.isRequired,
   myprofile: PropTypes.shape({
+    id: PropTypes.number,
+    username: PropTypes.string,
+    fullname: PropTypes.string,
+    email: PropTypes.string,
     admin: PropTypes.bool,
   }),
   sessions: PropTypes.shape({

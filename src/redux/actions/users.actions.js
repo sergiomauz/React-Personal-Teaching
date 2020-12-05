@@ -1,4 +1,3 @@
-// import PersonalTeaching from '../../apis/PersonalTeaching';
 import {
   GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER, GET_MY_PROFILE,
 } from './types';

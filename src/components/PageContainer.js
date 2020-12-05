@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getSession, signOutRequest } from '../redux/actions/sessions.actions';
-import { getMyProfile } from '../redux/actions/users.actions';
 
 import Sidebar from './Sidebar';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import NotFound from './NotFound';
+import Forbidden from './Forbidden';
 
 import SignInForm from '../containers/User/SignInForm';
 import SignUpForm from '../containers/User/SignUpForm';
@@ -39,16 +39,17 @@ import {
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
   sessions: state.sessions,
+  myprofile: state.users.myprofile,
 });
 
 const mapDispatchToProps = {
-  getSession, getMyProfile, signOutRequest,
+  getSession, signOutRequest,
 };
 
 const PageContainer = props => {
   const {
-    sessions, requestapi,
-    getSession, getMyProfile, signOutRequest,
+    sessions, requestapi, myprofile,
+    getSession, signOutRequest,
   } = props;
 
   useEffect(() => {
@@ -68,14 +69,7 @@ const PageContainer = props => {
     requestapi.details,
     requestapi.success,
     requestapi.working,
-    signOutRequest,
-    getMyProfile]);
-
-  useEffect(() => {
-    if (sessions.signedIn) {
-      // getMyProfile();
-    }
-  }, [sessions.signedIn, getMyProfile]);
+    signOutRequest]);
 
   return (
     <div className="d-flex flex-flex-wrap">
@@ -86,15 +80,35 @@ const PageContainer = props => {
             <PublicRoute exact path={URL_INDEX} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
-            <ProtectedRoute exact path={URL_EDIT_USER} component={EditUser} />
             <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
-            <ProtectedRoute exact path={URL_USERS_LIST} component={UsersList} />
+            <ProtectedRoute
+              exact
+              path={URL_EDIT_USER}
+              component={myprofile.admin ? EditUser : Forbidden}
+            />
+            <ProtectedRoute
+              exact
+              path={URL_USERS_LIST}
+              component={myprofile.admin ? UsersList : Forbidden}
+            />
 
-            <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
-            <ProtectedRoute exact path={URL_NEW_TEACHER} component={NewTeacher} />
-            <ProtectedRoute exact path={URL_EDIT_TEACHER} component={EditTeacher} />
+            <ProtectedRoute
+              exact
+              path={URL_NEW_TEACHER}
+              component={myprofile.admin ? NewTeacher : Forbidden}
+            />
+            <ProtectedRoute
+              exact
+              path={URL_EDIT_TEACHER}
+              component={myprofile.admin ? EditTeacher : Forbidden}
+            />
+            <ProtectedRoute
+              exact
+              path={URL_TEACHER_APPOINTMENTS}
+              component={myprofile.admin ? TeacherAppointments : Forbidden}
+            />
             <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
-            <ProtectedRoute exact path={URL_TEACHER_APPOINTMENTS} component={TeacherAppointments} />
+            <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
 
             <Route component={NotFound} />
           </Switch>
@@ -106,7 +120,6 @@ const PageContainer = props => {
 
 PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
-  getMyProfile: PropTypes.func.isRequired,
   signOutRequest: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
@@ -119,6 +132,9 @@ PageContainer.propTypes = {
   }).isRequired,
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
+  }).isRequired,
+  myprofile: PropTypes.shape({
+    admin: PropTypes.bool,
   }).isRequired,
 };
 

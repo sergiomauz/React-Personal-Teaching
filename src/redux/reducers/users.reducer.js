@@ -4,7 +4,13 @@ import {
 
 const initialState = {
   list: [],
-  myprofile: null,
+  myprofile: {
+    id: 0,
+    fullname: '',
+    username: '',
+    email: '',
+    admin: false,
+  },
   user: null,
 };
 

@@ -250,11 +250,8 @@ div[disabled] {
 
 .list-group-item {
   color: #495057;
-  border-top: 1px solid #ccc;
-}
-
-.list-group-item:first-child {
-  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 
 .list-group-item-button {
