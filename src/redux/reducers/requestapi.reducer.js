@@ -32,8 +32,6 @@ const requestApiReducer = (state = initialState, action) => {
         },
       };
     case REQUEST_API_ERROR:
-      console.log(action);
-      console.log(action.payload);
       return {
         ...state,
         ...{

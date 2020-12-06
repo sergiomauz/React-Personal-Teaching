@@ -88,7 +88,6 @@ const PersonalTeaching = () => {
     if (sessionObject) {
       if (sessionObject instanceof Promise) {
         const requestedData = await sessionObject;
-        // console.log(requestedData);
         if (requestedData) {
           if (requestedData.accessToken.length > 0) {
             return {

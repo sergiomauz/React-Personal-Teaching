@@ -16,6 +16,10 @@ const signInRequest = user => dispatch => {
           payload: requestedData,
         });
         dispatch(requestApiSuccess(SIGN_IN_REQUEST));
+
+        if (requestedData.signedIn) {
+          dispatch(getMyProfile());
+        }
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({

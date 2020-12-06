@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
-import { URL_TEACHERS_LIST } from '../helpers/constants';
+import { URL_INDEX } from '../helpers/constants';
 
 const mapStateToProps = state => ({
   sessions: state.sessions,
@@ -16,7 +16,7 @@ const PublicRoute = props => {
   return (
     sessions.signedIn
       ? (
-        <Redirect to={URL_TEACHERS_LIST} />
+        <Redirect to={URL_INDEX} />
       ) : (
         <Route exact path={path} component={component} />
       )
@@ -24,7 +24,7 @@ const PublicRoute = props => {
 };
 
 PublicRoute.propTypes = {
-  component: PropTypes.object.isRequired,
+  component: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
   sessions: PropTypes.shape({
     signedIn: PropTypes.bool,

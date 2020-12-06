@@ -11,6 +11,7 @@ import PublicRoute from './PublicRoute';
 import NotFound from './NotFound';
 import Forbidden from './Forbidden';
 
+import Welcome from '../containers/User/Welcome';
 import SignInForm from '../containers/User/SignInForm';
 import SignUpForm from '../containers/User/SignUpForm';
 import EditUser from '../containers/User/EditUser';
@@ -77,7 +78,7 @@ const PageContainer = props => {
       <div className="container">
         <div className="container-fluid pt-5">
           <Switch>
-            <PublicRoute exact path={URL_INDEX} component={SignInForm} />
+            <Route exact path={URL_INDEX} component={sessions.signedIn ? Welcome : SignInForm} />
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
             <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
