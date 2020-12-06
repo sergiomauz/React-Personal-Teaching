@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { signOutRequest } from '../redux/actions/sessions.actions';
+import { signOutRequest } from '../redux/actions/users.actions';
 import { URL_SIGN_IN } from '../helpers/constants';
 
 import '../styles/formal.css';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions,
   myprofile: state.users.myprofile,
 });
 
@@ -19,7 +18,7 @@ const mapDispatchToProps = {
 };
 
 const Sidebar = props => {
-  const { sessions, myprofile, signOutRequest } = props;
+  const { myprofile, signOutRequest } = props;
   const divSidebar = useRef(null);
   const history = useHistory();
 
@@ -47,7 +46,7 @@ const Sidebar = props => {
       </div>
       <div className="d-flex flex-column justify-content-center">
         {
-          myprofile && (
+          myprofile.username && (
             <label className="w-100">
               <span className="control-label font-weight-bold">USER</span>
               <span className="form-control border-right-0 border-left-0 font-weight-bold green-color text-center">{myprofile.username}</span>
@@ -57,7 +56,7 @@ const Sidebar = props => {
       </div>
       <ul className="list-group">
         {
-          sessions.signedIn ? (
+          myprofile.signedIn ? (
             <>
               <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/teachers">
@@ -149,17 +148,8 @@ Sidebar.propTypes = {
     fullname: PropTypes.string,
     email: PropTypes.string,
     admin: PropTypes.bool,
-  }),
-  sessions: PropTypes.shape({
     signedIn: PropTypes.bool,
-    accessToken: PropTypes.string,
-    refreshToken: PropTypes.string,
-    expiresAt: PropTypes.number,
   }).isRequired,
-};
-
-Sidebar.defaultProps = {
-  myprofile: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

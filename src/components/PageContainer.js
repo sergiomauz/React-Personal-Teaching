@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getSession, signOutRequest } from '../redux/actions/sessions.actions';
+import { getSession, signOutRequest } from '../redux/actions/users.actions';
 
 import Sidebar from './Sidebar';
 import ProtectedRoute from './ProtectedRoute';
@@ -39,7 +39,6 @@ import {
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
-  sessions: state.sessions,
   myprofile: state.users.myprofile,
 });
 
@@ -49,7 +48,7 @@ const mapDispatchToProps = {
 
 const PageContainer = props => {
   const {
-    sessions, requestapi, myprofile,
+    requestapi, myprofile,
     getSession, signOutRequest,
   } = props;
 
@@ -60,13 +59,13 @@ const PageContainer = props => {
   useEffect(() => {
     if (requestapi.details) {
       if (requestapi.details.error) {
-        if (sessions.signedIn && !requestapi.working && !requestapi.success) {
+        if (myprofile.signedIn && !requestapi.working && !requestapi.success) {
           signOutRequest();
         }
       }
     }
   }, [
-    sessions.signedIn,
+    myprofile.signedIn,
     requestapi.details,
     requestapi.success,
     requestapi.working,
@@ -78,7 +77,7 @@ const PageContainer = props => {
       <div className="container">
         <div className="container-fluid pt-5">
           <Switch>
-            <Route exact path={URL_INDEX} component={sessions.signedIn ? Welcome : SignInForm} />
+            <Route exact path={URL_INDEX} component={myprofile.signedIn ? Welcome : SignInForm} />
             <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
             <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
             <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
@@ -131,11 +130,9 @@ PageContainer.propTypes = {
       }),
     }),
   }).isRequired,
-  sessions: PropTypes.shape({
-    signedIn: PropTypes.bool,
-  }).isRequired,
   myprofile: PropTypes.shape({
     admin: PropTypes.bool,
+    signedIn: PropTypes.bool,
   }).isRequired,
 };
 

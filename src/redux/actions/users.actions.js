@@ -1,7 +1,12 @@
 import {
-  GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER, GET_MY_PROFILE,
+  SIGN_IN_REQUEST, SIGN_OUT, GET_SESSION,
+  GET_USERS_LIST, GET_USER_INFO, GET_MY_PROFILE,
+  ADD_USER, UPDATE_USER, REMOVE_USER,
+  CLEAN_STATE,
 } from './types';
-import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
+import {
+  execAction, startRequestApi, requestApiSuccess, requestApiError,
+} from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
 const getUsersList = () => dispatch => {
@@ -147,6 +152,90 @@ const updateUser = (id, user) => dispatch => {
     });
 };
 
+const signInRequest = user => dispatch => {
+  dispatch(startRequestApi(SIGN_IN_REQUEST));
+
+  return PersonalTeaching().signInRequest(user)
+    .then(requestedData => {
+      if (!requestedData.error) {
+        dispatch({
+          type: SIGN_IN_REQUEST,
+          payload: requestedData,
+        });
+        dispatch(requestApiSuccess(SIGN_IN_REQUEST));
+
+        if (requestedData.signedIn) {
+          dispatch(getMyProfile());
+        }
+      } else {
+        if (requestedData.error.hasResponse) {
+          dispatch({
+            type: SIGN_IN_REQUEST,
+          });
+        }
+        dispatch(requestApiError(SIGN_IN_REQUEST, requestedData));
+      }
+
+      return requestedData;
+    });
+};
+
+const getSession = () => dispatch => {
+  const requestedSession = PersonalTeaching().getSession();
+
+  if (requestedSession) {
+    if (requestedSession instanceof Promise) {
+      dispatch(startRequestApi(GET_SESSION));
+      requestedSession.then(requestedData => {
+        if (!requestedData.error) {
+          dispatch({
+            type: GET_SESSION,
+            payload: requestedData,
+          });
+          dispatch(requestApiSuccess(GET_SESSION));
+
+          if (requestedData.signedIn) {
+            dispatch(getMyProfile());
+          }
+        } else {
+          if (requestedData.error.hasResponse) {
+            dispatch({
+              type: GET_SESSION,
+            });
+          }
+          dispatch(requestApiError(GET_SESSION, requestedData));
+        }
+      });
+    } else {
+      dispatch(execAction(GET_SESSION));
+      dispatch({
+        type: GET_SESSION,
+        payload: requestedSession,
+      });
+
+      if (requestedSession.signedIn) {
+        dispatch(getMyProfile());
+      }
+    }
+  } else {
+    dispatch(execAction(GET_SESSION));
+    dispatch({
+      type: GET_SESSION,
+    });
+  }
+};
+
+const signOutRequest = () => dispatch => {
+  PersonalTeaching().signOutRequest();
+  dispatch({
+    type: SIGN_OUT,
+  });
+  dispatch({
+    type: CLEAN_STATE,
+  });
+};
+
 export {
+  signInRequest, signOutRequest, getSession,
   getUsersList, getUserInfo, getMyProfile, addUser, updateUser, removeUser,
 };

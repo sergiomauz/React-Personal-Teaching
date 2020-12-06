@@ -1,21 +1,36 @@
 import {
-  START_REQUEST_API, REQUEST_API_SUCCESS, REQUEST_API_ERROR,
+  EXEC_ACTION, START_REQUEST_API, REQUEST_API_SUCCESS, REQUEST_API_ERROR,
+  CLEAN_STATE,
 } from '../actions/types';
 
 const initialState = {
   working: false,
   success: true,
-  action: '',
+  action: CLEAN_STATE,
   details: null,
 };
 
 const requestApiReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAN_STATE:
+      return {
+        ...initialState,
+      };
     case START_REQUEST_API:
       return {
         ...state,
         ...{
           working: true,
+          success: false,
+          action: action.payload.action,
+          details: null,
+        },
+      };
+    case EXEC_ACTION:
+      return {
+        ...state,
+        ...{
+          working: false,
           success: false,
           action: action.payload.action,
           details: null,

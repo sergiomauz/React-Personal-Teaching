@@ -2,6 +2,7 @@ import {
   GET_TEACHERS_LIST, GET_TEACHER_INFO,
   GET_TEACHER_AVAILABILITY, CLEAR_TEACHER_AVAILABILITY,
   ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
+  CLEAN_STATE,
 } from '../actions/types';
 
 const initialState = {
@@ -11,6 +12,10 @@ const initialState = {
 
 const teachersReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAN_STATE:
+      return {
+        ...initialState,
+      };
     case GET_TEACHERS_LIST:
       return {
         ...state,

@@ -7,14 +7,14 @@ import { Route, Redirect } from 'react-router-dom';
 import { URL_INDEX } from '../helpers/constants';
 
 const mapStateToProps = state => ({
-  sessions: state.sessions,
+  myprofile: state.users.myprofile,
 });
 
 const PublicRoute = props => {
-  const { component, path, sessions } = props;
+  const { component, path, myprofile } = props;
 
   return (
-    sessions.signedIn
+    myprofile.signedIn
       ? (
         <Redirect to={URL_INDEX} />
       ) : (
@@ -26,7 +26,7 @@ const PublicRoute = props => {
 PublicRoute.propTypes = {
   component: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
-  sessions: PropTypes.shape({
+  myprofile: PropTypes.shape({
     signedIn: PropTypes.bool,
   }).isRequired,
 };

@@ -1,6 +1,11 @@
 import {
-  START_REQUEST_API, REQUEST_API_SUCCESS, REQUEST_API_ERROR,
+  EXEC_ACTION, START_REQUEST_API, REQUEST_API_SUCCESS, REQUEST_API_ERROR,
 } from './types';
+
+const execAction = action => ({
+  type: EXEC_ACTION,
+  payload: { action },
+});
 
 const startRequestApi = action => ({
   type: START_REQUEST_API,
@@ -18,5 +23,5 @@ const requestApiError = (action, error) => ({
 });
 
 export {
-  startRequestApi, requestApiSuccess, requestApiError,
+  execAction, startRequestApi, requestApiSuccess, requestApiError,
 };

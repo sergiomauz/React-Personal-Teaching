@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { signInRequest } from '../../redux/actions/sessions.actions';
+import { signInRequest } from '../../redux/actions/users.actions';
 
 import '../../styles/formal.css';
 

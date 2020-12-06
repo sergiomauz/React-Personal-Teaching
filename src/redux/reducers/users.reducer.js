@@ -1,21 +1,47 @@
 import {
-  GET_USERS_LIST, GET_USER_INFO, ADD_USER, UPDATE_USER, REMOVE_USER, GET_MY_PROFILE,
+  SIGN_IN_REQUEST, GET_SESSION, SIGN_OUT,
+  GET_USERS_LIST, GET_USER_INFO, GET_MY_PROFILE,
+  ADD_USER, UPDATE_USER, REMOVE_USER,
+  CLEAN_STATE,
 } from '../actions/types';
 
 const initialState = {
   list: [],
   myprofile: {
-    id: 0,
-    fullname: '',
-    username: '',
-    email: '',
-    admin: false,
+    signedIn: false,
   },
   user: null,
 };
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAN_STATE:
+    case SIGN_OUT:
+      return {
+        ...initialState,
+      };
+    case GET_SESSION:
+      return {
+        ...state,
+        myprofile: {
+          signedIn: action.payload.signedIn,
+        },
+      };
+    case GET_MY_PROFILE:
+      return {
+        ...state,
+        myprofile: {
+          ...action.payload.myprofile,
+          signedIn: state.myprofile.signedIn,
+        },
+      };
+    case SIGN_IN_REQUEST:
+      return {
+        ...state,
+        myprofile: {
+          signedIn: action.payload.signedIn,
+        },
+      };
     case GET_USERS_LIST:
       return {
         ...state,
@@ -25,11 +51,6 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload.user,
-      };
-    case GET_MY_PROFILE:
-      return {
-        ...state,
-        myprofile: action.payload.myprofile,
       };
     case ADD_USER:
       return {
