@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import photoTeacher from '../../images/teacher.jpg';
-
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -55,7 +54,6 @@ const TeacherCard = props => {
 TeacherCard.propTypes = {
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
   }).isRequired,
   info: PropTypes.shape({
     id: PropTypes.number,
@@ -66,4 +64,4 @@ TeacherCard.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps, null)(TeacherCard);
+export default connect(mapStateToProps)(TeacherCard);

@@ -197,7 +197,6 @@ NewTeacher.propTypes = {
   addTeacher: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
   }).isRequired,
 };
 
