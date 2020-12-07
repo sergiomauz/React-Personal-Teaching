@@ -11,7 +11,7 @@ import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
-  user: state.users.user,
+  users: state.users.list,
 });
 
 const mapDispatchToProps = {
@@ -23,7 +23,8 @@ const EditUser = props => {
   const {
     match,
     getUserInfo, updateUser,
-    requestapi, user,
+    requestapi,
+    users,
   } = props;
   const { params } = match;
   const { id } = params;
@@ -35,6 +36,7 @@ const EditUser = props => {
   const history = useHistory();
 
   const [errors, setErrors] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -88,68 +90,75 @@ const EditUser = props => {
     getUserInfo(id);
   }, [id, getUserInfo]);
 
+  useEffect(() => {
+    const filteredUser = users.filter(user => user.id === parseInt(id, 10));
+    setUserInfo(filteredUser[0]);
+  }, [users, id, setUserInfo]);
+
   return (
-    user && (
-      <>
-        <h1 className="title-one green-color">
-          Users
-        </h1>
-        <form className="card form-container mb-3" onSubmit={handlerSaveUser}>
-          <h2 className="title-one">
-            Edit User
-          </h2>
-          <fieldset
-            className="card-body"
-            disabled={requestapi.working}
-            aria-busy={requestapi.working}
-          >
-            <div className="row">
-              <div className="col-12 offset-md-2 col-md-8 p-0">
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">fullname</span>
-                    <input ref={txtFullname} type="text" className="form-control" defaultValue={user.fullname} />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">email</span>
-                    <input ref={txtEmail} type="text" className="form-control" defaultValue={user.email} />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">username</span>
-                    <input ref={txtUser} type="text" className="form-control" defaultValue={user.username} />
-                  </label>
-                </div>
-                <div className="form-group d-flex justify-content-center">
-                  <button type="submit" className="btn btn-outline-success">Save</button>
-                </div>
-                <div className="form-group">
-                  <ul className="list-group border-0">
-                    {
-                      (!requestapi.working)
-                      && (
-                        (errors.length > 0)
+    <>
+      <h1 className="title-one green-color">
+        Users
+      </h1>
+      <form className="card form-container mb-3" onSubmit={handlerSaveUser}>
+        <h2 className="title-one">
+          Edit User
+        </h2>
+        <fieldset
+          className="card-body"
+          disabled={requestapi.working}
+          aria-busy={requestapi.working}
+        >
+          {
+            userInfo && (
+              <div className="row">
+                <div className="col-12 offset-md-2 col-md-8 p-0">
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">fullname</span>
+                      <input ref={txtFullname} type="text" className="form-control" defaultValue={userInfo.fullname} />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">email</span>
+                      <input ref={txtEmail} type="text" className="form-control" defaultValue={userInfo.email} />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">username</span>
+                      <input ref={txtUser} type="text" className="form-control" defaultValue={userInfo.username} />
+                    </label>
+                  </div>
+                  <div className="form-group d-flex justify-content-center">
+                    <button type="submit" className="btn btn-outline-success">Save</button>
+                  </div>
+                  <div className="form-group">
+                    <ul className="list-group border-0">
+                      {
+                        (!requestapi.working)
                         && (
-                          errors
-                            .map(item => (
-                              <li key={item} className="list-group-item border-0">
-                                <div className="alert alert-danger my-0">{item}</div>
-                              </li>
-                            ))
+                          (errors.length > 0)
+                          && (
+                            errors
+                              .map(item => (
+                                <li key={item} className="list-group-item border-0">
+                                  <div className="alert alert-danger my-0">{item}</div>
+                                </li>
+                              ))
+                          )
                         )
-                      )
-                    }
-                  </ul>
+                      }
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </fieldset>
-        </form>
-      </>
-    )
+            )
+          }
+        </fieldset>
+      </form>
+    </>
   );
 };
 
@@ -170,16 +179,12 @@ EditUser.propTypes = {
       }),
     }),
   }).isRequired,
-  user: PropTypes.shape({
+  users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     fullname: PropTypes.string,
     email: PropTypes.string,
     username: PropTypes.string,
-  }),
-};
-
-EditUser.defaultProps = {
-  user: {},
+  })).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditUser);

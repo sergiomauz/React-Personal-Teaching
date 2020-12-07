@@ -76,37 +76,36 @@ const TeachersList = props => {
           <div className="row">
             <div className="col-12 p-0">
               {
-                teachers.length > 0
-                  ? (
-                    <>
-                      <div className="text-center w-100">
-                        <TeacherCard info={teachers[selectedCard]} />
-                        {
-                          myprofile && (
-                            <>
-                              {
-                                myprofile.admin && (
-                                  <div className="d-flex justify-content-center">
-                                    <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
-                                    <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
-                                    <button type="button" onClick={e => handlerRemoveTeacher(e, teachers[selectedCard].id)} className="btn btn-outline-danger">Remove</button>
-                                  </div>
-                                )
-                              }
-                            </>
-                          )
-                        }
-                      </div>
-                      <div className="d-flex justify-content-between carousel-control-container">
-                        <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
-                          <span className="carousel-control-prev-icon" />
-                        </button>
-                        <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
-                          <span className="carousel-control-next-icon" />
-                        </button>
-                      </div>
-                    </>
-                  )
+                teachers.length > 0 ? (
+                  <>
+                    <div className="text-center w-100">
+                      <TeacherCard info={teachers[selectedCard]} />
+                      {
+                        myprofile && (
+                          <>
+                            {
+                              myprofile.admin && (
+                                <div className="d-flex justify-content-center">
+                                  <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
+                                  <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
+                                  <button type="button" onClick={e => handlerRemoveTeacher(e, teachers[selectedCard].id)} className="btn btn-outline-danger">Remove</button>
+                                </div>
+                              )
+                            }
+                          </>
+                        )
+                      }
+                    </div>
+                    <div className="d-flex justify-content-between carousel-control-container">
+                      <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
+                        <span className="carousel-control-prev-icon" />
+                      </button>
+                      <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
+                        <span className="carousel-control-next-icon" />
+                      </button>
+                    </div>
+                  </>
+                )
                   : (
                     <h5 className="title-one">There are no teachers registered</h5>
                   )

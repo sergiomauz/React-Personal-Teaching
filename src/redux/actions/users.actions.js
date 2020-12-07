@@ -1,7 +1,7 @@
 import {
   SIGN_IN_REQUEST, SIGN_OUT, GET_SESSION,
   GET_USERS_LIST, GET_USER_INFO, GET_MY_PROFILE,
-  ADD_USER, UPDATE_USER, REMOVE_USER,
+  ADD_USER, UPDATE_USER_N_REDIRECT, REMOVE_USER,
   CLEAN_STATE,
 } from './types';
 import {
@@ -129,23 +129,23 @@ const removeUser = id => dispatch => {
 };
 
 const updateUser = (id, user) => dispatch => {
-  dispatch(startRequestApi(UPDATE_USER));
+  dispatch(startRequestApi(UPDATE_USER_N_REDIRECT));
 
   return PersonalTeaching().updateUser(id, user)
     .then(requestedData => {
       if (!requestedData.error) {
         dispatch({
-          type: UPDATE_USER,
+          type: UPDATE_USER_N_REDIRECT,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess(UPDATE_USER));
+        dispatch(requestApiSuccess(UPDATE_USER_N_REDIRECT));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
-            type: UPDATE_USER,
+            type: UPDATE_USER_N_REDIRECT,
           });
         }
-        dispatch(requestApiError(UPDATE_USER, requestedData));
+        dispatch(requestApiError(UPDATE_USER_N_REDIRECT, requestedData));
       }
 
       return requestedData;
@@ -201,6 +201,7 @@ const getSession = () => dispatch => {
           if (requestedData.error.hasResponse) {
             dispatch({
               type: GET_SESSION,
+              payload: requestedData,
             });
           }
           dispatch(requestApiError(GET_SESSION, requestedData));

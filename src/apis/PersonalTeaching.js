@@ -2,6 +2,13 @@ import axios from 'axios';
 import { BACKEND_PERSONAL_TEACHING } from '../helpers/constants';
 
 const PersonalTeaching = () => {
+  const sessionDefaultObject = {
+    signedIn: false,
+    accessToken: '',
+    refreshToken: '',
+    expiresAt: 0,
+  };
+
   const onSuccessSession = ({ data }) => {
     const sessionObject = {
       signedIn: true,
@@ -45,15 +52,9 @@ const PersonalTeaching = () => {
     return request;
   };
   const signOutRequest = () => {
-    const sessionObject = {
-      signedIn: false,
-      accessToken: '',
-      refreshToken: '',
-      expiresAt: 0,
-    };
-    localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
+    localStorage.setItem('sessionVar', JSON.stringify(sessionDefaultObject));
 
-    return sessionObject;
+    return sessionDefaultObject;
   };
   const refreshSession = refreshToken => {
     const request = axios.post(`${BACKEND_PERSONAL_TEACHING}oauth/token`, {
@@ -78,6 +79,8 @@ const PersonalTeaching = () => {
           sessionObject = refreshSession(sessionObject.refreshToken);
         }
       }
+    } else {
+      sessionObject = sessionDefaultObject;
     }
 
     return sessionObject;

@@ -1,7 +1,7 @@
 import {
   SIGN_IN_REQUEST, GET_SESSION, SIGN_OUT,
   GET_USERS_LIST, GET_USER_INFO, GET_MY_PROFILE,
-  ADD_USER, UPDATE_USER, REMOVE_USER,
+  ADD_USER, UPDATE_USER, UPDATE_USER_N_REDIRECT, REMOVE_USER,
   CLEAN_STATE,
 } from '../actions/types';
 
@@ -10,7 +10,6 @@ const initialState = {
   myprofile: {
     signedIn: false,
   },
-  user: null,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -45,34 +44,43 @@ const usersReducer = (state = initialState, action) => {
     case GET_USERS_LIST:
       return {
         ...state,
-        list: action.payload,
+        list: action.payload.users,
       };
-    case GET_USER_INFO:
+    case GET_USER_INFO: {
+      const newListState = state.list.filter(user => user.id !== action.payload.user.id);
+      newListState.push(action.payload.user);
       return {
         ...state,
-        user: action.payload.user,
+        list: newListState,
       };
-    case ADD_USER:
+    }
+    case REMOVE_USER:
       return {
         ...state,
-        list: [
-          ...state.list, action.payload,
-        ],
+        list: state.list.filter(user => user.id !== action.payload.user.id),
       };
     case UPDATE_USER:
       return {
         ...state,
         list: state.list.map(
-          user => (user.id === action.payload.id
-            ? action.payload
+          user => (user.id === action.payload.user.id
+            ? action.payload.user
             : user),
         ),
+        myprofile: {
+          ...action.payload.user,
+          signedIn: state.myprofile.signedIn,
+        },
       };
-    case REMOVE_USER:
+    case UPDATE_USER_N_REDIRECT:
       return {
         ...state,
-        list: state.list.filter(user => user.id !== action.payload.id),
+        myprofile: {
+          ...action.payload.user,
+          signedIn: state.myprofile.signedIn,
+        },
       };
+    case ADD_USER:
     default:
       return state;
   }
