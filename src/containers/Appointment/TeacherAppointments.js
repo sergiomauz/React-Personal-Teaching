@@ -12,7 +12,7 @@ import '../../styles/formal.css';
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
   appointments: state.appointments.list,
-  teacher: state.teachers.teacher,
+  teachers: state.teachers.list,
 });
 
 const mapDispatchToProps = {
@@ -25,12 +25,13 @@ const TeacherAppointments = props => {
   const {
     match,
     getTeacherAppointmentsList, removeAppointment, getTeacherInfo,
-    appointments, requestapi, teacher,
+    appointments, requestapi, teachers,
   } = props;
   const { params } = match;
   const { id } = params;
 
   const [errors, setErrors] = useState([]);
+  const [teacherInfo, setTeacherInfo] = useState(null);
 
   const handlerRemoveTeacherAppointment = (e, id) => {
     e.preventDefault();
@@ -47,8 +48,16 @@ const TeacherAppointments = props => {
 
   useEffect(() => {
     getTeacherInfo(id);
+  }, [id, getTeacherInfo]);
+
+  useEffect(() => {
+    const filteredTeacher = teachers.filter(teacher => teacher.id === parseInt(id, 10));
+    setTeacherInfo(filteredTeacher[0]);
+  }, [teachers, id, setTeacherInfo]);
+
+  useEffect(() => {
     getTeacherAppointmentsList(id);
-  }, [id, getTeacherInfo, getTeacherAppointmentsList]);
+  }, [id, getTeacherAppointmentsList]);
 
   return (
     <>
@@ -67,16 +76,16 @@ const TeacherAppointments = props => {
           <div className="row">
             <div className="col-12 offset-md-1 col-md-10 p-0">
               {
-                teacher && (
+                teacherInfo && (
                   <>
                     <div className="row">
                       <label className="col-12 col-md-6">
                         <span className="control-label">Teacher</span>
-                        <span className="form-control">{teacher.fullname}</span>
+                        <span className="form-control">{teacherInfo.fullname}</span>
                       </label>
                       <label className="col-12 col-md-6">
                         <span className="control-label">Course</span>
-                        <span className="form-control">{teacher.course}</span>
+                        <span className="form-control">{teacherInfo.course}</span>
                       </label>
                     </div>
                   </>
@@ -190,7 +199,6 @@ TeacherAppointments.propTypes = {
   }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
   }).isRequired,
   appointments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
@@ -198,19 +206,12 @@ TeacherAppointments.propTypes = {
     user_email: PropTypes.string,
     scheduled_for: PropTypes.string,
     status: PropTypes.number,
-  })),
-  teacher: PropTypes.shape({
+  })).isRequired,
+  teachers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
     fullname: PropTypes.string,
     course: PropTypes.string,
-  }),
-};
-
-TeacherAppointments.defaultProps = {
-  appointments: [],
-  teacher: {
-    fullname: '',
-    course: '',
-  },
+  })).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherAppointments);

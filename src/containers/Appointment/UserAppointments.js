@@ -163,16 +163,14 @@ UserAppointments.propTypes = {
   removeAppointment: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
   }).isRequired,
   appointments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    success: PropTypes.bool,
-  })),
-};
-
-UserAppointments.defaultProps = {
-  appointments: [],
+    teacher_fullname: PropTypes.string,
+    course: PropTypes.string,
+    scheduled_for: PropTypes.string,
+    status: PropTypes.number,
+  })).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserAppointments);
