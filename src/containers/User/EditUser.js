@@ -23,8 +23,7 @@ const EditUser = props => {
   const {
     match,
     getUserInfo, updateUser,
-    requestapi,
-    users,
+    requestapi, users,
   } = props;
   const { params } = match;
   const { id } = params;
@@ -35,8 +34,8 @@ const EditUser = props => {
 
   const history = useHistory();
 
-  const [errors, setErrors] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
+  const [errors, setErrors] = useState([]);
 
   const lookForErrors = () => {
     const errorsList = [];

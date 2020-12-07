@@ -1,6 +1,6 @@
 import {
   GET_TEACHERS_LIST, GET_TEACHER_INFO, GET_TEACHER_AVAILABILITY, CLEAR_TEACHER_AVAILABILITY,
-  ADD_TEACHER, UPDATE_TEACHER, REMOVE_TEACHER,
+  ADD_TEACHER, UPDATE_TEACHER_N_REDIRECT, REMOVE_TEACHER,
 } from './types';
 import { startRequestApi, requestApiSuccess, requestApiError } from './requestapi.actions';
 import PersonalTeaching from '../../apis/PersonalTeaching';
@@ -129,23 +129,23 @@ const removeTeacher = id => dispatch => {
 };
 
 const updateTeacher = (id, teacher) => dispatch => {
-  dispatch(startRequestApi(UPDATE_TEACHER));
+  dispatch(startRequestApi(UPDATE_TEACHER_N_REDIRECT));
 
   return PersonalTeaching().updateTeacher(id, teacher)
     .then(requestedData => {
       if (!requestedData.error) {
         dispatch({
-          type: UPDATE_TEACHER,
+          type: UPDATE_TEACHER_N_REDIRECT,
           payload: requestedData,
         });
-        dispatch(requestApiSuccess(UPDATE_TEACHER));
+        dispatch(requestApiSuccess(UPDATE_TEACHER_N_REDIRECT));
       } else {
         if (requestedData.error.hasResponse) {
           dispatch({
-            type: UPDATE_TEACHER,
+            type: UPDATE_TEACHER_N_REDIRECT,
           });
         }
-        dispatch(requestApiError(UPDATE_TEACHER, requestedData));
+        dispatch(requestApiError(UPDATE_TEACHER_N_REDIRECT, requestedData));
       }
 
       return requestedData;

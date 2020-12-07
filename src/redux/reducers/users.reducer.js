@@ -49,7 +49,9 @@ const usersReducer = (state = initialState, action) => {
     case GET_USER_INFO: {
       if (action.payload) {
         if (action.payload.user) {
-          const newListState = state.list.filter(user => user.id !== action.payload.user.id);
+          const newListState = state.list
+            .filter(user => user.id !== action.payload.user.id);
+
           newListState.push(action.payload.user);
           return {
             ...state,

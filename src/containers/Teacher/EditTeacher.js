@@ -15,7 +15,7 @@ import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
-  teacher: state.teachers.teacher,
+  teachers: state.teachers.list,
 });
 
 const mapDispatchToProps = {
@@ -27,7 +27,7 @@ const EditTeacher = props => {
   const {
     match,
     getTeacherInfo, updateTeacher,
-    requestapi, teacher,
+    requestapi, teachers,
   } = props;
   const { params } = match;
   const { id } = params;
@@ -40,9 +40,10 @@ const EditTeacher = props => {
 
   const history = useHistory();
 
+  const [teacherInfo, setTeacherInfo] = useState(null);
   const [errors, setErrors] = useState([]);
-  const [uploadedImage, setUploadedImage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState('');
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -89,7 +90,7 @@ const EditTeacher = props => {
       setErrors(errorsList);
     } else {
       if (uploadedImage.length === 0) {
-        newImage = teacher.photo;
+        newImage = teacherInfo.photo;
       } else {
         newImage = uploadedImage;
       }
@@ -118,102 +119,109 @@ const EditTeacher = props => {
     getTeacherInfo(id);
   }, [id, getTeacherInfo]);
 
+  useEffect(() => {
+    const filteredTeacher = teachers.filter(teacher => teacher.id === parseInt(id, 10));
+    setTeacherInfo(filteredTeacher[0]);
+  }, [teachers, id, setTeacherInfo]);
+
   return (
-    teacher && (
-      <>
-        <h1 className="title-one green-color">
-          Teacher
-        </h1>
-        <form className="card form-container mb-3" onSubmit={handlerSaveTeacher}>
-          <h2 className="title-one">
-            Edit Teacher
-          </h2>
-          <fieldset
-            className="card-body"
-            disabled={requestapi.working || loading}
-            aria-busy={requestapi.working || loading}
-          >
-            <div className="row">
-              <div className="col-12 offset-md-2 col-md-8 p-0">
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">fullname</span>
-                    <input ref={txtFullname} type="text" className="form-control" defaultValue={teacher.fullname} maxLength="50" />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">email</span>
-                    <input ref={txtEmail} type="email" className="form-control" defaultValue={teacher.email} maxLength="50" />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label className="w-100 text-center">
-                    <span className="control-label">Photo</span>
-                    {
-                      (loading) && <img className="teacher-photo" src={loadingGif} alt="Preview" />
-                    }
-                    {
-                      (teacher.photo.length > 0
-                        && uploadedImage.length === 0
-                        && !loading) && <img className="teacher-photo" src={teacher.photo} alt="Preview" />
-                    }
-                    {
-                      (teacher.photo.length === 0
-                        && uploadedImage.length === 0
-                        && !loading) && <img className="teacher-photo" src={photoTeacher} alt="Preview" />
-                    }
-                    {
-                      (uploadedImage.length > 0 && !loading) && <img className="teacher-photo" src={uploadedImage} alt="Preview" />
-                    }
-                    <input
-                      ref={inputPhoto}
-                      type="file"
-                      className="invisible"
-                      onChange={handlerUploadFile}
-                      accept="image/x-png,image/gif,image/jpeg"
-                    />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">course</span>
-                    <input ref={txtCourse} type="text" className="form-control" defaultValue={teacher.course} maxLength="50" />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label className="w-100">
-                    <span className="control-label">description</span>
-                    <textarea ref={txtDescription} className="form-control" defaultValue={teacher.description} maxLength="150" />
-                  </label>
-                </div>
-                <div className="form-group d-flex justify-content-center">
-                  <button type="submit" className="btn btn-outline-success">Save</button>
-                </div>
-                <div className="form-group">
-                  <ul className="list-group border-0">
-                    {
-                      (!requestapi.working)
-                      && (
-                        (errors.length > 0)
+    <>
+      <h1 className="title-one green-color">
+        Teacher
+      </h1>
+      <form className="card form-container mb-3" onSubmit={handlerSaveTeacher}>
+        <h2 className="title-one">
+          Edit Teacher
+        </h2>
+        <fieldset
+          className="card-body"
+          disabled={requestapi.working || loading}
+          aria-busy={requestapi.working || loading}
+        >
+          {
+            teacherInfo && (
+              <div className="row">
+                <div className="col-12 offset-md-2 col-md-8 p-0">
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">fullname</span>
+                      <input ref={txtFullname} type="text" className="form-control" defaultValue={teacherInfo.fullname} maxLength="50" />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">email</span>
+                      <input ref={txtEmail} type="email" className="form-control" defaultValue={teacherInfo.email} maxLength="50" />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100 text-center">
+                      <span className="control-label">Photo</span>
+                      {
+                        (loading) && <img className="teacher-photo" src={loadingGif} alt="Preview" />
+                      }
+                      {
+                        (teacherInfo.photo.length > 0
+                          && uploadedImage.length === 0
+                          && !loading) && <img className="teacher-photo" src={teacherInfo.photo} alt="Preview" />
+                      }
+                      {
+                        (teacherInfo.photo.length === 0
+                          && uploadedImage.length === 0
+                          && !loading) && <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                      }
+                      {
+                        (uploadedImage.length > 0 && !loading) && <img className="teacher-photo" src={uploadedImage} alt="Preview" />
+                      }
+                      <input
+                        ref={inputPhoto}
+                        type="file"
+                        className="invisible"
+                        onChange={handlerUploadFile}
+                        accept="image/x-png,image/gif,image/jpeg"
+                      />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">course</span>
+                      <input ref={txtCourse} type="text" className="form-control" defaultValue={teacherInfo.course} maxLength="50" />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">description</span>
+                      <textarea ref={txtDescription} className="form-control" defaultValue={teacherInfo.description} maxLength="150" />
+                    </label>
+                  </div>
+                  <div className="form-group d-flex justify-content-center">
+                    <button type="submit" className="btn btn-outline-success">Save</button>
+                  </div>
+                  <div className="form-group">
+                    <ul className="list-group border-0">
+                      {
+                        (!requestapi.working)
                         && (
-                          errors
-                            .map(item => (
-                              <li key={item} className="list-group-item border-0">
-                                <div className="alert alert-danger my-0">{item}</div>
-                              </li>
-                            ))
+                          (errors.length > 0)
+                          && (
+                            errors
+                              .map(item => (
+                                <li key={item} className="list-group-item border-0">
+                                  <div className="alert alert-danger my-0">{item}</div>
+                                </li>
+                              ))
+                          )
                         )
-                      )
-                    }
-                  </ul>
+                      }
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </fieldset>
-        </form>
-      </>
-    )
+            )
+          }
+        </fieldset>
+      </form>
+    </>
   );
 };
 
@@ -227,25 +235,15 @@ EditTeacher.propTypes = {
   }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
-    details: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.string,
-      }),
-    }),
   }).isRequired,
-  teacher: PropTypes.shape({
+  teachers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     fullname: PropTypes.string,
     email: PropTypes.string,
     course: PropTypes.string,
     description: PropTypes.string,
     photo: PropTypes.string,
-  }),
-};
-
-EditTeacher.defaultProps = {
-  teacher: {},
+  })).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTeacher);
