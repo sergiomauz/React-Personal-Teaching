@@ -18,19 +18,20 @@ const appointmentsReducer = (state = initialState, action) => {
     case GET_TEACHER_APPOINTMENTS_LIST:
       return {
         ...state,
-        list: action.payload,
+        list: action.payload.appointments,
       };
     case ADD_APPOINTMENT:
       return {
         ...state,
         list: [
-          ...state.list, action.payload,
+          ...state.list,
+          action.payload.appointment,
         ],
       };
     case REMOVE_APPOINTMENT:
       return {
         ...state,
-        list: state.list.filter(appointment => appointment.id !== action.payload.id),
+        list: state.list.filter(appointment => appointment.id !== action.payload.appointment.id),
       };
     default:
       return state;
