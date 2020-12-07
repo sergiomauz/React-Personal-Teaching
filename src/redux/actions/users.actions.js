@@ -238,5 +238,6 @@ const signOutRequest = () => dispatch => {
 
 export {
   signInRequest, signOutRequest, getSession,
-  getUsersList, getUserInfo, getMyProfile, addUser, updateUser, removeUser,
+  getUsersList, getUserInfo, getMyProfile,
+  addUser, updateUser, removeUser,
 };

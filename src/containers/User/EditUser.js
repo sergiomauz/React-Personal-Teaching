@@ -172,12 +172,6 @@ EditUser.propTypes = {
   }).isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
-    details: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.string,
-      }),
-    }),
   }).isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

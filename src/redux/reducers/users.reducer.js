@@ -47,39 +47,70 @@ const usersReducer = (state = initialState, action) => {
         list: action.payload.users,
       };
     case GET_USER_INFO: {
-      const newListState = state.list.filter(user => user.id !== action.payload.user.id);
-      newListState.push(action.payload.user);
-      return {
-        ...state,
-        list: newListState,
-      };
+      if (action.payload) {
+        if (action.payload.user) {
+          const newListState = state.list.filter(user => user.id !== action.payload.user.id);
+          newListState.push(action.payload.user);
+          return {
+            ...state,
+            list: newListState,
+          };
+        }
+        return state;
+      }
+      return state;
     }
-    case REMOVE_USER:
-      return {
-        ...state,
-        list: state.list.filter(user => user.id !== action.payload.user.id),
-      };
-    case UPDATE_USER:
-      return {
-        ...state,
-        list: state.list.map(
-          user => (user.id === action.payload.user.id
-            ? action.payload.user
-            : user),
-        ),
-        myprofile: {
-          ...action.payload.user,
-          signedIn: state.myprofile.signedIn,
-        },
-      };
-    case UPDATE_USER_N_REDIRECT:
-      return {
-        ...state,
-        myprofile: {
-          ...action.payload.user,
-          signedIn: state.myprofile.signedIn,
-        },
-      };
+    case REMOVE_USER: {
+      if (action.payload) {
+        if (action.payload.user) {
+          return {
+            ...state,
+            list: state.list.filter(user => user.id !== action.payload.user.id),
+          };
+        }
+        return state;
+      }
+      return state;
+    }
+    case UPDATE_USER: {
+      if (action.payload) {
+        if (action.payload.user) {
+          return {
+            ...state,
+            list: state.list.map(
+              user => (user.id === action.payload.user.id
+                ? action.payload.user
+                : user),
+            ),
+            myprofile: {
+              ...(state.myprofile.id === action.payload.user.id
+                ? action.payload.user
+                : state.myprofile),
+              signedIn: state.myprofile.signedIn,
+            },
+          };
+        }
+        return state;
+      }
+      return state;
+    }
+    case UPDATE_USER_N_REDIRECT: {
+      if (action.payload) {
+        if (action.payload.user) {
+          return {
+            ...state,
+            myprofile: {
+              ...(state.myprofile.id === action.payload.user.id
+                ? action.payload.user
+                : state.myprofile),
+              signedIn: state.myprofile.signedIn,
+            },
+          };
+        }
+        return state;
+      }
+      return state;
+    }
     case ADD_USER:
     default:
       return state;

@@ -7,7 +7,6 @@ const initialState = {
   working: false,
   success: true,
   action: CLEAN_STATE,
-  details: null,
 };
 
 const requestApiReducer = (state = initialState, action) => {
@@ -23,7 +22,6 @@ const requestApiReducer = (state = initialState, action) => {
           working: true,
           success: false,
           action: action.payload.action,
-          details: null,
         },
       };
     case EXEC_ACTION:
@@ -33,7 +31,6 @@ const requestApiReducer = (state = initialState, action) => {
           working: false,
           success: false,
           action: action.payload.action,
-          details: null,
         },
       };
     case REQUEST_API_SUCCESS:
@@ -43,7 +40,6 @@ const requestApiReducer = (state = initialState, action) => {
           working: false,
           success: true,
           action: action.payload.action,
-          details: null,
         },
       };
     case REQUEST_API_ERROR:

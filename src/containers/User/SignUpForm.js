@@ -148,7 +148,6 @@ const SignUpForm = props => {
             </div>
           </div>
         </fieldset>
-
       </form>
     </>
   );
@@ -158,12 +157,6 @@ SignUpForm.propTypes = {
   addUser: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
-    details: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.string,
-      }),
-    }),
   }).isRequired,
 };
 

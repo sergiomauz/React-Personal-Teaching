@@ -134,7 +134,6 @@ UsersList.propTypes = {
   removeUser: PropTypes.func.isRequired,
   requestapi: PropTypes.shape({
     working: PropTypes.bool,
-    success: PropTypes.bool,
   }).isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
