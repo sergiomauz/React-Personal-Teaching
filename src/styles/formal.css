@@ -13,6 +13,15 @@ div[disabled] {
   border-radius: 45px;
 }
 
+.center-screen {
+  background: green;
+  position: absolute;
+  float: left;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .invisible {
   display: none !important;
 }

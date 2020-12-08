@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { getUserAppointmentsList, removeAppointment } from '../../redux/actions/appointments.actions';
 
+import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -24,6 +25,7 @@ const UserAppointments = props => {
     appointments,
   } = props;
 
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const handlerRemoveUserAppointment = (e, id) => {
@@ -40,7 +42,10 @@ const UserAppointments = props => {
   };
 
   useEffect(() => {
-    getUserAppointmentsList();
+    setLoading(true);
+    getUserAppointmentsList().then(() => {
+      setLoading(false);
+    });
   }, [getUserAppointmentsList]);
 
   return (
@@ -59,79 +64,88 @@ const UserAppointments = props => {
         >
           <div className="row">
             <div className="col-12 offset-md-1 col-md-10 p-0">
-              <div className="table-responsive">
-                {
-                  appointments.length > 0
-                    ? (
-                      <>
-                        <table className="table table-sm table-hover w-100">
-                          <thead>
-                            <tr>
-                              <th colSpan="4">INCOMING APPOINTMENTS</th>
-                            </tr>
-                            <tr className="green-background">
-                              <th>COURSE</th>
-                              <th>TEACHER</th>
-                              <th colSpan="2">SCHEDULED FOR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              appointments
-                                .filter(item => item.status === 1)
-                                .map(item => (
-                                  <tr key={item.id}>
-                                    <td>
-                                      {item.course}
-                                    </td>
-                                    <td>{item.teacher_fullname}</td>
-                                    <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
-                                    <td>
-                                      {
-                                        !item.admin && (
-                                          <button type="button" onClick={e => handlerRemoveUserAppointment(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
-                                        )
-                                      }
-                                    </td>
-                                  </tr>
-                                ))
-                            }
-                          </tbody>
-                        </table>
-                        <table className="table table-sm table-hover w-100 mt-3">
-                          <thead>
-                            <tr>
-                              <th colSpan="3">PAST APPOINTMENTS</th>
-                            </tr>
-                            <tr className="green-background">
-                              <th>COURSE</th>
-                              <th>TEACHER</th>
-                              <th>SCHEDULED FOR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              appointments
-                                .filter(item => item.status === 0)
-                                .sort((a, b) => a - b)
-                                .map(item => (
-                                  <tr key={item.id}>
-                                    <td>
-                                      {item.course}
-                                    </td>
-                                    <td>{item.teacher_fullname}</td>
-                                    <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
-                                  </tr>
-                                ))
-                            }
-                          </tbody>
-                        </table>
-                      </>
-                    ) : (
-                      <h5 className="title-one">There are no appointments registered</h5>
-                    )
-                }
-              </div>
+              {
+                !loading ? (
+                  <div className="table-responsive">
+                    {
+                      appointments.length > 0
+                        ? (
+                          <>
+                            <table className="table table-sm table-hover w-100">
+                              <thead>
+                                <tr>
+                                  <th colSpan="4">INCOMING APPOINTMENTS</th>
+                                </tr>
+                                <tr className="green-background">
+                                  <th>COURSE</th>
+                                  <th>TEACHER</th>
+                                  <th colSpan="2">SCHEDULED FOR</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  appointments
+                                    .filter(item => item.status === 1)
+                                    .map(item => (
+                                      <tr key={item.id}>
+                                        <td>
+                                          {item.course}
+                                        </td>
+                                        <td>{item.teacher_fullname}</td>
+                                        <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
+                                        <td>
+                                          {
+                                            !item.admin && (
+                                              <button type="button" onClick={e => handlerRemoveUserAppointment(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
+                                            )
+                                          }
+                                        </td>
+                                      </tr>
+                                    ))
+                                }
+                              </tbody>
+                            </table>
+                            <table className="table table-sm table-hover w-100 mt-3">
+                              <thead>
+                                <tr>
+                                  <th colSpan="3">PAST APPOINTMENTS</th>
+                                </tr>
+                                <tr className="green-background">
+                                  <th>COURSE</th>
+                                  <th>TEACHER</th>
+                                  <th>SCHEDULED FOR</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  appointments
+                                    .filter(item => item.status === 0)
+                                    .sort((a, b) => a - b)
+                                    .map(item => (
+                                      <tr key={item.id}>
+                                        <td>
+                                          {item.course}
+                                        </td>
+                                        <td>{item.teacher_fullname}</td>
+                                        <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
+                                      </tr>
+                                    ))
+                                }
+                              </tbody>
+                            </table>
+                          </>
+                        ) : (
+                          <h5 className="title-one">There are no appointments registered</h5>
+                        )
+                    }
+                  </div>
+                )
+                  : (
+                    <div className="form-group text-center">
+                      <img src={loadingGif} alt="Preview" />
+                    </div>
+                  )
+              }
               <div className="form-group">
                 <ul className="list-group border-0">
                   {

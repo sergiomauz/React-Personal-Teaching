@@ -224,6 +224,8 @@ const getSession = () => dispatch => {
       type: GET_SESSION,
     });
   }
+
+  return requestedSession;
 };
 
 const signOutRequest = () => dispatch => {

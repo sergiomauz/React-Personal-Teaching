@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -37,6 +37,8 @@ import {
   URL_TEACHER_APPOINTMENTS,
 } from '../helpers/constants';
 
+import loadingGif from '../images/loading.gif';
+
 const mapStateToProps = state => ({
   requestapi: state.requestapi,
   myprofile: state.users.myprofile,
@@ -51,9 +53,18 @@ const PageContainer = props => {
     requestapi, myprofile,
     getSession, signOutRequest,
   } = props;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getSession();
+    setLoading(true);
+    const sessionObject = getSession();
+    if (sessionObject instanceof Promise) {
+      sessionObject.then(() => {
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
   }, [getSession]);
 
   useEffect(() => {
@@ -72,49 +83,62 @@ const PageContainer = props => {
     signOutRequest]);
 
   return (
-    <div className="d-flex flex-flex-wrap">
-      <Sidebar />
-      <div className="container">
-        <div className="container-fluid pt-5">
-          <Switch>
-            <Route exact path={URL_INDEX} component={myprofile.signedIn ? Welcome : SignInForm} />
-            <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
-            <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
-            <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
-            <ProtectedRoute
-              exact
-              path={URL_EDIT_USER}
-              component={myprofile.admin ? EditUser : Forbidden}
-            />
-            <ProtectedRoute
-              exact
-              path={URL_USERS_LIST}
-              component={myprofile.admin ? UsersList : Forbidden}
-            />
+    <>
+      {
+        !loading ? (
+          <div className="d-flex">
+            <Sidebar />
+            <div className="container">
+              <div className="container-fluid pt-5">
+                <Switch>
+                  <Route
+                    exact
+                    path={URL_INDEX}
+                    component={myprofile.signedIn ? Welcome : SignInForm}
+                  />
+                  <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
+                  <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
+                  <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
+                  <ProtectedRoute
+                    exact
+                    path={URL_EDIT_USER}
+                    component={myprofile.admin ? EditUser : Forbidden}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path={URL_USERS_LIST}
+                    component={myprofile.admin ? UsersList : Forbidden}
+                  />
 
-            <ProtectedRoute
-              exact
-              path={URL_NEW_TEACHER}
-              component={myprofile.admin ? NewTeacher : Forbidden}
-            />
-            <ProtectedRoute
-              exact
-              path={URL_EDIT_TEACHER}
-              component={myprofile.admin ? EditTeacher : Forbidden}
-            />
-            <ProtectedRoute
-              exact
-              path={URL_TEACHER_APPOINTMENTS}
-              component={myprofile.admin ? TeacherAppointments : Forbidden}
-            />
-            <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
-            <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
+                  <ProtectedRoute
+                    exact
+                    path={URL_NEW_TEACHER}
+                    component={myprofile.admin ? NewTeacher : Forbidden}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path={URL_EDIT_TEACHER}
+                    component={myprofile.admin ? EditTeacher : Forbidden}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path={URL_TEACHER_APPOINTMENTS}
+                    component={myprofile.admin ? TeacherAppointments : Forbidden}
+                  />
+                  <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
+                  <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
 
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </div>
-    </div>
+                  <Route component={NotFound} />
+                </Switch>
+              </div>
+            </div>
+          </div>
+        )
+          : (
+            <img src={loadingGif} alt="Preview" className="center-screen" />
+          )
+      }
+    </>
   );
 };
 
