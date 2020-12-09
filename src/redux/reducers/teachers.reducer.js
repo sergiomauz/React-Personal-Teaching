@@ -16,43 +16,6 @@ const teachersReducer = (state = initialState, action) => {
       return {
         ...initialState,
       };
-    // case EXEC_ACTION:
-    //   return {
-    //     ...state,
-    //     requestApi: {
-    //       working: false,
-    //       success: false,
-    //       action: action.payload.action,
-    //     },
-    //   };
-    // case START_REQUEST_API:
-    //   return {
-    //     ...state,
-    //     requestApi: {
-    //       working: true,
-    //       success: false,
-    //       action: action.payload.action,
-    //     },
-    //   };
-    // case REQUEST_API_SUCCESS:
-    //   return {
-    //     ...state,
-    //     requestApi: {
-    //       working: false,
-    //       success: true,
-    //       action: action.payload.action,
-    //     },
-    //   };
-    // case REQUEST_API_ERROR:
-    //   return {
-    //     ...state,
-    //     requestApi: {
-    //       working: false,
-    //       success: false,
-    //       action: action.payload.action,
-    //       details: action.payload.error,
-    //     },
-    //   };
     case GET_TEACHER_AVAILABILITY:
       return {
         list: state.list.map(

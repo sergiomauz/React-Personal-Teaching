@@ -40,7 +40,6 @@ import {
 import loadingGif from '../images/loading.gif';
 
 const mapStateToProps = state => ({
-  requestapi: state.requestapi,
   myprofile: state.users.myprofile,
 });
 
@@ -50,7 +49,7 @@ const mapDispatchToProps = {
 
 const PageContainer = props => {
   const {
-    requestapi, myprofile,
+    myprofile,
     getSession, signOutRequest,
   } = props;
   const [loading, setLoading] = useState(false);
@@ -79,7 +78,7 @@ const PageContainer = props => {
     if (signedIn && !loading && sessionError) {
       signOutRequest();
     }
-  }, [signOutRequest]);
+  }, [signOutRequest, signedIn, loading, sessionError]);
 
   return (
     <>
@@ -93,8 +92,33 @@ const PageContainer = props => {
                   <Route
                     exact
                     path={URL_INDEX}
-                    component={myprofile.signedIn ? Welcome : SignInForm}
+                    component={myprofile.id ? Welcome : SignInForm}
                   />
+                  {/* {
+                    signedIn ? (
+                      <>
+                        {
+                          myprofile.id ? (
+                            <Route
+                              exact
+                              path={URL_INDEX}
+                              component={Welcome}
+                            />
+                          )
+                            : (
+                              <img src={loadingGif} alt="Preview" />
+                            )
+                        }
+                      </>
+                    )
+                      : (
+                        <Route
+                          exact
+                          path={URL_INDEX}
+                          component={SignInForm}
+                        />
+                      )
+                  } */}
                   <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
                   <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
                   <ProtectedRoute
@@ -148,15 +172,6 @@ const PageContainer = props => {
 PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
   signOutRequest: PropTypes.func.isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
-    success: PropTypes.bool,
-    details: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
   myprofile: PropTypes.shape({
     admin: PropTypes.bool,
     signedIn: PropTypes.bool,
