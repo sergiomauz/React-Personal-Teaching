@@ -14,7 +14,6 @@ import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
-  requestapi: state.requestapi,
   teachers: state.teachers.list,
 });
 
@@ -27,7 +26,7 @@ const EditTeacher = props => {
   const {
     match,
     getTeacherInfo, updateTeacher,
-    requestapi, teachers,
+    teachers,
   } = props;
   const { params } = match;
   const { id } = params;
@@ -85,9 +84,11 @@ const EditTeacher = props => {
     let newImage;
     e.preventDefault();
 
+    setLoading(true);
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       if (uploadedImage.length === 0) {
         newImage = teacherInfo.photo;
@@ -108,6 +109,7 @@ const EditTeacher = props => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
+          setLoading(false);
         } else {
           history.push(URL_TEACHERS_LIST);
         }
@@ -116,7 +118,15 @@ const EditTeacher = props => {
   };
 
   useEffect(() => {
-    getTeacherInfo(id);
+    setLoading(true);
+    const errorsList = [];
+    getTeacherInfo(id).then(requestedData => {
+      if (requestedData.error) {
+        errorsList.push(requestedData.error.message);
+        setErrors(errorsList);
+      }
+      setLoading(false);
+    });
   }, [id, getTeacherInfo]);
 
   useEffect(() => {
@@ -133,14 +143,10 @@ const EditTeacher = props => {
         <h2 className="title-one">
           Edit Teacher
         </h2>
-        <fieldset
-          className="card-body"
-          disabled={requestapi.working || loading}
-          aria-busy={requestapi.working || loading}
-        >
-          {
-            teacherInfo && (
-              <div className="row">
+        <fieldset className="card-body" disabled={loading}>
+          <div className="row">
+            {
+              teacherInfo ? (
                 <div className="col-12 offset-md-2 col-md-8 p-0">
                   <div className="form-group">
                     <label className="w-100">
@@ -200,25 +206,26 @@ const EditTeacher = props => {
                   <div className="form-group">
                     <ul className="list-group border-0">
                       {
-                        (!requestapi.working)
-                        && (
-                          (errors.length > 0)
-                          && (
-                            errors
-                              .map(item => (
-                                <li key={item} className="list-group-item border-0">
-                                  <div className="alert alert-danger my-0">{item}</div>
-                                </li>
-                              ))
-                          )
+                        errors.length > 0 && (
+                          errors
+                            .map(item => (
+                              <li key={item} className="list-group-item border-0">
+                                <div className="alert alert-danger my-0">{item}</div>
+                              </li>
+                            ))
                         )
                       }
                     </ul>
                   </div>
                 </div>
-              </div>
-            )
-          }
+              )
+                : (
+                  <div className="col-12 text-center">
+                    <img src={loadingGif} alt="Preview" />
+                  </div>
+                )
+            }
+          </div>
         </fieldset>
       </form>
     </>
@@ -232,9 +239,6 @@ EditTeacher.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
   }).isRequired,
   teachers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

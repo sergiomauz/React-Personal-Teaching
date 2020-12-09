@@ -1,30 +1,18 @@
-/* eslint-disable no-alert */
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import photoTeacher from '../../images/teacher.jpg';
+import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
-const mapStateToProps = state => ({
-  requestapi: state.requestapi,
-});
-
 const TeacherCard = props => {
-  const {
-    info,
-    requestapi,
-  } = props;
+  const { info } = props;
 
   return (
-    <div
-      className="card border-0"
-      disabled={requestapi.working}
-      aria-busy={requestapi.working}
-    >
+    <div className="card border-0">
       {
-        info && (
+        info ? (
           <>
             <Link to={`/teacher/${info.id}`} className="form-group">
               {
@@ -46,15 +34,17 @@ const TeacherCard = props => {
             </div>
           </>
         )
+          : (
+            <div className="col-12 text-center">
+              <img src={loadingGif} alt="Preview" />
+            </div>
+          )
       }
     </div>
   );
 };
 
 TeacherCard.propTypes = {
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
-  }).isRequired,
   info: PropTypes.shape({
     id: PropTypes.number,
     fullname: PropTypes.string,
@@ -64,4 +54,4 @@ TeacherCard.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps)(TeacherCard);
+export default TeacherCard;

@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 import { URL_USERS_LIST } from '../../helpers/constants';
 import { getUserInfo, updateUser } from '../../redux/actions/users.actions';
 
+import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
-  requestapi: state.requestapi,
   users: state.users.list,
 });
 
@@ -23,7 +23,7 @@ const EditUser = props => {
   const {
     match,
     getUserInfo, updateUser,
-    requestapi, users,
+    users,
   } = props;
   const { params } = match;
   const { id } = params;
@@ -35,6 +35,7 @@ const EditUser = props => {
   const history = useHistory();
 
   const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const lookForErrors = () => {
@@ -62,6 +63,7 @@ const EditUser = props => {
   const handlerSaveUser = e => {
     e.preventDefault();
 
+    setLoading(true);
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
@@ -78,6 +80,7 @@ const EditUser = props => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
+          setLoading(false);
         } else {
           history.push(URL_USERS_LIST);
         }
@@ -86,7 +89,15 @@ const EditUser = props => {
   };
 
   useEffect(() => {
-    getUserInfo(id);
+    setLoading(true);
+    const errorsList = [];
+    getUserInfo(id).then(requestedData => {
+      if (requestedData.error) {
+        errorsList.push(requestedData.error.message);
+        setErrors(errorsList);
+      }
+      setLoading(false);
+    });
   }, [id, getUserInfo]);
 
   useEffect(() => {
@@ -103,43 +114,37 @@ const EditUser = props => {
         <h2 className="title-one">
           Edit User
         </h2>
-        <fieldset
-          className="card-body"
-          disabled={requestapi.working}
-          aria-busy={requestapi.working}
-        >
-          {
-            userInfo && (
-              <div className="row">
-                <div className="col-12 offset-md-2 col-md-8 p-0">
-                  <div className="form-group">
-                    <label className="w-100">
-                      <span className="control-label">fullname</span>
-                      <input ref={txtFullname} type="text" className="form-control" defaultValue={userInfo.fullname} />
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <label className="w-100">
-                      <span className="control-label">email</span>
-                      <input ref={txtEmail} type="text" className="form-control" defaultValue={userInfo.email} />
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <label className="w-100">
-                      <span className="control-label">username</span>
-                      <input ref={txtUser} type="text" className="form-control" defaultValue={userInfo.username} />
-                    </label>
-                  </div>
-                  <div className="form-group d-flex justify-content-center">
-                    <button type="submit" className="btn btn-outline-success">Save</button>
-                  </div>
-                  <div className="form-group">
-                    <ul className="list-group border-0">
-                      {
-                        (!requestapi.working)
-                        && (
-                          (errors.length > 0)
-                          && (
+        <fieldset className="card-body" disabled={loading}>
+          <div className="row">
+            {
+              userInfo ? (
+                <>
+                  <div className="col-12 offset-md-2 col-md-8 p-0">
+                    <div className="form-group">
+                      <label className="w-100">
+                        <span className="control-label">fullname</span>
+                        <input ref={txtFullname} type="text" className="form-control" defaultValue={userInfo.fullname} />
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <label className="w-100">
+                        <span className="control-label">email</span>
+                        <input ref={txtEmail} type="text" className="form-control" defaultValue={userInfo.email} />
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <label className="w-100">
+                        <span className="control-label">username</span>
+                        <input ref={txtUser} type="text" className="form-control" defaultValue={userInfo.username} />
+                      </label>
+                    </div>
+                    <div className="form-group d-flex justify-content-center">
+                      <button type="submit" className="btn btn-outline-success">Save</button>
+                    </div>
+                    <div className="form-group">
+                      <ul className="list-group border-0">
+                        {
+                          errors.length > 0 && (
                             errors
                               .map(item => (
                                 <li key={item} className="list-group-item border-0">
@@ -147,14 +152,19 @@ const EditUser = props => {
                                 </li>
                               ))
                           )
-                        )
-                      }
-                    </ul>
+                        }
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )
-          }
+                </>
+              )
+                : (
+                  <div className="col-12 text-center">
+                    <img src={loadingGif} alt="Preview" />
+                  </div>
+                )
+            }
+          </div>
         </fieldset>
       </form>
     </>
@@ -168,9 +178,6 @@ EditUser.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
   }).isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

@@ -7,24 +7,18 @@ import { signInRequest } from '../../redux/actions/users.actions';
 
 import '../../styles/formal.css';
 
-const mapStateToProps = state => ({
-  requestapi: state.requestapi,
-});
-
 const mapDispatchToProps = {
   signInRequest,
 };
 
 const SignInForm = props => {
-  const {
-    requestapi,
-    signInRequest,
-  } = props;
+  const { signInRequest } = props;
 
   const txtUser = useRef(null);
   const txtPassword = useRef(null);
 
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -43,9 +37,11 @@ const SignInForm = props => {
   const handlerSignIn = e => {
     e.preventDefault();
 
+    setLoading(true);
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       const [username, password] = [
         txtUser.current.value,
@@ -58,6 +54,7 @@ const SignInForm = props => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
+          setLoading(false);
         }
       });
     }
@@ -72,11 +69,7 @@ const SignInForm = props => {
         <h2 className="title-one">
           Please, Sign In
         </h2>
-        <fieldset
-          className="card-body"
-          disabled={requestapi.working}
-          aria-busy={requestapi.working}
-        >
+        <fieldset className="card-body" disabled={loading}>
           <div className="row">
             <div className="col-12 offset-md-2 col-md-8 p-0">
               <div className="form-group">
@@ -97,17 +90,13 @@ const SignInForm = props => {
               <div className="form-group">
                 <ul className="list-group border-0 w-100">
                   {
-                    (!requestapi.working)
-                    && (
-                      (errors.length > 0)
-                      && (
-                        errors
-                          .map(item => (
-                            <li key={item} className="list-group-item border-0">
-                              <div className="alert alert-danger my-0">{item}</div>
-                            </li>
-                          ))
-                      )
+                    errors.length > 0 && (
+                      errors
+                        .map(item => (
+                          <li key={item} className="list-group-item border-0">
+                            <div className="alert alert-danger my-0">{item}</div>
+                          </li>
+                        ))
                     )
                   }
                 </ul>
@@ -122,9 +111,6 @@ const SignInForm = props => {
 
 SignInForm.propTypes = {
   signInRequest: PropTypes.func.isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
-  }).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
+export default connect(null, mapDispatchToProps)(SignInForm);

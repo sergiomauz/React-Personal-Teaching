@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import TeacherCard from './TeacherCard';
 import { getTeachersList, removeTeacher } from '../../redux/actions/teachers.actions';
 
+import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -25,6 +26,8 @@ const TeachersList = props => {
   } = props;
 
   const [selectedCard, setSelectedCard] = useState(0);
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handlerMovePreviousCard = e => {
     e.preventDefault();
@@ -46,8 +49,10 @@ const TeachersList = props => {
 
   const handlerRemoveTeacher = (e, id) => {
     e.preventDefault();
-    const errorsList = [];
+
     if (window.confirm('Are you sure?')) {
+      setLoading(true);
+      const errorsList = [];
       removeTeacher(id).then(requestedData => {
         if (!requestedData.error) {
           if (selectedCard === 0) {
@@ -58,12 +63,21 @@ const TeachersList = props => {
         } else {
           errorsList.push(requestedData.error.message);
         }
+        setLoading(false);
       });
     }
   };
 
   useEffect(() => {
-    getTeachersList();
+    setLoading(true);
+    const errorsList = [];
+    getTeachersList().then(requestedData => {
+      if (requestedData.error) {
+        errorsList.push(requestedData.error.message);
+        setErrors(errorsList);
+      }
+      setLoading(false);
+    });
   }, [getTeachersList]);
 
   return (
@@ -72,45 +86,70 @@ const TeachersList = props => {
         Teachers List
       </h1>
       <div className="card form-container">
-        <div className="card-body">
+        <div className="card-body" disabled={loading}>
           <div className="row">
-            <div className="col-12 p-0">
-              {
-                teachers.length > 0 ? (
-                  <>
-                    <div className="text-center w-100">
-                      <TeacherCard info={teachers[selectedCard]} />
-                      {
-                        myprofile && (
-                          <>
+            {
+              !loading ? (
+                <>
+                  <div className="col-12 p-0">
+                    {
+                      teachers.length > 0 ? (
+                        <>
+                          <div className="text-center w-100">
+                            <TeacherCard info={teachers[selectedCard]} />
                             {
-                              myprofile.admin && (
-                                <div className="d-flex justify-content-center">
-                                  <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
-                                  <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
-                                  <button type="button" onClick={e => handlerRemoveTeacher(e, teachers[selectedCard].id)} className="btn btn-outline-danger">Remove</button>
-                                </div>
+                              myprofile && (
+                                <>
+                                  {
+                                    myprofile.admin && (
+                                      <div className="d-flex justify-content-center">
+                                        <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
+                                        <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
+                                        <button type="button" onClick={e => handlerRemoveTeacher(e, teachers[selectedCard].id)} className="btn btn-outline-danger">Remove</button>
+                                      </div>
+                                    )
+                                  }
+                                </>
                               )
                             }
-                          </>
+                          </div>
+                          <div className="d-flex justify-content-between carousel-control-container">
+                            <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
+                              <span className="carousel-control-prev-icon" />
+                            </button>
+                            <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
+                              <span className="carousel-control-next-icon" />
+                            </button>
+                          </div>
+                        </>
+                      )
+                        : (
+                          <h5 className="title-one">There are no teachers registered</h5>
+                        )
+                    }
+                  </div>
+                  <div className="form-group">
+                    <ul className="list-group border-0">
+                      {
+                        errors.length > 0 && (
+                          errors
+                            .map(item => (
+                              <li key={item} className="list-group-item border-0">
+                                <div className="alert alert-danger my-0">{item}</div>
+                              </li>
+                            ))
                         )
                       }
-                    </div>
-                    <div className="d-flex justify-content-between carousel-control-container">
-                      <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
-                        <span className="carousel-control-prev-icon" />
-                      </button>
-                      <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
-                        <span className="carousel-control-next-icon" />
-                      </button>
-                    </div>
-                  </>
+                    </ul>
+                  </div>
+                </>
+              )
+                : (
+                  <div className="col-12 text-center">
+                    <img src={loadingGif} alt="Preview" />
+                  </div>
                 )
-                  : (
-                    <h5 className="title-one">There are no teachers registered</h5>
-                  )
-              }
-            </div>
+            }
           </div>
         </div>
       </div>

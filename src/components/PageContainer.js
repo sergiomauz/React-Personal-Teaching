@@ -89,36 +89,11 @@ const PageContainer = props => {
             <div className="container">
               <div className="container-fluid pt-5">
                 <Switch>
-                  {
-                    myprofile.signedIn ? (
-                      <>
-                        {
-                          myprofile.id ? (
-                            <Route
-                              exact
-                              path={URL_INDEX}
-                              component={Welcome}
-                            />
-                          )
-                            : (
-                              <div className="row">
-                                <div className="col-12 text-center">
-                                  <img src={loadingGif} alt="Preview" />
-                                </div>
-                              </div>
-                            )
-
-                        }
-                      </>
-                    )
-                      : (
-                        <Route
-                          exact
-                          path={URL_INDEX}
-                          component={SignInForm}
-                        />
-                      )
-                  }
+                  <Route
+                    exact
+                    path={URL_INDEX}
+                    component={myprofile.id ? Welcome : SignInForm}
+                  />
                   <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
                   <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
                   <ProtectedRoute

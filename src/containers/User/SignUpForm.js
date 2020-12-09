@@ -9,19 +9,12 @@ import { addUser } from '../../redux/actions/users.actions';
 
 import '../../styles/formal.css';
 
-const mapStateToProps = state => ({
-  requestapi: state.requestapi,
-});
-
 const mapDispatchToProps = {
   addUser,
 };
 
 const SignUpForm = props => {
-  const {
-    requestapi,
-    addUser,
-  } = props;
+  const { addUser } = props;
 
   const txtFullname = useRef(null);
   const txtUser = useRef(null);
@@ -31,6 +24,7 @@ const SignUpForm = props => {
   const history = useHistory();
 
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -60,9 +54,11 @@ const SignUpForm = props => {
   const handlerSignUp = e => {
     e.preventDefault();
 
+    setLoading(true);
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       const [fullname, email, username, password] = [
         txtFullname.current.value,
@@ -77,6 +73,7 @@ const SignUpForm = props => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
+          setLoading(false);
         } else {
           history.push(URL_SIGN_IN);
         }
@@ -93,11 +90,7 @@ const SignUpForm = props => {
         <h2 className="title-one">
           New User
         </h2>
-        <fieldset
-          className="card-body"
-          disabled={requestapi.working}
-          aria-busy={requestapi.working}
-        >
+        <fieldset className="card-body" disabled={loading}>
           <div className="row">
             <div className="col-12 offset-md-2 col-md-8 p-0">
               <div className="form-group">
@@ -130,17 +123,13 @@ const SignUpForm = props => {
               <div className="form-group">
                 <ul className="list-group border-0">
                   {
-                    (!requestapi.working)
-                    && (
-                      (errors.length > 0)
-                      && (
-                        errors
-                          .map(item => (
-                            <li key={item} className="list-group-item border-0">
-                              <div className="alert alert-danger my-0">{item}</div>
-                            </li>
-                          ))
-                      )
+                    errors.length > 0 && (
+                      errors
+                        .map(item => (
+                          <li key={item} className="list-group-item border-0">
+                            <div className="alert alert-danger my-0">{item}</div>
+                          </li>
+                        ))
                     )
                   }
                 </ul>
@@ -155,9 +144,6 @@ const SignUpForm = props => {
 
 SignUpForm.propTypes = {
   addUser: PropTypes.func.isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
-  }).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
+export default connect(null, mapDispatchToProps)(SignUpForm);

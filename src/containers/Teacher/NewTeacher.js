@@ -13,17 +13,12 @@ import photoTeacher from '../../images/teacher.jpg';
 import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
-const mapStateToProps = state => ({
-  requestapi: state.requestapi,
-});
-
 const mapDispatchToProps = {
   addTeacher,
 };
 
 const NewTeacher = props => {
   const {
-    requestapi,
     addTeacher,
   } = props;
 
@@ -78,9 +73,11 @@ const NewTeacher = props => {
   const handlerSaveTeacher = e => {
     e.preventDefault();
 
+    setLoading(true);
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       const [fullname, email, photo, course, description] = [
         txtFullname.current.value,
@@ -96,6 +93,7 @@ const NewTeacher = props => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
+          setLoading(false);
         } else {
           history.push(URL_TEACHERS_LIST);
         }
@@ -112,11 +110,7 @@ const NewTeacher = props => {
         <h2 className="title-one">
           New Teacher
         </h2>
-        <fieldset
-          className="card-body"
-          disabled={requestapi.working || loading}
-          aria-busy={requestapi.working || loading}
-        >
+        <fieldset className="card-body" disabled={loading}>
           <div className="row">
             <div className="col-12 offset-md-2 col-md-8 p-0">
               <div className="form-group">
@@ -170,17 +164,13 @@ const NewTeacher = props => {
               <div className="form-group">
                 <ul className="list-group border-0">
                   {
-                    (!requestapi.working)
-                    && (
-                      (errors.length > 0)
-                      && (
-                        errors
-                          .map(item => (
-                            <li key={item} className="list-group-item border-0">
-                              <div className="alert alert-danger my-0">{item}</div>
-                            </li>
-                          ))
-                      )
+                    errors.length > 0 && (
+                      errors
+                        .map(item => (
+                          <li key={item} className="list-group-item border-0">
+                            <div className="alert alert-danger my-0">{item}</div>
+                          </li>
+                        ))
                     )
                   }
                 </ul>
@@ -195,9 +185,6 @@ const NewTeacher = props => {
 
 NewTeacher.propTypes = {
   addTeacher: PropTypes.func.isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
-  }).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewTeacher);
+export default connect(null, mapDispatchToProps)(NewTeacher);
