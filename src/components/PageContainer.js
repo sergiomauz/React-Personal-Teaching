@@ -54,33 +54,32 @@ const PageContainer = props => {
     getSession, signOutRequest,
   } = props;
   const [loading, setLoading] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+  const [sessionError, setSessionError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const sessionObject = getSession();
     if (sessionObject instanceof Promise) {
-      sessionObject.then(() => {
+      sessionObject.then(requestedData => {
+        if (requestedData.error) {
+          setSessionError(true);
+        } else {
+          setSignedIn(requestedData.signedIn);
+        }
         setLoading(false);
       });
     } else {
+      setSignedIn(sessionObject.signedIn);
       setLoading(false);
     }
   }, [getSession]);
 
   useEffect(() => {
-    if (requestapi.details) {
-      if (requestapi.details.error) {
-        if (myprofile.signedIn && !requestapi.working && !requestapi.success) {
-          signOutRequest();
-        }
-      }
+    if (signedIn && !loading && sessionError) {
+      signOutRequest();
     }
-  }, [
-    myprofile.signedIn,
-    requestapi.details,
-    requestapi.success,
-    requestapi.working,
-    signOutRequest]);
+  }, [signOutRequest]);
 
   return (
     <>
@@ -98,7 +97,11 @@ const PageContainer = props => {
                   />
                   <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
                   <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
-                  <ProtectedRoute exact path={URL_USER_APPOINTMENTS} component={UserAppointments} />
+                  <ProtectedRoute
+                    exact
+                    path={URL_USER_APPOINTMENTS}
+                    component={UserAppointments}
+                  />
                   <ProtectedRoute
                     exact
                     path={URL_EDIT_USER}
@@ -135,7 +138,7 @@ const PageContainer = props => {
           </div>
         )
           : (
-            <img src={loadingGif} alt="Preview" className="center-screen" />
+            <img src={loadingGif} alt="Preview" />
           )
       }
     </>
@@ -157,6 +160,7 @@ PageContainer.propTypes = {
   myprofile: PropTypes.shape({
     admin: PropTypes.bool,
     signedIn: PropTypes.bool,
+    id: PropTypes.number,
   }).isRequired,
 };
 
