@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 import { getTeacherAppointmentsList, removeAppointment } from '../../redux/actions/appointments.actions';
 import { getTeacherInfo } from '../../redux/actions/teachers.actions';
 
+import loadingGif from '../../images/loading.gif';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
-  requestapi: state.requestapi,
   appointments: state.appointments.list,
   teachers: state.teachers.list,
 });
@@ -25,11 +25,12 @@ const TeacherAppointments = props => {
   const {
     match,
     getTeacherAppointmentsList, removeAppointment, getTeacherInfo,
-    appointments, requestapi, teachers,
+    appointments, teachers,
   } = props;
   const { params } = match;
   const { id } = params;
 
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const [teacherInfo, setTeacherInfo] = useState(null);
 
@@ -47,17 +48,30 @@ const TeacherAppointments = props => {
   };
 
   useEffect(() => {
-    getTeacherInfo(id);
-  }, [id, getTeacherInfo]);
+    setLoading(true);
+
+    const errorsList = [];
+    getTeacherInfo(id).then(requestedTeacherData => {
+      if (requestedTeacherData.error) {
+        errorsList.push(requestedTeacherData.error.message);
+        setErrors(errorsList);
+        setLoading(false);
+      } else {
+        getTeacherAppointmentsList(id).then(requestedAppointmentsData => {
+          if (requestedAppointmentsData.error) {
+            errorsList.push(requestedAppointmentsData.error.message);
+            setErrors(errorsList);
+          }
+          setLoading(false);
+        });
+      }
+    });
+  }, [id, getTeacherInfo, getTeacherAppointmentsList]);
 
   useEffect(() => {
     const filteredTeacher = teachers.filter(teacher => teacher.id === parseInt(id, 10));
     setTeacherInfo(filteredTeacher[0]);
   }, [teachers, id, setTeacherInfo]);
-
-  useEffect(() => {
-    getTeacherAppointmentsList(id);
-  }, [id, getTeacherAppointmentsList]);
 
   return (
     <>
@@ -68,119 +82,118 @@ const TeacherAppointments = props => {
         <h2 className="title-one text-center">
           Teacher appointments
         </h2>
-        <div
-          className="card-body"
-          disabled={requestapi.working}
-          aria-busy={requestapi.working}
-        >
+        <div className="card-body">
           <div className="row">
-            <div className="col-12 offset-md-1 col-md-10 p-0">
-              {
-                teacherInfo && (
-                  <>
-                    <div className="row">
-                      <label className="col-12 col-md-6">
-                        <span className="control-label">Teacher</span>
-                        <span className="form-control">{teacherInfo.fullname}</span>
-                      </label>
-                      <label className="col-12 col-md-6">
-                        <span className="control-label">Course</span>
-                        <span className="form-control">{teacherInfo.course}</span>
-                      </label>
-                    </div>
-                  </>
-                )
-              }
-            </div>
-            <div className="col-12 offset-md-1 col-md-10 p-0">
-              <div className="table-responsive">
-                {
-                  appointments.length > 0
-                    ? (
-                      <>
-                        <table className="table table-sm table-hover w-100">
-                          <thead>
-                            <tr>
-                              <th colSpan="4">INCOMING APPOINTMENTS</th>
-                            </tr>
-                            <tr className="green-background">
-                              <th>STUDENT</th>
-                              <th>EMAIL</th>
-                              <th colSpan="2">SCHEDULED FOR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              appointments
-                                .filter(item => item.status === 1)
-                                .map(item => (
-                                  <tr key={item.id}>
-                                    <td>{item.user_fullname}</td>
-                                    <td>{item.user_email}</td>
-                                    <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
-                                    <td>
-                                      {
-                                        !item.admin && (
-                                          <button type="button" onClick={e => handlerRemoveTeacherAppointment(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
-                                        )
-                                      }
-                                    </td>
-                                  </tr>
-                                ))
-                            }
-                          </tbody>
-                        </table>
-                        <table className="table table-sm table-hover w-100 mt-3">
-                          <thead>
-                            <tr>
-                              <th colSpan="3">PAST APPOINTMENTS</th>
-                            </tr>
-                            <tr className="green-background">
-                              <th>STUDENT</th>
-                              <th>EMAIL</th>
-                              <th>SCHEDULED FOR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              appointments
-                                .filter(item => item.status === 0)
-                                .sort((a, b) => a - b)
-                                .map(item => (
-                                  <tr key={item.id}>
-                                    <td>{item.user_fullname}</td>
-                                    <td>{item.user_email}</td>
-                                    <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
-                                  </tr>
-                                ))
-                            }
-                          </tbody>
-                        </table>
-                      </>
-                    ) : (
-                      <h5 className="title-one">There are no appointments registered</h5>
-                    )
-                }
-              </div>
-              <div className="form-group">
-                <ul className="list-group border-0">
-                  {
-                    (!requestapi.working)
-                    && (
-                      (errors.length > 0)
-                      && (
-                        errors
-                          .map(item => (
-                            <li key={item} className="list-group-item border-0">
-                              <div className="alert alert-danger my-0">{item}</div>
-                            </li>
-                          ))
+            {
+              !loading ? (
+                <>
+                  <div className="col-12 offset-md-1 col-md-10 p-0">
+                    {
+                      teacherInfo && (
+                        <div className="row">
+                          <label className="col-12 col-md-6">
+                            <span className="control-label">Teacher</span>
+                            <span className="form-control">{teacherInfo.fullname}</span>
+                          </label>
+                          <label className="col-12 col-md-6">
+                            <span className="control-label">Course</span>
+                            <span className="form-control">{teacherInfo.course}</span>
+                          </label>
+                        </div>
                       )
-                    )
-                  }
-                </ul>
-              </div>
-            </div>
+                    }
+                  </div>
+                  <div className="col-12 offset-md-1 col-md-10 p-0">
+                    {
+                      appointments.length > 0
+                        ? (
+                          <div className="table-responsive">
+                            <table className="table table-sm table-hover w-100">
+                              <thead>
+                                <tr>
+                                  <th colSpan="4">INCOMING APPOINTMENTS</th>
+                                </tr>
+                                <tr className="green-background">
+                                  <th>STUDENT</th>
+                                  <th>EMAIL</th>
+                                  <th colSpan="2">SCHEDULED FOR</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  appointments
+                                    .filter(item => item.status === 1)
+                                    .map(item => (
+                                      <tr key={item.id}>
+                                        <td>{item.user_fullname}</td>
+                                        <td>{item.user_email}</td>
+                                        <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
+                                        <td>
+                                          {
+                                            !item.admin && (
+                                              <button type="button" onClick={e => handlerRemoveTeacherAppointment(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
+                                            )
+                                          }
+                                        </td>
+                                      </tr>
+                                    ))
+                                }
+                              </tbody>
+                            </table>
+                            <table className="table table-sm table-hover w-100 mt-3">
+                              <thead>
+                                <tr>
+                                  <th colSpan="3">PAST APPOINTMENTS</th>
+                                </tr>
+                                <tr className="green-background">
+                                  <th>STUDENT</th>
+                                  <th>EMAIL</th>
+                                  <th>SCHEDULED FOR</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  appointments
+                                    .filter(item => item.status === 0)
+                                    .sort((a, b) => a - b)
+                                    .map(item => (
+                                      <tr key={item.id}>
+                                        <td>{item.user_fullname}</td>
+                                        <td>{item.user_email}</td>
+                                        <td>{item.scheduled_for.replace(':00.000Z', '').replace('T', ' ')}</td>
+                                      </tr>
+                                    ))
+                                }
+                              </tbody>
+                            </table>
+                          </div>
+                        ) : (
+                          <h5 className="title-one">There are no appointments registered</h5>
+                        )
+                    }
+                    <div className="form-group">
+                      <ul className="list-group border-0">
+                        {
+                          errors.length > 0 && (
+                            errors
+                              .map(item => (
+                                <li key={item} className="list-group-item border-0">
+                                  <div className="alert alert-danger my-0">{item}</div>
+                                </li>
+                              ))
+                          )
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )
+                : (
+                  <div className="col-12 text-center">
+                    <img src={loadingGif} alt="Preview" />
+                  </div>
+                )
+            }
           </div>
         </div>
       </div>
@@ -196,9 +209,6 @@ TeacherAppointments.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
-  requestapi: PropTypes.shape({
-    working: PropTypes.bool,
   }).isRequired,
   appointments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

@@ -6,6 +6,8 @@ import { Route } from 'react-router-dom';
 
 import Forbidden from './Forbidden';
 
+import loadingGif from '../images/loading.gif';
+
 const mapStateToProps = state => ({
   myprofile: state.users.myprofile,
 });
@@ -14,12 +16,32 @@ const ProtectedRoute = props => {
   const { component, path, myprofile } = props;
 
   return (
-    myprofile.signedIn
-      ? (
-        <Route exact component={component} path={path} />
-      ) : (
-        <Forbidden />
-      )
+    <>
+      {
+        myprofile.signedIn ? (
+          <>
+            {
+              myprofile.id ? (
+                <Route
+                  exact
+                  component={component}
+                  path={path}
+                />
+              )
+                : (
+                  <div className="row">
+                    <div className="col-12 text-center">
+                      <img src={loadingGif} alt="Preview" />
+                    </div>
+                  </div>
+                )
+
+            }
+          </>
+        )
+          : <Forbidden />
+      }
+    </>
   );
 };
 
@@ -27,7 +49,7 @@ ProtectedRoute.propTypes = {
   component: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
   myprofile: PropTypes.shape({
-    admin: PropTypes.bool,
+    id: PropTypes.number,
     signedIn: PropTypes.bool,
   }).isRequired,
 };
