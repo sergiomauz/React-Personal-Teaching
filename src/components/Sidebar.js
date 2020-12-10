@@ -1,61 +1,121 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
-import aStyle from '../styles/index.module.css';
-import cStyle from '../styles/sidebar.module.css';
+import { connect } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Sidebar = () => {
+import { signOutRequest } from '../redux/actions/users.actions';
+import { URL_SIGN_IN } from '../helpers/constants';
+
+import '../styles/formal.css';
+
+const mapStateToProps = state => ({
+  myprofile: state.users.myprofile,
+});
+
+const mapDispatchToProps = {
+  signOutRequest,
+};
+
+const Sidebar = props => {
+  const { myprofile, signOutRequest } = props;
   const divSidebar = useRef(null);
+  const history = useHistory();
 
   const toggleSidebar = e => {
-    divSidebar.current.classList.toggle(cStyle.toggleSidebar);
     e.preventDefault();
+    divSidebar.current.classList.toggle('toggle-sidebar');
+  };
+
+  const handlerSignOutRequest = e => {
+    e.preventDefault();
+    signOutRequest();
+
+    history.push(URL_SIGN_IN);
   };
 
   return (
-    <div ref={divSidebar} className={cStyle.sidebarWrapper}>
-      <div className={`${cStyle.topSidebar} ${cStyle.moveOutSideRight} ${aStyle.dFlex} ${aStyle.justifyContentRight}`}>
-        <button className={aStyle.btn} type="button" onClick={toggleSidebar}>
+    <div ref={divSidebar} className="sidebar-wrapper">
+      <div className="top-sidebar move-out-side-right d-flex justify-content-right">
+        <button className="btn btn-outline-success" type="button" onClick={toggleSidebar}>
           <i className="fa fa-bars" aria-hidden="true" />
         </button>
       </div>
-      <div className={`${cStyle.sidebarHeading} ${aStyle.dFlex} ${aStyle.justifyContentCenter}`}>
-        <div className={cStyle.sidebarLogo} />
+      <div className="sidebar-heading d-flex justify-content-center">
+        <div className="sidebar-logo" />
       </div>
-      <ul className={aStyle.listGroup}>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/signin">
-            Sign In
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/signup">
-            Sign Up
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/teachers">
-            Teachers
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/teacher/new">
-            New Teacher
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/appointments">
-            Appointments
-          </Link>
-        </li>
-        <li className={`${aStyle.listGroupItem}`}>
-          <Link className={`${aStyle.listGroupItemAction}`} to="/">
-            Sign out
-          </Link>
-        </li>
+      <div className="d-flex flex-column justify-content-center">
+        {
+          myprofile.username && (
+            <label className="w-100">
+              <span className="control-label font-weight-bold">USER</span>
+              <span className="form-control border-right-0 border-left-0 font-weight-bold green-color text-center">{myprofile.username}</span>
+            </label>
+          )
+        }
+      </div>
+      <ul className="list-group">
+        {
+          myprofile.signedIn ? (
+            <>
+              <li className="list-group-item p-0">
+                <Link className="list-group-item-action" to="/teachers">
+                  Teachers
+                </Link>
+              </li>
+              {
+                myprofile && (
+                  <>
+                    {
+                      myprofile.admin && (
+                        <>
+                          <li className="list-group-item p-0">
+                            <Link className="list-group-item-action" to="/users">
+                              Users
+                            </Link>
+                          </li>
+                          <li className="list-group-item p-0">
+                            <Link className="list-group-item-action" to="/teacher/new">
+                              New Teacher
+                            </Link>
+                          </li>
+                        </>
+                      )
+                    }
+                  </>
+                )
+              }
+              <li className="list-group-item p-0">
+                <Link className="list-group-item-action" to="/appointments">
+                  My appointments
+                </Link>
+              </li>
+              <li className="list-group-item p-0">
+                <button type="button" className="list-group-item-button" onClick={handlerSignOutRequest}>
+                  Sign out
+                </button>
+              </li>
+            </>
+          )
+            : (
+              <>
+                <li className="list-group-item p-0">
+                  <Link className="list-group-item-action" to="/signin">
+                    Sign In
+                  </Link>
+                </li>
+                <li className="list-group-item p-0">
+                  <Link className="list-group-item-action" to="/signup">
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )
+        }
       </ul>
 
-      <div className={cStyle.sidebarBottom}>
-        <div className={cStyle.sidebarSocialContainer}>
+      <div className="sidebar-bottom">
+        <div className="sidebar-social-container">
           <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-twitter" />
           </a>
@@ -72,7 +132,7 @@ const Sidebar = () => {
             <i className="fab fa-pinterest-p" />
           </a>
         </div>
-        <div className={cStyle.sidebarTrademark}>
+        <div className="sidebar-trademark">
           React Personal Teachers &trade; &reg;
         </div>
       </div>
@@ -80,4 +140,16 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+Sidebar.propTypes = {
+  signOutRequest: PropTypes.func.isRequired,
+  myprofile: PropTypes.shape({
+    id: PropTypes.number,
+    username: PropTypes.string,
+    fullname: PropTypes.string,
+    email: PropTypes.string,
+    admin: PropTypes.bool,
+    signedIn: PropTypes.bool,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

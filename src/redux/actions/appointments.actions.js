@@ -1,32 +1,78 @@
-// import PersonalTeaching from '../../apis/PersonalTeaching';
 import {
-  GET_APPOINTMENTS_LIST, GET_APPOINTMENT_INFO, ADD_APPOINTMENT, UPDATE_APPOINTMENT,
-  REMOVE_APPOINTMENT,
+  GET_USER_APPOINTMENTS_LIST, GET_TEACHER_APPOINTMENTS_LIST,
+  ADD_APPOINTMENT, REMOVE_APPOINTMENT,
 } from './types';
+import PersonalTeaching from '../../apis/PersonalTeaching';
 
-const getAppointmentsList = () => ({
-  type: GET_APPOINTMENTS_LIST,
-});
+const getUserAppointmentsList = () => dispatch => PersonalTeaching()
+  .getUserAppointmentsList()
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: GET_USER_APPOINTMENTS_LIST,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch({
+        type: GET_USER_APPOINTMENTS_LIST,
+      });
+    }
 
-const getAppointmentInfo = () => ({
-  type: GET_APPOINTMENT_INFO,
-});
+    return requestedData;
+  });
 
-const addAppointment = appointment => ({
-  type: ADD_APPOINTMENT,
-  payload: appointment,
-});
+const getTeacherAppointmentsList = teacherId => dispatch => PersonalTeaching()
+  .getTeacherAppointmentsList(teacherId)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: GET_TEACHER_APPOINTMENTS_LIST,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch({
+        type: GET_TEACHER_APPOINTMENTS_LIST,
+      });
+    }
 
-const updateAppointment = appointment => ({
-  type: UPDATE_APPOINTMENT,
-  payload: appointment,
-});
+    return requestedData;
+  });
 
-const removeAppointment = id => ({
-  type: REMOVE_APPOINTMENT,
-  payload: id,
-});
+const addAppointment = appointment => dispatch => PersonalTeaching()
+  .addAppointment(appointment)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: ADD_APPOINTMENT,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch({
+        type: ADD_APPOINTMENT,
+      });
+    }
+
+    return requestedData;
+  });
+
+const removeAppointment = id => dispatch => PersonalTeaching()
+  .removeAppointment(id)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: REMOVE_APPOINTMENT,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch({
+        type: REMOVE_APPOINTMENT,
+      });
+    }
+
+    return requestedData;
+  });
 
 export {
-  getAppointmentsList, getAppointmentInfo, addAppointment, updateAppointment, removeAppointment,
+  getUserAppointmentsList, getTeacherAppointmentsList,
+  addAppointment, removeAppointment,
 };
