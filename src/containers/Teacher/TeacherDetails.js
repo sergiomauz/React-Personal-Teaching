@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { URL_USER_APPOINTMENTS } from '../../helpers/constants';
 import {
   getTeacherInfo,
@@ -45,7 +46,7 @@ const TeacherDetails = props => {
   const history = useHistory();
 
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [teacherInfo, setTeacherInfo] = useState(null);
 
   const lookForErrors = () => {
@@ -86,6 +87,7 @@ const TeacherDetails = props => {
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       const queryDate = txtAppointmentDate.current.value;
       getTeacherAvailability(id, queryDate)
@@ -109,7 +111,6 @@ const TeacherDetails = props => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const errorsList = [];
     getTeacherInfo(id).then(requestedData => {
       if (requestedData.error) {
@@ -216,14 +217,6 @@ const TeacherDetails = props => {
                         )
                       }
                     </div>
-                    <div className="form-group">
-                      {
-                        errors.length > 0 && (
-                          errors
-                            .map(item => <div key={item} className="alert alert-danger">{item}</div>)
-                        )
-                      }
-                    </div>
                   </div>
                 </>
               )
@@ -233,6 +226,9 @@ const TeacherDetails = props => {
                   </div>
                 )
             }
+            <div className="col-12">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </div>
       </div>

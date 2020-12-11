@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import TeacherCard from './TeacherCard';
 import { getTeachersList, removeTeacher } from '../../redux/actions/teachers.actions';
 
@@ -27,7 +28,7 @@ const TeachersList = props => {
 
   const [selectedCard, setSelectedCard] = useState(0);
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handlerMovePreviousCard = e => {
     e.preventDefault();
@@ -69,7 +70,6 @@ const TeachersList = props => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const errorsList = [];
     getTeachersList().then(requestedData => {
       if (requestedData.error) {
@@ -85,64 +85,48 @@ const TeachersList = props => {
       <h1 className="title-one green-color">
         Teachers List
       </h1>
-      <div className="card form-container">
+      <div className="card form-container mb-3">
         <div className="card-body" disabled={loading}>
           <div className="row">
             {
               !loading ? (
-                <>
-                  <div className="col-12 p-0">
-                    {
-                      teachers.length > 0 ? (
-                        <>
-                          <div className="text-center w-100">
-                            <TeacherCard info={teachers[selectedCard]} />
-                            {
-                              myprofile && (
-                                <>
-                                  {
-                                    myprofile.admin && (
-                                      <div className="d-flex justify-content-center">
-                                        <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
-                                        <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
-                                        <button type="button" onClick={e => handlerRemoveTeacher(e, teachers[selectedCard].id)} className="btn btn-outline-danger">Remove</button>
-                                      </div>
-                                    )
-                                  }
-                                </>
-                              )
-                            }
-                          </div>
-                          <div className="d-flex justify-content-between carousel-control-container">
-                            <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
-                              <span className="carousel-control-prev-icon" />
-                            </button>
-                            <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
-                              <span className="carousel-control-next-icon" />
-                            </button>
-                          </div>
-                        </>
+                <div className="col-12 p-0">
+                  {
+                    teachers.length > 0 ? (
+                      <>
+                        <div className="text-center w-100">
+                          <TeacherCard info={teachers[selectedCard]} />
+                          {
+                            myprofile && (
+                              <>
+                                {
+                                  myprofile.admin && (
+                                    <div className="d-flex justify-content-center">
+                                      <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
+                                      <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
+                                      <button type="button" onClick={e => handlerRemoveTeacher(e, teachers[selectedCard].id)} className="btn btn-outline-danger">Remove</button>
+                                    </div>
+                                  )
+                                }
+                              </>
+                            )
+                          }
+                        </div>
+                        <div className="d-flex justify-content-between carousel-control-container">
+                          <button type="button" className="carousel-control-left" onClick={handlerMovePreviousCard}>
+                            <span className="carousel-control-prev-icon" />
+                          </button>
+                          <button type="button" className="carousel-control-right" onClick={handlerMoveNextCard}>
+                            <span className="carousel-control-next-icon" />
+                          </button>
+                        </div>
+                      </>
+                    )
+                      : (
+                        <h5 className="title-one">There are no teachers registered</h5>
                       )
-                        : (
-                          <h5 className="title-one">There are no teachers registered</h5>
-                        )
-                    }
-                  </div>
-                  <div className="form-group">
-                    <ul className="list-group border-0">
-                      {
-                        errors.length > 0 && (
-                          errors
-                            .map(item => (
-                              <li key={item} className="list-group-item border-0">
-                                <div className="alert alert-danger my-0">{item}</div>
-                              </li>
-                            ))
-                        )
-                      }
-                    </ul>
-                  </div>
-                </>
+                  }
+                </div>
               )
                 : (
                   <div className="col-12 text-center">
@@ -150,6 +134,9 @@ const TeachersList = props => {
                   </div>
                 )
             }
+            <div className="col-12">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </div>
       </div>

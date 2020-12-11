@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { URL_TEACHERS_LIST } from '../../helpers/constants';
 import { addTeacher } from '../../redux/actions/teachers.actions';
 
@@ -32,7 +33,7 @@ const NewTeacher = props => {
 
   const [errors, setErrors] = useState([]);
   const [uploadedImage, setUploadedImage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const lookForErrors = () => {
     const errorsList = [];
@@ -161,20 +162,9 @@ const NewTeacher = props => {
               <div className="form-group d-flex justify-content-center">
                 <button type="submit" className="btn btn-outline-success">Save</button>
               </div>
-              <div className="form-group">
-                <ul className="list-group border-0">
-                  {
-                    errors.length > 0 && (
-                      errors
-                        .map(item => (
-                          <li key={item} className="list-group-item border-0">
-                            <div className="alert alert-danger my-0">{item}</div>
-                          </li>
-                        ))
-                    )
-                  }
-                </ul>
-              </div>
+            </div>
+            <div className="col-12 offset-md-2 col-md-8 p-0">
+              <ErrorsList errorsInfo={errors} />
             </div>
           </div>
         </fieldset>

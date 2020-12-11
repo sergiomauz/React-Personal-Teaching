@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { getTeacherAppointmentsList, removeAppointment } from '../../redux/actions/appointments.actions';
 import { getTeacherInfo } from '../../redux/actions/teachers.actions';
 
@@ -30,26 +31,26 @@ const TeacherAppointments = props => {
   const { params } = match;
   const { id } = params;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [teacherInfo, setTeacherInfo] = useState(null);
 
   const handlerRemoveTeacherAppointment = (e, id) => {
     e.preventDefault();
     if (window.confirm('Are you sure?')) {
+      setLoading(true);
       const errorsList = [];
       removeAppointment(id).then(requestedData => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
         }
+        setLoading(false);
       });
     }
   };
 
   useEffect(() => {
-    setLoading(true);
-
     const errorsList = [];
     getTeacherInfo(id).then(requestedTeacherData => {
       if (requestedTeacherData.error) {
@@ -104,10 +105,10 @@ const TeacherAppointments = props => {
                     }
                   </div>
                   <div className="col-12 offset-md-1 col-md-10 p-0">
-                    {
-                      appointments.length > 0
-                        ? (
-                          <div className="table-responsive">
+                    <div className="table-responsive">
+                      {
+                        appointments.length > 0 ? (
+                          <>
                             <table className="table table-sm table-hover w-100">
                               <thead>
                                 <tr>
@@ -166,24 +167,12 @@ const TeacherAppointments = props => {
                                 }
                               </tbody>
                             </table>
-                          </div>
-                        ) : (
-                          <h5 className="title-one">There are no appointments registered</h5>
+                          </>
                         )
-                    }
-                    <div className="form-group">
-                      <ul className="list-group border-0">
-                        {
-                          errors.length > 0 && (
-                            errors
-                              .map(item => (
-                                <li key={item} className="list-group-item border-0">
-                                  <div className="alert alert-danger my-0">{item}</div>
-                                </li>
-                              ))
+                          : (
+                            <h5 className="title-one">There are no appointments registered</h5>
                           )
-                        }
-                      </ul>
+                      }
                     </div>
                   </div>
                 </>
@@ -194,6 +183,9 @@ const TeacherAppointments = props => {
                   </div>
                 )
             }
+            <div className="col-12 offset-md-1 col-md-10 p-0">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </div>
       </div>

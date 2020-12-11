@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { getUserAppointmentsList, removeAppointment } from '../../redux/actions/appointments.actions';
 
 import loadingGif from '../../images/loading.gif';
@@ -23,25 +24,25 @@ const UserAppointments = props => {
     appointments,
   } = props;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
   const handlerRemoveUserAppointment = (e, id) => {
     e.preventDefault();
     if (window.confirm('Are you sure?')) {
+      setLoading(true);
       const errorsList = [];
       removeAppointment(id).then(requestedData => {
         if (requestedData.error) {
           errorsList.push(requestedData.error.message);
           setErrors(errorsList);
         }
+        setLoading(false);
       });
     }
   };
 
   useEffect(() => {
-    setLoading(true);
-
     const errorsList = [];
     getUserAppointmentsList().then(requestedData => {
       if (requestedData.error) {
@@ -61,16 +62,15 @@ const UserAppointments = props => {
         <h2 className="title-one text-center">
           My appointments
         </h2>
-        <div className="card-body">
+        <div className="card-body" disabled={loading}>
           <div className="row">
-
             {
               !loading ? (
                 <div className="col-12 offset-md-1 col-md-10 p-0">
-                  {
-                    appointments.length > 0
-                      ? (
-                        <div className="table-responsive">
+                  <div className="table-responsive">
+                    {
+                      appointments.length > 0 ? (
+                        <>
                           <table className="table table-sm table-hover w-100">
                             <thead>
                               <tr>
@@ -133,28 +133,12 @@ const UserAppointments = props => {
                               }
                             </tbody>
                           </table>
-                        </div>
-                      ) : (
-                        <h5 className="title-one">There are no appointments registered</h5>
+                        </>
                       )
-                  }
-                  <div className="form-group">
-                    <ul className="list-group border-0">
-                      {
-                        (!loading)
-                        && (
-                          (errors.length > 0)
-                          && (
-                            errors
-                              .map(item => (
-                                <li key={item} className="list-group-item border-0">
-                                  <div className="alert alert-danger my-0">{item}</div>
-                                </li>
-                              ))
-                          )
+                        : (
+                          <h5 className="title-one">There are no appointments registered</h5>
                         )
-                      }
-                    </ul>
+                    }
                   </div>
                 </div>
               )
@@ -164,6 +148,9 @@ const UserAppointments = props => {
                   </div>
                 )
             }
+            <div className="col-12 offset-md-1 col-md-10 p-0">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </div>
       </div>
