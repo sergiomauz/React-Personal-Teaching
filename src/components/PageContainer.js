@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getSession, signOutRequest } from '../redux/actions/users.actions';
+import { getSession, getMyProfile, signOutRequest } from '../redux/actions/users.actions';
 
 import Sidebar from './Sidebar';
 import ProtectedRoute from './ProtectedRoute';
@@ -44,41 +44,60 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getSession, signOutRequest,
+  getSession, getMyProfile, signOutRequest,
 };
 
 const PageContainer = props => {
   const {
     myprofile,
-    getSession, signOutRequest,
+    getSession, getMyProfile, signOutRequest,
   } = props;
-  const [loading, setLoading] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const [sessionCatched, setSessionCatched] = useState(false);
   const [sessionError, setSessionError] = useState(false);
 
+  // Load session when refresh page
   useEffect(() => {
-    setLoading(true);
-    const sessionObject = getSession();
-    if (sessionObject instanceof Promise) {
-      sessionObject.then(requestedData => {
-        if (requestedData.error) {
-          setSessionError(true);
-        } else {
-          setSignedIn(requestedData.signedIn);
-        }
-        setLoading(false);
-      });
-    } else {
-      setSignedIn(sessionObject.signedIn);
-      setLoading(false);
+    if (!sessionCatched) {
+      const sessionObject = getSession();
+      if (sessionObject instanceof Promise) {
+        sessionObject.then(requestedData => {
+          setSessionCatched(true);
+          if (requestedData.error) {
+            setSessionError(true);
+          }
+        });
+      } else {
+        setSessionCatched(true);
+      }
     }
-  }, [getSession]);
+  }, [myprofile.signedIn, sessionCatched, getSession]);
 
+  // Load profile if have a valid session
   useEffect(() => {
-    if (signedIn && !loading && sessionError) {
+    if (sessionCatched) {
+      if (myprofile.signedIn) {
+        const errorsList = [];
+        getMyProfile().then(requestedData => {
+          if (requestedData.error) {
+            errorsList.push(requestedData.error.message);
+            setSessionError(errorsList);
+          }
+          setLoading(false);
+        });
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [myprofile.signedIn, sessionCatched, getMyProfile]);
+
+  // Valid current session
+  useEffect(() => {
+    if (myprofile.signedIn && !loading && sessionError) {
       signOutRequest();
     }
-  }, [signOutRequest, signedIn, loading, sessionError]);
+  }, [myprofile.signedIn, loading, sessionError, signOutRequest]);
 
   return (
     <>
@@ -146,6 +165,7 @@ const PageContainer = props => {
 
 PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
+  getMyProfile: PropTypes.func.isRequired,
   signOutRequest: PropTypes.func.isRequired,
   myprofile: PropTypes.shape({
     admin: PropTypes.bool,

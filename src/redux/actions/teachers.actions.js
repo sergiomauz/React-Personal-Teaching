@@ -3,6 +3,7 @@ import {
   ADD_TEACHER, UPDATE_TEACHER_N_REDIRECT, REMOVE_TEACHER,
 } from './types';
 import PersonalTeaching from '../../apis/PersonalTeaching';
+import { signOutRequest } from './users.actions';
 
 const getTeachersList = () => dispatch => PersonalTeaching()
   .getTeachersList()
@@ -13,9 +14,7 @@ const getTeachersList = () => dispatch => PersonalTeaching()
         payload: requestedData,
       });
     } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: GET_TEACHERS_LIST,
-      });
+      dispatch(signOutRequest());
     }
 
     return requestedData;
@@ -30,9 +29,7 @@ const getTeacherInfo = id => dispatch => PersonalTeaching()
         payload: requestedData,
       });
     } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: GET_TEACHER_INFO,
-      });
+      dispatch(signOutRequest());
     }
 
     return requestedData;
@@ -47,9 +44,7 @@ const getTeacherAvailability = (id, date) => dispatch => PersonalTeaching()
         payload: requestedData,
       });
     } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: GET_TEACHER_AVAILABILITY,
-      });
+      dispatch(signOutRequest());
     }
 
     return requestedData;
@@ -68,9 +63,7 @@ const addTeacher = teacher => dispatch => PersonalTeaching()
         payload: requestedData,
       });
     } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: ADD_TEACHER,
-      });
+      dispatch(signOutRequest());
     }
 
     return requestedData;
@@ -85,9 +78,7 @@ const removeTeacher = id => dispatch => PersonalTeaching()
         payload: requestedData,
       });
     } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: REMOVE_TEACHER,
-      });
+      dispatch(signOutRequest());
     }
 
     return requestedData;
@@ -102,9 +93,7 @@ const updateTeacher = (id, teacher) => dispatch => PersonalTeaching()
         payload: requestedData,
       });
     } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: UPDATE_TEACHER_N_REDIRECT,
-      });
+      dispatch(signOutRequest());
     }
 
     return requestedData;
