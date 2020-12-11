@@ -39,7 +39,7 @@ const usersReducer = (state = initialState, action) => {
       case GET_USERS_LIST:
         return {
           ...state,
-          list: action.payload.users,
+          list: action.payloa.users,
         };
       case GET_USER_INFO: {
         if (action.payload.user) {
