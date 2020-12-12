@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { signInRequest } from '../../redux/actions/users.actions';
 
 import '../../styles/formal.css';
@@ -62,7 +63,7 @@ const SignInForm = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Personal Teachers
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSignIn}>
@@ -87,20 +88,9 @@ const SignInForm = props => {
               <div className="form-group d-flex justify-content-center">
                 <button type="submit" className="btn btn-outline-success">Sign In</button>
               </div>
-              <div className="form-group">
-                <ul className="list-group border-0 w-100">
-                  {
-                    errors.length > 0 && (
-                      errors
-                        .map(item => (
-                          <li key={item} className="list-group-item border-0">
-                            <div className="alert alert-danger my-0">{item}</div>
-                          </li>
-                        ))
-                    )
-                  }
-                </ul>
-              </div>
+            </div>
+            <div className="col-12 offset-md-2 col-md-8 p-0">
+              <ErrorsList errorsInfo={errors} />
             </div>
           </div>
         </fieldset>

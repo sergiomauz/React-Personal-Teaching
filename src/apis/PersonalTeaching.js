@@ -72,6 +72,7 @@ const PersonalTeaching = () => {
 
     if (sessionVar.length > 0) {
       sessionObject = JSON.parse(sessionVar);
+
       if (sessionObject.refreshToken && sessionObject.expiresAt) {
         if (Math.abs(new Date()) > sessionObject.expiresAt - 300
           && sessionObject.expiresAt > 0

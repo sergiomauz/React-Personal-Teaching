@@ -10,7 +10,7 @@ import { URL_SIGN_IN } from '../helpers/constants';
 import '../styles/formal.css';
 
 const mapStateToProps = state => ({
-  myprofile: state.users.myprofile,
+  myProfile: state.users.myProfile,
 });
 
 const mapDispatchToProps = {
@@ -18,7 +18,7 @@ const mapDispatchToProps = {
 };
 
 const Sidebar = props => {
-  const { myprofile, signOutRequest } = props;
+  const { myProfile, signOutRequest } = props;
   const divSidebar = useRef(null);
   const history = useHistory();
 
@@ -46,17 +46,19 @@ const Sidebar = props => {
       </div>
       <div className="d-flex flex-column justify-content-center">
         {
-          myprofile.username && (
+          myProfile.username && (
             <label className="w-100">
               <span className="control-label font-weight-bold">USER</span>
-              <span className="form-control border-right-0 border-left-0 font-weight-bold green-color text-center">{myprofile.username}</span>
+              <Link className="form-control border-right-0 border-left-0 font-weight-bold green-color text-center" to="/">
+                {myProfile.username}
+              </Link>
             </label>
           )
         }
       </div>
       <ul className="list-group">
         {
-          myprofile.signedIn ? (
+          myProfile.signedIn ? (
             <>
               <li className="list-group-item p-0">
                 <Link className="list-group-item-action" to="/teachers">
@@ -64,10 +66,10 @@ const Sidebar = props => {
                 </Link>
               </li>
               {
-                myprofile && (
+                myProfile && (
                   <>
                     {
-                      myprofile.admin && (
+                      myProfile.admin && (
                         <>
                           <li className="list-group-item p-0">
                             <Link className="list-group-item-action" to="/users">
@@ -142,7 +144,7 @@ const Sidebar = props => {
 
 Sidebar.propTypes = {
   signOutRequest: PropTypes.func.isRequired,
-  myprofile: PropTypes.shape({
+  myProfile: PropTypes.shape({
     id: PropTypes.number,
     username: PropTypes.string,
     fullname: PropTypes.string,

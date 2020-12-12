@@ -2,7 +2,7 @@ import React from 'react';
 
 const Forbidden = () => (
   <>
-    <h1 className="title-one green-color">
+    <h1 className="title-one green-color text-center">
       ERROR
     </h1>
     <div className="card form-container">

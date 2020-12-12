@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { getUsersList, removeUser } from '../../redux/actions/users.actions';
+import ErrorsList from '../../components/ErrorsList';
 
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -25,7 +26,7 @@ const UsersList = props => {
   } = props;
 
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handlerRemoveUser = (e, id) => {
     e.preventDefault();
@@ -44,7 +45,6 @@ const UsersList = props => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const errorsList = [];
     getUsersList().then(requestedData => {
       if (requestedData.error) {
@@ -57,7 +57,7 @@ const UsersList = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Users
       </h1>
       <div className="card form-container mb-3">
@@ -68,66 +68,53 @@ const UsersList = props => {
           <div className="row">
             {
               !loading ? (
-                <>
-                  <div className="col-12 offset-md-1 col-md-10 p-0">
-                    <div className="table-responsive">
-                      {
-                        users.length > 0 && (
-                          <table className="table table-sm table-hover">
-                            <thead className="green-background">
-                              <tr>
-                                <th className="text-center">FULLNAME</th>
-                                <th className="text-center">EMAIL</th>
-                                <th className="text-center">USERNAME</th>
-                                <th colSpan="2" className="text-center">-</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {
-                                users.map(item => (
-                                  <tr key={item.id}>
-                                    <td>
-                                      {
-                                        item.admin && <span className="badge badge-info mr-2 p-1">admin</span>
-                                      }
-                                      <span>{item.fullname}</span>
-                                    </td>
-                                    <td>{item.email}</td>
-                                    <td>{item.username}</td>
-                                    <td>
-                                      <Link to={`/user/${item.id}/edit`} className="btn btn-sm btn-outline-info">Edit</Link>
-                                    </td>
-                                    <td>
-                                      {
-                                        !item.admin && (
-                                          <button type="button" onClick={e => handlerRemoveUser(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
-                                        )
-                                      }
-                                    </td>
-                                  </tr>
-                                ))
-                              }
-                            </tbody>
-                          </table>
+                <div className="col-12 offset-md-1 col-md-10 p-0">
+                  <div className="table-responsive">
+                    {
+                      users.length > 0 ? (
+                        <table className="table table-sm table-hover">
+                          <thead className="green-background">
+                            <tr>
+                              <th className="text-center">FULLNAME</th>
+                              <th className="text-center">EMAIL</th>
+                              <th className="text-center">USERNAME</th>
+                              <th colSpan="2" className="text-center">-</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                              users.map(item => (
+                                <tr key={item.id}>
+                                  <td>
+                                    {
+                                      item.admin && <span className="badge badge-info mr-2 p-1">admin</span>
+                                    }
+                                    <span>{item.fullname}</span>
+                                  </td>
+                                  <td>{item.email}</td>
+                                  <td>{item.username}</td>
+                                  <td>
+                                    <Link to={`/user/${item.id}/edit`} className="btn btn-sm btn-outline-info">Edit</Link>
+                                  </td>
+                                  <td>
+                                    {
+                                      !item.admin && (
+                                        <button type="button" onClick={e => handlerRemoveUser(e, item.id)} className="btn btn-sm btn-outline-danger">Delete</button>
+                                      )
+                                    }
+                                  </td>
+                                </tr>
+                              ))
+                            }
+                          </tbody>
+                        </table>
+                      )
+                        : (
+                          <h5 className="title-one">There are no users registered</h5>
                         )
-                      }
-                    </div>
+                    }
                   </div>
-                  <div className="form-group">
-                    <ul className="list-group border-0">
-                      {
-                        errors.length > 0 && (
-                          errors
-                            .map(item => (
-                              <li key={item} className="list-group-item border-0">
-                                <div className="alert alert-danger my-0">{item}</div>
-                              </li>
-                            ))
-                        )
-                      }
-                    </ul>
-                  </div>
-                </>
+                </div>
               )
                 : (
                   <div className="col-12 text-center">
@@ -135,6 +122,9 @@ const UsersList = props => {
                   </div>
                 )
             }
+            <div className="col-12">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </div>
       </div>

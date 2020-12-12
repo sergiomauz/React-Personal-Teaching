@@ -2,105 +2,15 @@ import {
   SIGN_IN_REQUEST, SIGN_OUT, GET_SESSION,
   GET_USERS_LIST, GET_USER_INFO, GET_MY_PROFILE,
   ADD_USER, UPDATE_USER_N_REDIRECT, REMOVE_USER,
-  CLEAN_STATE,
 } from './types';
 import PersonalTeaching from '../../apis/PersonalTeaching';
 
-const getUsersList = () => dispatch => PersonalTeaching().getUsersList()
-  .then(requestedData => {
-    if (!requestedData.error) {
-      dispatch({
-        type: GET_USERS_LIST,
-        payload: requestedData,
-      });
-    } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: GET_USERS_LIST,
-      });
-    }
-
-    return requestedData;
+const signOutRequest = () => dispatch => {
+  PersonalTeaching().signOutRequest();
+  dispatch({
+    type: SIGN_OUT,
   });
-
-const getUserInfo = id => dispatch => PersonalTeaching().getUserInfo(id)
-  .then(requestedData => {
-    if (!requestedData.error) {
-      dispatch({
-        type: GET_USER_INFO,
-        payload: requestedData,
-      });
-    } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: GET_USER_INFO,
-      });
-    }
-
-    return requestedData;
-  });
-
-const getMyProfile = () => dispatch => PersonalTeaching().getMyProfile()
-  .then(requestedData => {
-    if (!requestedData.error) {
-      dispatch({
-        type: GET_MY_PROFILE,
-        payload: requestedData,
-      });
-    } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: GET_MY_PROFILE,
-      });
-    }
-
-    return requestedData;
-  });
-
-const addUser = user => dispatch => PersonalTeaching().addUser(user)
-  .then(requestedData => {
-    if (!requestedData.error) {
-      dispatch({
-        type: ADD_USER,
-        payload: requestedData,
-      });
-    } if (requestedData.error.hasResponse) {
-      dispatch({
-        type: ADD_USER,
-      });
-    }
-
-    return requestedData;
-  });
-
-const removeUser = id => dispatch => PersonalTeaching().removeUser(id)
-  .then(requestedData => {
-    if (!requestedData.error) {
-      dispatch({
-        type: REMOVE_USER,
-        payload: requestedData,
-      });
-    } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: REMOVE_USER,
-      });
-    }
-
-    return requestedData;
-  });
-
-const updateUser = (id, user) => dispatch => PersonalTeaching().updateUser(id, user)
-  .then(requestedData => {
-    if (!requestedData.error) {
-      dispatch({
-        type: UPDATE_USER_N_REDIRECT,
-        payload: requestedData,
-      });
-    } else if (requestedData.error.hasResponse) {
-      dispatch({
-        type: UPDATE_USER_N_REDIRECT,
-      });
-    }
-
-    return requestedData;
-  });
+};
 
 const signInRequest = user => dispatch => PersonalTeaching().signInRequest(user)
   .then(requestedData => {
@@ -109,10 +19,6 @@ const signInRequest = user => dispatch => PersonalTeaching().signInRequest(user)
         type: SIGN_IN_REQUEST,
         payload: requestedData,
       });
-
-      if (requestedData.signedIn) {
-        dispatch(getMyProfile());
-      }
     } else if (requestedData.error.hasResponse) {
       dispatch({
         type: SIGN_IN_REQUEST,
@@ -133,10 +39,6 @@ const getSession = () => dispatch => {
             type: GET_SESSION,
             payload: requestedData,
           });
-
-          if (requestedData.signedIn) {
-            dispatch(getMyProfile());
-          }
         } else if (requestedData.error.hasResponse) {
           dispatch({
             type: GET_SESSION,
@@ -149,29 +51,97 @@ const getSession = () => dispatch => {
         type: GET_SESSION,
         payload: requestedSession,
       });
-
-      if (requestedSession.signedIn) {
-        dispatch(getMyProfile());
-      }
     }
   } else {
-    dispatch({
-      type: GET_SESSION,
-    });
+    dispatch(signOutRequest());
   }
 
   return requestedSession;
 };
 
-const signOutRequest = () => dispatch => {
-  PersonalTeaching().signOutRequest();
-  dispatch({
-    type: SIGN_OUT,
+const getUsersList = () => dispatch => PersonalTeaching().getUsersList()
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: GET_USERS_LIST,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch(signOutRequest());
+    }
+
+    return requestedData;
   });
-  dispatch({
-    type: CLEAN_STATE,
+
+const getUserInfo = id => dispatch => PersonalTeaching().getUserInfo(id)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: GET_USER_INFO,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch(signOutRequest());
+    }
+
+    return requestedData;
   });
-};
+
+const getMyProfile = () => dispatch => PersonalTeaching().getMyProfile()
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: GET_MY_PROFILE,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch(signOutRequest());
+    }
+
+    return requestedData;
+  });
+
+const addUser = user => dispatch => PersonalTeaching().addUser(user)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: ADD_USER,
+        payload: requestedData,
+      });
+    } if (requestedData.error.hasResponse) {
+      dispatch(signOutRequest());
+    }
+
+    return requestedData;
+  });
+
+const removeUser = id => dispatch => PersonalTeaching().removeUser(id)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: REMOVE_USER,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch(signOutRequest());
+    }
+
+    return requestedData;
+  });
+
+const updateUser = (id, user) => dispatch => PersonalTeaching().updateUser(id, user)
+  .then(requestedData => {
+    if (!requestedData.error) {
+      dispatch({
+        type: UPDATE_USER_N_REDIRECT,
+        payload: requestedData,
+      });
+    } else if (requestedData.error.hasResponse) {
+      dispatch(signOutRequest());
+    }
+
+    return requestedData;
+  });
 
 export {
   signInRequest, signOutRequest, getSession,

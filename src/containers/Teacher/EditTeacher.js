@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { URL_TEACHERS_LIST } from '../../helpers/constants';
 import { getTeacherInfo, updateTeacher } from '../../redux/actions/teachers.actions';
 
 import Cloudinary from '../../apis/Cloudinary';
 
 import photoTeacher from '../../images/teacher.jpg';
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -41,7 +42,7 @@ const EditTeacher = props => {
 
   const [teacherInfo, setTeacherInfo] = useState(null);
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [uploadedImage, setUploadedImage] = useState('');
 
   const lookForErrors = () => {
@@ -118,7 +119,6 @@ const EditTeacher = props => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const errorsList = [];
     getTeacherInfo(id).then(requestedData => {
       if (requestedData.error) {
@@ -136,7 +136,7 @@ const EditTeacher = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Teacher
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSaveTeacher}>
@@ -203,20 +203,6 @@ const EditTeacher = props => {
                   <div className="form-group d-flex justify-content-center">
                     <button type="submit" className="btn btn-outline-success">Save</button>
                   </div>
-                  <div className="form-group">
-                    <ul className="list-group border-0">
-                      {
-                        errors.length > 0 && (
-                          errors
-                            .map(item => (
-                              <li key={item} className="list-group-item border-0">
-                                <div className="alert alert-danger my-0">{item}</div>
-                              </li>
-                            ))
-                        )
-                      }
-                    </ul>
-                  </div>
                 </div>
               )
                 : (
@@ -225,6 +211,9 @@ const EditTeacher = props => {
                   </div>
                 )
             }
+            <div className="col-12 offset-md-2 col-md-8 p-0">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </fieldset>
       </form>

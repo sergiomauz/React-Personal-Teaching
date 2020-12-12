@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getSession, signOutRequest } from '../redux/actions/users.actions';
+import { getSession, getMyProfile, signOutRequest } from '../redux/actions/users.actions';
 
 import Sidebar from './Sidebar';
 import ProtectedRoute from './ProtectedRoute';
@@ -37,48 +37,68 @@ import {
   URL_TEACHER_APPOINTMENTS,
 } from '../helpers/constants';
 
-import loadingGif from '../images/loading.gif';
+import loadingGif from '../images/loading.svg';
+import '../styles/formal.css';
 
 const mapStateToProps = state => ({
-  myprofile: state.users.myprofile,
+  myProfile: state.users.myProfile,
 });
 
 const mapDispatchToProps = {
-  getSession, signOutRequest,
+  getSession, getMyProfile, signOutRequest,
 };
 
 const PageContainer = props => {
   const {
-    myprofile,
-    getSession, signOutRequest,
+    myProfile,
+    getSession, getMyProfile, signOutRequest,
   } = props;
-  const [loading, setLoading] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const [sessionCatched, setSessionCatched] = useState(false);
   const [sessionError, setSessionError] = useState(false);
 
+  // Load session when refresh page
   useEffect(() => {
-    setLoading(true);
-    const sessionObject = getSession();
-    if (sessionObject instanceof Promise) {
-      sessionObject.then(requestedData => {
-        if (requestedData.error) {
-          setSessionError(true);
-        } else {
-          setSignedIn(requestedData.signedIn);
-        }
-        setLoading(false);
-      });
-    } else {
-      setSignedIn(sessionObject.signedIn);
-      setLoading(false);
+    if (!sessionCatched) {
+      const sessionObject = getSession();
+      if (sessionObject instanceof Promise) {
+        sessionObject.then(requestedData => {
+          setSessionCatched(true);
+          if (requestedData.error) {
+            setSessionError(true);
+          }
+        });
+      } else {
+        setSessionCatched(true);
+      }
     }
-  }, [getSession]);
+  }, [myProfile.signedIn, sessionCatched, getSession]);
 
+  // Load profile if have a valid session
   useEffect(() => {
-    if (signedIn && !loading && sessionError) {
+    if (sessionCatched) {
+      if (myProfile.signedIn) {
+        const errorsList = [];
+        getMyProfile().then(requestedData => {
+          if (requestedData.error) {
+            errorsList.push(requestedData.error.message);
+            setSessionError(errorsList);
+          }
+          setLoading(false);
+        });
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [myProfile.signedIn, sessionCatched, getMyProfile]);
+
+  // Valid current session
+  useEffect(() => {
+    if (myProfile.signedIn && !loading && sessionError) {
       signOutRequest();
     }
-  }, [signOutRequest, signedIn, loading, sessionError]);
+  }, [myProfile.signedIn, loading, sessionError, signOutRequest]);
 
   return (
     <>
@@ -92,7 +112,7 @@ const PageContainer = props => {
                   <Route
                     exact
                     path={URL_INDEX}
-                    component={myprofile.id ? Welcome : SignInForm}
+                    component={myProfile.id ? Welcome : SignInForm}
                   />
                   <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
                   <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
@@ -104,28 +124,28 @@ const PageContainer = props => {
                   <ProtectedRoute
                     exact
                     path={URL_EDIT_USER}
-                    component={myprofile.admin ? EditUser : Forbidden}
+                    component={myProfile.admin ? EditUser : Forbidden}
                   />
                   <ProtectedRoute
                     exact
                     path={URL_USERS_LIST}
-                    component={myprofile.admin ? UsersList : Forbidden}
+                    component={myProfile.admin ? UsersList : Forbidden}
                   />
 
                   <ProtectedRoute
                     exact
                     path={URL_NEW_TEACHER}
-                    component={myprofile.admin ? NewTeacher : Forbidden}
+                    component={myProfile.admin ? NewTeacher : Forbidden}
                   />
                   <ProtectedRoute
                     exact
                     path={URL_EDIT_TEACHER}
-                    component={myprofile.admin ? EditTeacher : Forbidden}
+                    component={myProfile.admin ? EditTeacher : Forbidden}
                   />
                   <ProtectedRoute
                     exact
                     path={URL_TEACHER_APPOINTMENTS}
-                    component={myprofile.admin ? TeacherAppointments : Forbidden}
+                    component={myProfile.admin ? TeacherAppointments : Forbidden}
                   />
                   <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
                   <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
@@ -137,7 +157,7 @@ const PageContainer = props => {
           </div>
         )
           : (
-            <img src={loadingGif} alt="Preview" />
+            <img src={loadingGif} alt="Preview" className="center-screen" />
           )
       }
     </>
@@ -146,8 +166,9 @@ const PageContainer = props => {
 
 PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
+  getMyProfile: PropTypes.func.isRequired,
   signOutRequest: PropTypes.func.isRequired,
-  myprofile: PropTypes.shape({
+  myProfile: PropTypes.shape({
     admin: PropTypes.bool,
     signedIn: PropTypes.bool,
     id: PropTypes.number,

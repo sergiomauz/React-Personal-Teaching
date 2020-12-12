@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { URL_USERS_LIST } from '../../helpers/constants';
 import { getUserInfo, updateUser } from '../../redux/actions/users.actions';
 
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -35,7 +36,7 @@ const EditUser = props => {
   const history = useHistory();
 
   const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
   const lookForErrors = () => {
@@ -67,6 +68,7 @@ const EditUser = props => {
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       const [fullname, email, username] = [
         txtFullname.current.value,
@@ -89,7 +91,6 @@ const EditUser = props => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const errorsList = [];
     getUserInfo(id).then(requestedData => {
       if (requestedData.error) {
@@ -107,7 +108,7 @@ const EditUser = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Users
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSaveUser}>
@@ -118,45 +119,29 @@ const EditUser = props => {
           <div className="row">
             {
               userInfo ? (
-                <>
-                  <div className="col-12 offset-md-2 col-md-8 p-0">
-                    <div className="form-group">
-                      <label className="w-100">
-                        <span className="control-label">fullname</span>
-                        <input ref={txtFullname} type="text" className="form-control" defaultValue={userInfo.fullname} />
-                      </label>
-                    </div>
-                    <div className="form-group">
-                      <label className="w-100">
-                        <span className="control-label">email</span>
-                        <input ref={txtEmail} type="text" className="form-control" defaultValue={userInfo.email} />
-                      </label>
-                    </div>
-                    <div className="form-group">
-                      <label className="w-100">
-                        <span className="control-label">username</span>
-                        <input ref={txtUser} type="text" className="form-control" defaultValue={userInfo.username} />
-                      </label>
-                    </div>
-                    <div className="form-group d-flex justify-content-center">
-                      <button type="submit" className="btn btn-outline-success">Save</button>
-                    </div>
-                    <div className="form-group">
-                      <ul className="list-group border-0">
-                        {
-                          errors.length > 0 && (
-                            errors
-                              .map(item => (
-                                <li key={item} className="list-group-item border-0">
-                                  <div className="alert alert-danger my-0">{item}</div>
-                                </li>
-                              ))
-                          )
-                        }
-                      </ul>
-                    </div>
+                <div className="col-12 offset-md-2 col-md-8 p-0">
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">fullname</span>
+                      <input ref={txtFullname} type="text" className="form-control" defaultValue={userInfo.fullname} />
+                    </label>
                   </div>
-                </>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">email</span>
+                      <input ref={txtEmail} type="text" className="form-control" defaultValue={userInfo.email} />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label className="w-100">
+                      <span className="control-label">username</span>
+                      <input ref={txtUser} type="text" className="form-control" defaultValue={userInfo.username} />
+                    </label>
+                  </div>
+                  <div className="form-group d-flex justify-content-center">
+                    <button type="submit" className="btn btn-outline-success">Save</button>
+                  </div>
+                </div>
               )
                 : (
                   <div className="col-12 text-center">
@@ -164,6 +149,9 @@ const EditUser = props => {
                   </div>
                 )
             }
+            <div className="col-12 offset-md-2 col-md-8 p-0">
+              <ErrorsList errorsInfo={errors} />
+            </div>
           </div>
         </fieldset>
       </form>

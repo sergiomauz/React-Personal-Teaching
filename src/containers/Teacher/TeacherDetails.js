@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ErrorsList from '../../components/ErrorsList';
 import { URL_USER_APPOINTMENTS } from '../../helpers/constants';
 import {
   getTeacherInfo,
@@ -16,7 +17,7 @@ import {
 import { addAppointment } from '../../redux/actions/appointments.actions';
 
 import photoTeacher from '../../images/teacher.jpg';
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -45,7 +46,7 @@ const TeacherDetails = props => {
   const history = useHistory();
 
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [teacherInfo, setTeacherInfo] = useState(null);
 
   const lookForErrors = () => {
@@ -86,6 +87,7 @@ const TeacherDetails = props => {
     const errorsList = lookForErrors();
     if (errorsList.length > 0) {
       setErrors(errorsList);
+      setLoading(false);
     } else {
       const queryDate = txtAppointmentDate.current.value;
       getTeacherAvailability(id, queryDate)
@@ -109,7 +111,6 @@ const TeacherDetails = props => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const errorsList = [];
     getTeacherInfo(id).then(requestedData => {
       if (requestedData.error) {
@@ -127,16 +128,16 @@ const TeacherDetails = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Teacher Details
       </h1>
       <div className="card form-container mb-5">
-        <div className="card-body" disabled={loading}>
+        <div className="card-body">
           <div className="row">
             {
               teacherInfo ? (
                 <>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-md-6">
                     <div className="form-group text-center">
                       {
                         teacherInfo.photo.length > 0 ? (
@@ -153,24 +154,24 @@ const TeacherDetails = props => {
                     </div>
                     <div className="form-group">
                       <span className="control-label">fullname</span>
-                      <span className="form-control">{teacherInfo.fullname}</span>
+                      <div className="form-control h-auto">{teacherInfo.fullname}</div>
                     </div>
                     <div className="form-group">
                       <span className="control-label">email</span>
-                      <span className="form-control">{teacherInfo.email}</span>
+                      <div className="form-control h-auto">{teacherInfo.email}</div>
                     </div>
                     <div className="form-group">
                       <span className="control-label">course</span>
-                      <span className="form-control">{teacherInfo.course}</span>
+                      <div className="form-control h-auto">{teacherInfo.course}</div>
                     </div>
                     <div className="form-group">
                       <span className="control-label">Description</span>
-                      <div className="form-control">
+                      <div className="form-control h-auto">
                         {teacherInfo.description}
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-md-6" disabled={loading}>
                     <h5 className="green-color mt-3 text-center">Request an appointment</h5>
                     <div className="form-group d-flex align-items-end">
                       <label className="p-0 m-0 w-100">
@@ -195,34 +196,43 @@ const TeacherDetails = props => {
                     </div>
                     <div className="form-group">
                       {
-                        teacherInfo.availability && (
-                          teacherInfo.availability.length > 0 && (
-                            <>
-                              <span className="badge badge-success">Availability</span>
-                              <div className="d-flex flex-wrap justify-content-around">
-                                {
-                                  teacherInfo.availability
-                                    .map(
-                                      item => (
-                                        <button type="button" key={item} onClick={e => handlerSaveAppointment(e, item)} className="btn btn-outline-success mr-1 mt-2">
-                                          {`${`00${item}`.slice(-2)}:00 - ${`00${item + 1}`.slice(-2)}:00`}
-                                        </button>
-                                      ),
-                                    )
-                                }
-                              </div>
-                            </>
+                        !loading ? (
+                          teacherInfo.availability && (
+                            teacherInfo.availability.length > 0 ? (
+                              <>
+                                <span className="badge badge-success">Availability</span>
+                                <div className="d-flex flex-wrap justify-content-around">
+                                  {
+                                    teacherInfo.availability
+                                      .map(
+                                        item => (
+                                          <button type="button" key={item} onClick={e => handlerSaveAppointment(e, item)} className="btn btn-outline-success mr-1 mt-2">
+                                            {`${`00${item}`.slice(-2)}:00 - ${`00${item + 1}`.slice(-2)}:00`}
+                                          </button>
+                                        ),
+                                      )
+                                  }
+                                </div>
+                              </>
+                            )
+                              : (
+                                <div className="d-flex justify-content-center">
+                                  <div className="alert alert-danger my-0">
+                                    This day is not available.
+                                  </div>
+                                </div>
+                              )
                           )
                         )
+                          : (
+                            <div className="d-flex justify-content-center">
+                              <img src={loadingGif} alt="Preview" />
+                            </div>
+                          )
                       }
-                    </div>
-                    <div className="form-group">
-                      {
-                        errors.length > 0 && (
-                          errors
-                            .map(item => <div key={item} className="alert alert-danger">{item}</div>)
-                        )
-                      }
+                      <div className="d-flex justify-content-center">
+                        <ErrorsList errorsInfo={errors} />
+                      </div>
                     </div>
                   </div>
                 </>
