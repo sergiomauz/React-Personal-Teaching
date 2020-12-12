@@ -52,6 +52,7 @@ const getTeacherAvailability = (id, date) => dispatch => PersonalTeaching()
 
 const clearTeacherAvailability = () => dispatch => dispatch({
   type: CLEAR_TEACHER_AVAILABILITY,
+  payload: CLEAR_TEACHER_AVAILABILITY,
 });
 
 const addTeacher = teacher => dispatch => PersonalTeaching()

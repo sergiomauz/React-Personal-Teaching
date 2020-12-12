@@ -84,7 +84,7 @@ const SignUpForm = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Personal Teachers
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSignUp}>

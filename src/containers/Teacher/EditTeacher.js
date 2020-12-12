@@ -11,7 +11,7 @@ import { getTeacherInfo, updateTeacher } from '../../redux/actions/teachers.acti
 import Cloudinary from '../../apis/Cloudinary';
 
 import photoTeacher from '../../images/teacher.jpg';
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -136,7 +136,7 @@ const EditTeacher = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Teacher
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSaveTeacher}>

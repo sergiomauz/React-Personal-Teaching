@@ -14,9 +14,7 @@ div[disabled] {
 }
 
 .center-screen {
-  background: green;
   position: absolute;
-  float: left;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -31,13 +29,9 @@ div[disabled] {
   height: 320px;
 }
 
-.teacher-photo {
-  min-width: 200px;
-  max-width: 300px;
-  min-height: 200px;
-  max-height: 300px;
-  width: 100%;
-  height: 100%;
+.teacher-photo {  
+  width: 300px;
+  height: 300px;
   border-radius: 50%;
   margin: auto;
   border: 2px solid #97bf10;

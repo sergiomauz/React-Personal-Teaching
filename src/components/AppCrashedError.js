@@ -10,12 +10,10 @@ class AppCrashedError extends React.Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
-    return { appCrashed: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    this.setState({ appCrashed: true });
+  componentDidCatch() {
+    this.setState({
+      appCrashed: true,
+    });
   }
 
   render() {
@@ -24,7 +22,9 @@ class AppCrashedError extends React.Component {
 
     if (appCrashed) {
       return (
-        <h1>ERROR</h1>
+        <h1>
+          An error occurred while processing your information. Contact with the developer for bugs.
+        </h1>
       );
     }
 

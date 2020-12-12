@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   list: [],
-  myprofile: {
+  myProfile: {
     signedIn: false,
   },
 };
@@ -17,29 +17,29 @@ const usersReducer = (state = initialState, action) => {
       case GET_SESSION:
         return {
           ...state,
-          myprofile: {
+          myProfile: {
             signedIn: action.payload.signedIn,
           },
         };
       case GET_MY_PROFILE:
         return {
           ...state,
-          myprofile: {
+          myProfile: {
             ...action.payload.myprofile,
-            signedIn: state.myprofile.signedIn,
+            signedIn: state.myProfile.signedIn,
           },
         };
       case SIGN_IN_REQUEST:
         return {
           ...state,
-          myprofile: {
+          myProfile: {
             signedIn: action.payload.signedIn,
           },
         };
       case GET_USERS_LIST:
         return {
           ...state,
-          list: action.payloa.users,
+          list: action.payload.users,
         };
       case GET_USER_INFO: {
         if (action.payload.user) {
@@ -72,11 +72,11 @@ const usersReducer = (state = initialState, action) => {
                 ? action.payload.user
                 : user),
             ),
-            myprofile: {
-              ...(state.myprofile.id === action.payload.user.id
+            myProfile: {
+              ...(state.myProfile.id === action.payload.user.id
                 ? action.payload.user
-                : state.myprofile),
-              signedIn: state.myprofile.signedIn,
+                : state.myProfile),
+              signedIn: state.myProfile.signedIn,
             },
           };
         }
@@ -86,11 +86,11 @@ const usersReducer = (state = initialState, action) => {
         if (action.payload.user) {
           return {
             ...state,
-            myprofile: {
-              ...(state.myprofile.id === action.payload.user.id
+            myProfile: {
+              ...(state.myProfile.id === action.payload.user.id
                 ? action.payload.user
-                : state.myprofile),
-              signedIn: state.myprofile.signedIn,
+                : state.myProfile),
+              signedIn: state.myProfile.signedIn,
             },
           };
         }

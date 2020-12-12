@@ -8,7 +8,7 @@ import ErrorsList from '../../components/ErrorsList';
 import { getTeacherAppointmentsList, removeAppointment } from '../../redux/actions/appointments.actions';
 import { getTeacherInfo } from '../../redux/actions/teachers.actions';
 
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -76,7 +76,7 @@ const TeacherAppointments = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Appointments
       </h1>
       <div className="card form-container mb-3">

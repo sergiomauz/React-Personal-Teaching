@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -11,7 +11,7 @@ import { addTeacher } from '../../redux/actions/teachers.actions';
 import Cloudinary from '../../apis/Cloudinary';
 
 import photoTeacher from '../../images/teacher.jpg';
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapDispatchToProps = {
@@ -102,9 +102,13 @@ const NewTeacher = props => {
     }
   };
 
+  useEffect(() => {
+    setLoading(false);
+  }, [setLoading]);
+
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Teacher
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSaveTeacher}>

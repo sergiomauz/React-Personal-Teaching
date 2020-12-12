@@ -8,12 +8,12 @@ import ErrorsList from '../../components/ErrorsList';
 import TeacherCard from './TeacherCard';
 import { getTeachersList, removeTeacher } from '../../redux/actions/teachers.actions';
 
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
   teachers: state.teachers.list,
-  myprofile: state.users.myprofile,
+  myProfile: state.users.myProfile,
 });
 
 const mapDispatchToProps = {
@@ -22,7 +22,7 @@ const mapDispatchToProps = {
 
 const TeachersList = props => {
   const {
-    teachers, myprofile,
+    teachers, myProfile,
     getTeachersList, removeTeacher,
   } = props;
 
@@ -82,7 +82,7 @@ const TeachersList = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Teachers List
       </h1>
       <div className="card form-container mb-3">
@@ -97,10 +97,10 @@ const TeachersList = props => {
                         <div className="text-center w-100">
                           <TeacherCard info={teachers[selectedCard]} />
                           {
-                            myprofile && (
+                            myProfile && (
                               <>
                                 {
-                                  myprofile.admin && (
+                                  myProfile.admin && (
                                     <div className="d-flex justify-content-center">
                                       <Link to={`/teacher/${teachers[selectedCard].id}/appointments`} className="btn btn-outline-success">Appointments</Link>
                                       <Link to={`/teacher/${teachers[selectedCard].id}/edit`} className="btn btn-outline-info mx-2">Edit</Link>
@@ -154,14 +154,14 @@ TeachersList.propTypes = {
     description: PropTypes.string,
     photo: PropTypes.string,
   })),
-  myprofile: PropTypes.shape({
+  myProfile: PropTypes.shape({
     admin: PropTypes.bool,
   }),
 };
 
 TeachersList.defaultProps = {
   teachers: [],
-  myprofile: {},
+  myProfile: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeachersList);

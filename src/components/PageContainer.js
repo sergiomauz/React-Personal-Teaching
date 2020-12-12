@@ -37,10 +37,11 @@ import {
   URL_TEACHER_APPOINTMENTS,
 } from '../helpers/constants';
 
-import loadingGif from '../images/loading.gif';
+import loadingGif from '../images/loading.svg';
+import '../styles/formal.css';
 
 const mapStateToProps = state => ({
-  myprofile: state.users.myprofile,
+  myProfile: state.users.myProfile,
 });
 
 const mapDispatchToProps = {
@@ -49,7 +50,7 @@ const mapDispatchToProps = {
 
 const PageContainer = props => {
   const {
-    myprofile,
+    myProfile,
     getSession, getMyProfile, signOutRequest,
   } = props;
 
@@ -72,12 +73,12 @@ const PageContainer = props => {
         setSessionCatched(true);
       }
     }
-  }, [myprofile.signedIn, sessionCatched, getSession]);
+  }, [myProfile.signedIn, sessionCatched, getSession]);
 
   // Load profile if have a valid session
   useEffect(() => {
     if (sessionCatched) {
-      if (myprofile.signedIn) {
+      if (myProfile.signedIn) {
         const errorsList = [];
         getMyProfile().then(requestedData => {
           if (requestedData.error) {
@@ -90,14 +91,14 @@ const PageContainer = props => {
         setLoading(false);
       }
     }
-  }, [myprofile.signedIn, sessionCatched, getMyProfile]);
+  }, [myProfile.signedIn, sessionCatched, getMyProfile]);
 
   // Valid current session
   useEffect(() => {
-    if (myprofile.signedIn && !loading && sessionError) {
+    if (myProfile.signedIn && !loading && sessionError) {
       signOutRequest();
     }
-  }, [myprofile.signedIn, loading, sessionError, signOutRequest]);
+  }, [myProfile.signedIn, loading, sessionError, signOutRequest]);
 
   return (
     <>
@@ -111,7 +112,7 @@ const PageContainer = props => {
                   <Route
                     exact
                     path={URL_INDEX}
-                    component={myprofile.id ? Welcome : SignInForm}
+                    component={myProfile.id ? Welcome : SignInForm}
                   />
                   <PublicRoute exact path={URL_SIGN_IN} component={SignInForm} />
                   <PublicRoute exact path={URL_SIGN_UP} component={SignUpForm} />
@@ -123,28 +124,28 @@ const PageContainer = props => {
                   <ProtectedRoute
                     exact
                     path={URL_EDIT_USER}
-                    component={myprofile.admin ? EditUser : Forbidden}
+                    component={myProfile.admin ? EditUser : Forbidden}
                   />
                   <ProtectedRoute
                     exact
                     path={URL_USERS_LIST}
-                    component={myprofile.admin ? UsersList : Forbidden}
+                    component={myProfile.admin ? UsersList : Forbidden}
                   />
 
                   <ProtectedRoute
                     exact
                     path={URL_NEW_TEACHER}
-                    component={myprofile.admin ? NewTeacher : Forbidden}
+                    component={myProfile.admin ? NewTeacher : Forbidden}
                   />
                   <ProtectedRoute
                     exact
                     path={URL_EDIT_TEACHER}
-                    component={myprofile.admin ? EditTeacher : Forbidden}
+                    component={myProfile.admin ? EditTeacher : Forbidden}
                   />
                   <ProtectedRoute
                     exact
                     path={URL_TEACHER_APPOINTMENTS}
-                    component={myprofile.admin ? TeacherAppointments : Forbidden}
+                    component={myProfile.admin ? TeacherAppointments : Forbidden}
                   />
                   <ProtectedRoute exact path={URL_TEACHER_DETAILS} component={TeacherDetails} />
                   <ProtectedRoute exact path={URL_TEACHERS_LIST} component={TeachersList} />
@@ -156,7 +157,7 @@ const PageContainer = props => {
           </div>
         )
           : (
-            <img src={loadingGif} alt="Preview" />
+            <img src={loadingGif} alt="Preview" className="center-screen" />
           )
       }
     </>
@@ -167,7 +168,7 @@ PageContainer.propTypes = {
   getSession: PropTypes.func.isRequired,
   getMyProfile: PropTypes.func.isRequired,
   signOutRequest: PropTypes.func.isRequired,
-  myprofile: PropTypes.shape({
+  myProfile: PropTypes.shape({
     admin: PropTypes.bool,
     signedIn: PropTypes.bool,
     id: PropTypes.number,

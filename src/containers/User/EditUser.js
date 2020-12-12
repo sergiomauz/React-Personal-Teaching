@@ -8,7 +8,7 @@ import ErrorsList from '../../components/ErrorsList';
 import { URL_USERS_LIST } from '../../helpers/constants';
 import { getUserInfo, updateUser } from '../../redux/actions/users.actions';
 
-import loadingGif from '../../images/loading.gif';
+import loadingGif from '../../images/loading.svg';
 import '../../styles/formal.css';
 
 const mapStateToProps = state => ({
@@ -108,7 +108,7 @@ const EditUser = props => {
 
   return (
     <>
-      <h1 className="title-one green-color">
+      <h1 className="title-one green-color text-center">
         Users
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSaveUser}>

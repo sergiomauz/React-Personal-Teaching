@@ -7,14 +7,14 @@ import { Route } from 'react-router-dom';
 import Forbidden from './Forbidden';
 
 const mapStateToProps = state => ({
-  myprofile: state.users.myprofile,
+  myProfile: state.users.myProfile,
 });
 
 const ProtectedRoute = props => {
-  const { component, path, myprofile } = props;
+  const { component, path, myProfile } = props;
 
   return (
-    myprofile.signedIn
+    myProfile.signedIn
       ? (
         <Route exact component={component} path={path} />
       ) : (
@@ -26,7 +26,7 @@ const ProtectedRoute = props => {
 ProtectedRoute.propTypes = {
   component: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
-  myprofile: PropTypes.shape({
+  myProfile: PropTypes.shape({
     admin: PropTypes.bool,
     signedIn: PropTypes.bool,
   }).isRequired,
