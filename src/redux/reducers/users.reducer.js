@@ -15,6 +15,7 @@ const usersReducer = (state = initialState, action) => {
   if (action.payload) {
     switch (action.type) {
       case GET_SESSION:
+      case SIGN_IN_REQUEST:
         return {
           ...state,
           myProfile: {
@@ -27,13 +28,6 @@ const usersReducer = (state = initialState, action) => {
           myProfile: {
             ...action.payload.myprofile,
             signedIn: state.myProfile.signedIn,
-          },
-        };
-      case SIGN_IN_REQUEST:
-        return {
-          ...state,
-          myProfile: {
-            signedIn: action.payload.signedIn,
           },
         };
       case GET_USERS_LIST:
