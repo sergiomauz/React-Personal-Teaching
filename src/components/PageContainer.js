@@ -79,11 +79,9 @@ const PageContainer = props => {
   useEffect(() => {
     if (sessionCatched) {
       if (myProfile.signedIn) {
-        const errorsList = [];
         getMyProfile().then(requestedData => {
           if (requestedData.error) {
-            errorsList.push(requestedData.error.message);
-            setSessionError(errorsList);
+            setSessionError(true);
           }
           setLoading(false);
         });
@@ -91,11 +89,12 @@ const PageContainer = props => {
         setLoading(false);
       }
     }
-  }, [myProfile.signedIn, sessionCatched, getMyProfile]);
+  }, [myProfile.signedIn, sessionCatched, getMyProfile, signOutRequest]);
 
   // Valid current session
   useEffect(() => {
     if (myProfile.signedIn && !loading && sessionError) {
+      setSessionError(false);
       signOutRequest();
     }
   }, [myProfile.signedIn, loading, sessionError, signOutRequest]);
