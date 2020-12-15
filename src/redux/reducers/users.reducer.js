@@ -57,6 +57,7 @@ const usersReducer = (state = initialState, action) => {
         }
         return state;
       }
+      case UPDATE_USER_N_REDIRECT:
       case UPDATE_USER: {
         if (action.payload.user) {
           return {
@@ -66,20 +67,6 @@ const usersReducer = (state = initialState, action) => {
                 ? action.payload.user
                 : user),
             ),
-            myProfile: {
-              ...(state.myProfile.id === action.payload.user.id
-                ? action.payload.user
-                : state.myProfile),
-              signedIn: state.myProfile.signedIn,
-            },
-          };
-        }
-        return state;
-      }
-      case UPDATE_USER_N_REDIRECT: {
-        if (action.payload.user) {
-          return {
-            ...state,
             myProfile: {
               ...(state.myProfile.id === action.payload.user.id
                 ? action.payload.user

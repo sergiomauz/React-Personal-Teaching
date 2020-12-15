@@ -17,6 +17,12 @@ const userNotAdmin = {
   username: 'sheyla',
   password: '123456',
 };
+const newUser = {
+  fullname: 'Hulk Hogan',
+  email: 'hulk@xmail.com',
+  username: 'hulk',
+  password: '123456',
+};
 
 describe('Tests for Users actions', () => {
   let personalTeaching;
@@ -89,5 +95,37 @@ describe('Tests for Users actions', () => {
         expect(newState.users.myProfile).toEqual({ ...request.myprofile, signedIn: false });
         done();
       });
+  });
+
+  test('Test -newUser-', () => {
+    let newState;
+    return store.dispatch(addUser(newUser))
+      .then(() => {
+        newState = store.getState();
+        expect(newState.users.list).toEqual([]);
+      });
+  });
+
+  test('Test -updateUser-', async done => {
+    const request = await PersonalTeaching(adminSessionObject).getLastUser();
+    request.user.fullname = 'The Incredible Hulk';
+    return store.dispatch(getUsersList(adminSessionObject))
+      .then(() => store.dispatch(updateUser(request.user.id, request.user, adminSessionObject))
+        .then(() => {
+          const newState = store.getState();
+          expect(newState.users.list).toContainEqual(request.user);
+          done();
+        }));
+  });
+
+  test('Test -removeUser-', async done => {
+    const request = await PersonalTeaching(adminSessionObject).getLastUser();
+    return store.dispatch(getUsersList(adminSessionObject))
+      .then(() => store.dispatch(removeUser(request.user.id, adminSessionObject))
+        .then(() => {
+          const newState = store.getState();
+          expect(newState.users.list).not.toContainEqual(request.user);
+          done();
+        }));
   });
 });

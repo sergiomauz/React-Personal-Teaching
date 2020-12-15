@@ -108,7 +108,7 @@ const addUser = (user, session) => dispatch => PersonalTeaching(session).addUser
         type: ADD_USER,
         payload: requestedData,
       });
-    } if (requestedData.error.hasResponse) {
+    } else if (requestedData.error.hasResponse) {
       dispatch(signOutRequest());
     }
 
