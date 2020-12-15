@@ -17,6 +17,8 @@ const userNotAdmin = {
   password: '123456',
 };
 
+jest.setTimeout(30000);
+
 describe('Tests for Users actions', () => {
   let personalTeaching;
   let adminSessionObject;

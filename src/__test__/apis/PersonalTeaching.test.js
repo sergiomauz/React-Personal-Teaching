@@ -11,7 +11,7 @@ const newValidTeacher1 = {
   fullname: 'Neil deGrasse Tyson',
   email: 'neil@xmail.com',
   course: 'Physics',
-  description: 'Black holes.',
+  description: 'Pulsars and Magnetars.',
 };
 const userAdmin = {
   grant_type: 'password',
@@ -23,6 +23,8 @@ const userNotAdmin = {
   username: 'sheyla',
   password: '123456',
 };
+
+jest.setTimeout(30000);
 
 describe('Tests for Sign In method', () => {
   let personalTeaching;

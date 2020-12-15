@@ -21,8 +21,10 @@ const newTeacher = {
   fullname: 'Myke deGrasse Tyson',
   email: 'myke@xmail.com',
   course: 'Physics',
-  description: 'Black holes',
+  description: 'Pulsars and Magnetars',
 };
+
+jest.setTimeout(30000);
 
 describe('Tests for Users actions', () => {
   let personalTeaching;

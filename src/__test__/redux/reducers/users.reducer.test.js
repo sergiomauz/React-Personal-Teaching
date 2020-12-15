@@ -5,6 +5,8 @@ import {
 } from '../../../redux/actions/types';
 import usersReducer from '../../../redux/reducers/users.reducer';
 
+jest.setTimeout(30000);
+
 describe('Tests for Users reducer', () => {
   let initialState;
 
