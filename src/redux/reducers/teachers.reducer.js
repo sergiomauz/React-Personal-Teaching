@@ -59,6 +59,7 @@ const teachersReducer = (state = initialState, action) => {
         }
         return state;
       }
+      case UPDATE_TEACHER_N_REDIRECT:
       case UPDATE_TEACHER: {
         if (action.payload.teacher) {
           return {
@@ -80,7 +81,6 @@ const teachersReducer = (state = initialState, action) => {
             action.payload.teacher,
           ],
         };
-      case UPDATE_TEACHER_N_REDIRECT:
       default:
         return state;
     }

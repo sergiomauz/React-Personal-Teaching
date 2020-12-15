@@ -5,7 +5,7 @@ import {
 import PersonalTeaching from '../../apis/PersonalTeaching';
 import { signOutRequest } from './users.actions';
 
-const getUserAppointmentsList = () => dispatch => PersonalTeaching()
+const getUserAppointmentsList = session => dispatch => PersonalTeaching(session)
   .getUserAppointmentsList()
   .then(requestedData => {
     if (!requestedData.error) {
@@ -20,7 +20,7 @@ const getUserAppointmentsList = () => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const getTeacherAppointmentsList = teacherId => dispatch => PersonalTeaching()
+const getTeacherAppointmentsList = (teacherId, session) => dispatch => PersonalTeaching(session)
   .getTeacherAppointmentsList(teacherId)
   .then(requestedData => {
     if (!requestedData.error) {
@@ -35,7 +35,7 @@ const getTeacherAppointmentsList = teacherId => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const addAppointment = appointment => dispatch => PersonalTeaching()
+const addAppointment = (appointment, session) => dispatch => PersonalTeaching(session)
   .addAppointment(appointment)
   .then(requestedData => {
     if (!requestedData.error) {
@@ -50,7 +50,7 @@ const addAppointment = appointment => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const removeAppointment = id => dispatch => PersonalTeaching()
+const removeAppointment = (id, session) => dispatch => PersonalTeaching(session)
   .removeAppointment(id)
   .then(requestedData => {
     if (!requestedData.error) {

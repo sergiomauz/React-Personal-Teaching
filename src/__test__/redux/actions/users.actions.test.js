@@ -77,7 +77,7 @@ describe('Tests for Users actions', () => {
       });
   });
 
-  test('Test -getUserInfo- to get the first User by ID', async done => {
+  test('Test -getUserInfo- to get the first User by ID = 1', async done => {
     const request = await PersonalTeaching(adminSessionObject).getUserInfo(1);
     return store.dispatch(getUserInfo(1, adminSessionObject))
       .then(() => {
@@ -97,7 +97,7 @@ describe('Tests for Users actions', () => {
       });
   });
 
-  test('Test -newUser-', () => {
+  test('Test -addUser-', () => {
     let newState;
     return store.dispatch(addUser(newUser))
       .then(() => {

@@ -117,13 +117,13 @@ describe('Test methods for adding User, Teacher and Appointment', () => {
     .resolves
     .toHaveProperty('teacher'));
 
-  test('Test for adding a new appointment with a common user and future date', () => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
+  test('Test for adding a new appointment with an admin user and future date', () => {
+    const todayDate = new Date();
+    const dd = String(todayDate.getDate()).padStart(2, '0');
+    const mm = String(todayDate.getMonth() + 1).padStart(2, '0');
+    const yyyy = todayDate.getFullYear();
 
-    return expect(PersonalTeaching(notAdminSessionObject)
+    return expect(PersonalTeaching(adminSessionObject)
       .addAppointment({
         teacher_id: lastTeacher.teacher.id,
         scheduled_for: `${yyyy + 1}-${mm}-${dd} 08:00`,
@@ -132,7 +132,7 @@ describe('Test methods for adding User, Teacher and Appointment', () => {
       .toHaveProperty('appointment');
   });
 
-  test('Test for adding a new appointment with a common user and past date', () => {
+  test('Test for adding a new appointment with a normal user and past date', () => {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -179,12 +179,12 @@ describe('Test methods for listing and showing data about Users, Teachers and Ap
     .resolves
     .toHaveProperty('teacher'));
 
-  test('Test for getting first teacher by ID using token without permissions', () => expect(PersonalTeaching(notAdminSessionObject)
+  test('Test for getting first teacher by ID = 1 using token without permissions', () => expect(PersonalTeaching(notAdminSessionObject)
     .getTeacherInfo(1))
     .resolves
     .toHaveProperty('teacher'));
 
-  test('Test for getting first teacher by ID using token with permissions', () => expect(PersonalTeaching(adminSessionObject)
+  test('Test for getting first teacher by ID = 1 using token with permissions', () => expect(PersonalTeaching(adminSessionObject)
     .getTeacherInfo(1))
     .resolves
     .toHaveProperty('teacher'));
@@ -219,12 +219,12 @@ describe('Test methods for listing and showing data about Users, Teachers and Ap
     .resolves
     .toHaveProperty('myprofile'));
 
-  test('Test for getting first user by ID using token without permissions', () => expect(PersonalTeaching(notAdminSessionObject)
+  test('Test for getting first user by ID = 1 using token without permissions', () => expect(PersonalTeaching(notAdminSessionObject)
     .getUserInfo(1))
     .resolves
     .not.toHaveProperty('user'));
 
-  test('Test for getting first user by ID using token with permissions', () => expect(PersonalTeaching(adminSessionObject)
+  test('Test for getting first user by ID = 1 using token with permissions', () => expect(PersonalTeaching(adminSessionObject)
     .getUserInfo(1))
     .resolves
     .toHaveProperty('user'));
