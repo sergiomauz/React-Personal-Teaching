@@ -63,7 +63,7 @@ const SignInForm = props => {
 
   return (
     <>
-      <h1 className="title-one green-color text-center">
+      <h1 className="title-one green-color text-center" data-test="signInTitle">
         Personal Teachers
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSignIn}>

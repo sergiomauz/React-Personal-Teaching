@@ -1,4 +1,4 @@
-# PERSONAL TEACHING
+# PERSONAL TEACHING - REACT FRONTEND
 > This project is a front-end website that consumes a Ruby On Rails API. The chosen topic is a system for booking appointments with personal teachers.
 
 ## Screenshots
@@ -24,6 +24,7 @@
 - CSS Modules
 - Netlify
 - API from: [Personal Teaching Repository](https://github.com/sergiomauz/RoR-Personal-Teaching)
+- API live demo root: [Personal Teaching Repository](https://ror-personal-teaching-backend.herokuapp.com/api/v1/)
 
 
 ## Live Demo

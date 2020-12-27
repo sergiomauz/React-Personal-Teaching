@@ -106,7 +106,7 @@ const PersonalTeaching = session => {
       if (sessionObject instanceof Promise) {
         const requestedData = await sessionObject;
         if (requestedData) {
-          if (requestedData.accessToken.length > 0) {
+          if (requestedData.accessToken) {
             return {
               headers: {
                 Authorization: `Bearer ${requestedData.accessToken}`,
@@ -116,7 +116,7 @@ const PersonalTeaching = session => {
           }
         }
       }
-      if (sessionObject.accessToken.length > 0) {
+      if (sessionObject.accessToken) {
         return {
           headers: {
             Authorization: `Bearer ${sessionObject.accessToken}`,

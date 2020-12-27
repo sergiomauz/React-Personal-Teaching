@@ -23,7 +23,7 @@ describe('Tests for Users actions', () => {
   let personalTeaching;
   let adminSessionObject;
   let notAdminSessionObject;
-  let store;
+  let testStore;
 
   //
   beforeAll(async done => {
@@ -33,7 +33,7 @@ describe('Tests for Users actions', () => {
     done();
   });
   beforeEach(() => {
-    store = generateStore();
+    testStore = generateStore();
   });
 
   //
@@ -48,9 +48,9 @@ describe('Tests for Users actions', () => {
       scheduled_for: `${yyyy}-${mm}-${dd} 08:00`,
     };
 
-    return store.dispatch(addAppointment(newAppointment, notAdminSessionObject))
+    return testStore.dispatch(addAppointment(newAppointment, notAdminSessionObject))
       .then(() => {
-        const newState = store.getState();
+        const newState = testStore.getState();
         expect(newState.appointments.list[0]).toHaveProperty('scheduled_for');
         done();
       });
@@ -58,9 +58,9 @@ describe('Tests for Users actions', () => {
 
   test('Test -getUserAppointmentsList-', async done => {
     const request = await PersonalTeaching(notAdminSessionObject).getUserAppointmentsList();
-    return store.dispatch(getUserAppointmentsList(notAdminSessionObject))
+    return testStore.dispatch(getUserAppointmentsList(notAdminSessionObject))
       .then(() => {
-        const newState = store.getState();
+        const newState = testStore.getState();
         expect(newState.appointments.list).toEqual(request.appointments);
         done();
       });
@@ -68,9 +68,9 @@ describe('Tests for Users actions', () => {
 
   test('Test -getTeacherAppointmentsList- wtih the first Teacher (ID = 1)', async done => {
     const request = await PersonalTeaching(adminSessionObject).getTeacherAppointmentsList(1);
-    return store.dispatch(getTeacherAppointmentsList(1, adminSessionObject))
+    return testStore.dispatch(getTeacherAppointmentsList(1, adminSessionObject))
       .then(() => {
-        const newState = store.getState();
+        const newState = testStore.getState();
         expect(newState.appointments.list).toEqual(request.appointments);
         done();
       });
@@ -78,10 +78,11 @@ describe('Tests for Users actions', () => {
 
   test('Test -removeAppointment-', async done => {
     const request = await PersonalTeaching(notAdminSessionObject).getLastAppointment();
-    return store.dispatch(getUserAppointmentsList(notAdminSessionObject))
-      .then(() => store.dispatch(removeAppointment(request.appointment.id, notAdminSessionObject))
+    return testStore.dispatch(getUserAppointmentsList(notAdminSessionObject))
+      .then(() => testStore
+        .dispatch(removeAppointment(request.appointment.id, notAdminSessionObject))
         .then(() => {
-          const newState = store.getState();
+          const newState = testStore.getState();
           expect(newState.appointments.list
             .filter(item => item.id === request.appointment.id).length)
             .toBe(0);

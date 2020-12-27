@@ -56,7 +56,7 @@ const Sidebar = props => {
           )
         }
       </div>
-      <ul className="list-group">
+      <ul className="list-group" data-test="sidebarMenu">
         {
           myProfile.signedIn ? (
             <>

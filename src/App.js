@@ -1,19 +1,24 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import PageContainer from './components/PageContainer';
-import generateStore from './redux/store';
 
-const App = () => {
-  const store = generateStore();
+const App = props => {
+  const { store } = props;
 
   return (
-    <Provider store={store}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Provider store={store}>
         <PageContainer />
-      </BrowserRouter>
-    </Provider>
+      </Provider>
+    </BrowserRouter>
   );
+};
+
+App.propTypes = {
+  store: PropTypes.any.isRequired,
 };
 
 export default App;
