@@ -83,7 +83,7 @@ describe('Tests for Users actions', () => {
 
   test('Test -clearTeacherAvailability- for the first Teacher by ID = 1', async done => {
     const todayDate = new Date();
-    const appointmentDate = new Date(todayDate.setDate(todayDate.getDate() + 3));
+    const appointmentDate = new Date(todayDate.setDate(todayDate.getDate() + 10));
     const dd = String(appointmentDate.getDate()).padStart(2, '0');
     const mm = String(appointmentDate.getMonth() + 1).padStart(2, '0');
     const yyyy = appointmentDate.getFullYear();
