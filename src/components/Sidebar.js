@@ -47,7 +47,7 @@ const Sidebar = props => {
       <div className="d-flex flex-column justify-content-center">
         {
           myProfile.username && (
-            <label className="w-100">
+            <label className="w-100" data-test="sidebarUsername">
               <span className="control-label font-weight-bold">USER</span>
               <Link className="form-control border-right-0 border-left-0 font-weight-bold green-color text-center" to="/">
                 {myProfile.username}

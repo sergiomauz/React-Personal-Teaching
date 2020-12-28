@@ -7,7 +7,6 @@ import PageContainer from './components/PageContainer';
 
 const App = props => {
   const { store } = props;
-
   return (
     <BrowserRouter>
       <Provider store={store}>

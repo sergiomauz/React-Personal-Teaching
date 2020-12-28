@@ -1,6 +1,3 @@
-const findByTestAttribute = (component, attribute) => {
-  const wrapper = component.find(`[data-test='${attribute}']`);
-  return wrapper;
-};
+const findByTestAttribute = (component, attribute) => component.find(`[data-test='${attribute}']`);
 
 export default findByTestAttribute;

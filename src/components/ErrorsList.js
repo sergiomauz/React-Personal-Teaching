@@ -22,7 +22,7 @@ const ErrorsList = props => {
 
 ErrorsList.propTypes = {
   errorsInfo: PropTypes.arrayOf(
-    PropTypes.number,
+    PropTypes.string,
   ).isRequired,
 };
 
