@@ -53,7 +53,11 @@ const SignInForm = props => {
         username, password,
       }).then(requestedData => {
         if (requestedData.error) {
-          errorsList.push(requestedData.error.message);
+          if (requestedData.error.message.includes('error_description')) {
+            errorsList.push(JSON.parse(requestedData.error.message).error_description);
+          } else {
+            errorsList.push(requestedData.error.message);
+          }
           setErrors(errorsList);
           setLoading(false);
         }

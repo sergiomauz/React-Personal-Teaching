@@ -77,12 +77,12 @@ describe('Test methods for getting Cloudinary profile', () => {
   test('Test for getting pressets to use Cloudinary, using an user without permissions', () => expect(PersonalTeaching(notAdminSessionObject)
     .getCloudinaryPreset())
     .resolves
-    .not.toHaveProperty('upload_preset'));
+    .not.toHaveProperty('cloudinary_config'));
 
   test('Test for getting pressets to use Cloudinary, using an user with permissions', () => expect(PersonalTeaching(adminSessionObject)
     .getCloudinaryPreset())
     .resolves
-    .toHaveProperty('upload_preset'));
+    .toHaveProperty('cloudinary_config'));
 });
 
 describe('Test methods for adding User, Teacher and Appointment', () => {

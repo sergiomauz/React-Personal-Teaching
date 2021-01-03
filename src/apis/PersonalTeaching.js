@@ -189,7 +189,7 @@ const PersonalTeaching = session => {
   const removeUser = id => makeDeleteRequest(`users/${id}`);
 
   // Appointment methods
-  const getUserAppointmentsList = () => makeGetRequest('appointments');
+  const getUserAppointmentsList = () => makeGetRequest('users/myappointments');
   const getTeacherAppointmentsList = teacherId => makeGetRequest(`teachers/${teacherId}/appointments`);
   const getLastAppointment = () => makeGetRequest('appointments/last');
   const addAppointment = appointment => makePostRequest('appointments', appointment);
