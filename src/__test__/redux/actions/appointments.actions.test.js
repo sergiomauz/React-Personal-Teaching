@@ -6,6 +6,8 @@ import {
   addAppointment, removeAppointment,
 } from '../../../redux/actions/appointments.actions';
 
+import server from '../../../apis/mocks/PersonalTeaching.Success';
+
 const userAdmin = {
   grant_type: 'password',
   username: 'sergio',
@@ -26,15 +28,20 @@ describe('Tests for Users actions', () => {
   let testStore;
 
   //
+  beforeAll(() => server.listen());
+  beforeEach(() => {
+    testStore = generateStore();
+  });
   beforeAll(async done => {
     personalTeaching = PersonalTeaching();
     adminSessionObject = await personalTeaching.signInRequest(userAdmin);
     notAdminSessionObject = await personalTeaching.signInRequest(userNotAdmin);
     done();
   });
-  beforeEach(() => {
-    testStore = generateStore();
-  });
+
+  //
+  afterAll(() => server.close());
+  afterEach(() => server.resetHandlers());
 
   //
   test('Test -addAppointment- with the first Teacher (ID = 1) using a normal user ', async done => {
@@ -86,7 +93,6 @@ describe('Tests for Users actions', () => {
           expect(newState.appointments.list
             .filter(item => item.id === request.appointment.id).length)
             .toBe(0);
-
           done();
         }));
   });

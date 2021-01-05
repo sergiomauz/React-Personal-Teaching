@@ -79,7 +79,7 @@ const PersonalTeaching = session => {
   };
   const getSession = () => {
     let sessionObject = sessionPersonalTeaching();
-
+    // console.log(sessionObject);
     if (!sessionObject) {
       const sessionVar = (localStorage.getItem('sessionVar') || '');
 
