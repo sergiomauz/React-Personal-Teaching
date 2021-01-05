@@ -200,6 +200,106 @@ const handlers = [
     };
     return res(ctx.status(200), ctx.json(successResponse));
   }),
+
+  rest.get(`${BACKEND_PERSONAL_TEACHING}teachers`, (req, res, ctx) => {
+    const successResponse = {
+      teachers: [
+        {
+          id: 1,
+          fullname: 'Sergio Zambrano',
+          email: 'sergio@xmail.com',
+          photo: 'https://domain.xyz/photo.jpg',
+          course: 'Math rocks',
+          description: 'The hardest maths in the world',
+        },
+        {
+          id: 2,
+          fullname: 'Sheyla Pozo',
+          email: 'sheyla@xmail.com',
+          photo: 'https://domain.xyz/photo.jpg',
+          course: 'English Grammar',
+          description: 'Grammar for kids',
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.get(`${BACKEND_PERSONAL_TEACHING}teachers/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+
+    const successResponse = {
+      teacher: {
+        id: 1,
+        fullname: 'Sergio Zambrano',
+        email: 'sergio@xmail.com',
+        photo: 'https://domain.xyz/photo.jpg',
+        course: 'Math rocks',
+        description: 'The hardest maths in the world',
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.get(`${BACKEND_PERSONAL_TEACHING}teachers/:id/availability/:date`, (req, res, ctx) => {
+    const { id, date } = req.params;
+
+    const successResponse = {
+      teacher: {
+        id: parseInt(id, 10),
+        availability: [8, 9, 10, 11, 12, 15, 16, 17],
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.delete(`${BACKEND_PERSONAL_TEACHING}teachers/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+
+    const successResponse = {
+      teacher: {
+        id: 1,
+        fullname: 'Sergio Zambrano',
+        email: 'sergio@xmail.com',
+        photo: 'https://domain.xyz/photo.jpg',
+        course: 'Math rocks',
+        description: 'The hardest maths in the world',
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.post(`${BACKEND_PERSONAL_TEACHING}teachers`, (req, res, ctx) => {
+    const {
+      fullname, email, photo, course, description,
+    } = req.body;
+
+    const successResponse = {
+      teacher: {
+        id: 1,
+        fullname,
+        email,
+        photo,
+        course,
+        description,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.put(`${BACKEND_PERSONAL_TEACHING}teachers/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    const {
+      fullname, email, photo, course, description,
+    } = req.body;
+
+    const successResponse = {
+      teacher: {
+        id: parseInt(id, 10),
+        fullname,
+        email,
+        photo,
+        course,
+        description,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
 ];
 
 const server = setupServer(...handlers);
