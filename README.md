@@ -49,9 +49,9 @@ Click -> [Personal Teaching!](https://react-personal-teaching.netlify.app/)
 - All files are in **src/test** directory.
 - OPTIONAL: Put your public and secret keys before to test, it will help to add testing for consuming the Pet Finder API.
 - In order to run the tests, in terminal type: ```npm test```.
-- More than 100 tests:
+- More than 60 tests:
 
-![screenshot-10](https://user-images.githubusercontent.com/36812672/103248569-163d1f00-4939-11eb-8c4a-49a22ab30587.png)
+![screenshot-10](https://user-images.githubusercontent.com/36812672/103628232-b2a08c00-4f0c-11eb-85ec-af2725d49e60.png)
 
 ## Author
 
