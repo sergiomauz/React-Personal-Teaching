@@ -7,6 +7,8 @@ import {
   addUser, updateUser, removeUser,
 } from '../../../redux/actions/users.actions';
 
+import server from '../../../apis/mocks/PersonalTeaching.Success';
+
 const userAdmin = {
   grant_type: 'password',
   username: 'sergio',
@@ -33,15 +35,20 @@ describe('Tests for Users actions', () => {
   let store;
 
   //
+  beforeAll(() => server.listen());
+  beforeEach(() => {
+    store = generateStore();
+  });
   beforeAll(async done => {
     personalTeaching = PersonalTeaching();
     adminSessionObject = await personalTeaching.signInRequest(userAdmin);
     notAdminSessionObject = await personalTeaching.signInRequest(userNotAdmin);
     done();
   });
-  beforeEach(() => {
-    store = generateStore();
-  });
+
+  //
+  afterAll(() => server.close());
+  afterEach(() => server.resetHandlers());
 
   //
   test('Test -signInRequest-', () => store.dispatch(signInRequest(userNotAdmin))

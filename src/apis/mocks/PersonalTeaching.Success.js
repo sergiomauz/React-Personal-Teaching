@@ -22,6 +22,7 @@ const handlers = [
     };
     return res(ctx.status(200), ctx.json(successResponse));
   }),
+
   rest.get(`${BACKEND_PERSONAL_TEACHING}users/myappointments`, (req, res, ctx) => {
     const successResponse = {
       appointments: [
@@ -100,6 +101,101 @@ const handlers = [
         user_id: 1,
         teacher_id: parseInt(teacher_id, 10),
         scheduled_for,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+
+  rest.get(`${BACKEND_PERSONAL_TEACHING}users`, (req, res, ctx) => {
+    const successResponse = {
+      users: [
+        {
+          id: 1,
+          fullname: 'Sergio Zambrano',
+          username: 'sergiomauz',
+          email: 'sergio@xmail.com',
+          admin: true,
+        },
+        {
+          id: 2,
+          fullname: 'Sheyla Pozo',
+          username: 'sheyla',
+          email: 'sheyla@xmail.com',
+          admin: false,
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.get(`${BACKEND_PERSONAL_TEACHING}users/last`, (req, res, ctx) => {
+    const successResponse = {
+      user: {
+        id: 1,
+        fullname: 'Sergio Zambrano',
+        username: 'sergiomauz',
+        email: 'sergio@xmail.com',
+        admin: false,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.get(`${BACKEND_PERSONAL_TEACHING}users/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+
+    const successResponse = {
+      user: {
+        id: 1,
+        fullname: 'Sergio Zambrano',
+        username: 'sergiomauz',
+        email: 'sergio@xmail.com',
+        admin: false,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.post(`${BACKEND_PERSONAL_TEACHING}users`, (req, res, ctx) => {
+    const {
+      fullname, email, username, password,
+    } = req.body;
+
+    const successResponse = {
+      user: {
+        id: 1,
+        fullname,
+        username,
+        email,
+        admin: false,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.put(`${BACKEND_PERSONAL_TEACHING}users/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    const {
+      fullname, email, username, password,
+    } = req.body;
+
+    const successResponse = {
+      user: {
+        id: parseInt(id, 10),
+        fullname,
+        username,
+        email,
+        admin: false,
+      },
+    };
+    return res(ctx.status(200), ctx.json(successResponse));
+  }),
+  rest.delete(`${BACKEND_PERSONAL_TEACHING}users/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+
+    const successResponse = {
+      user: {
+        id: 1,
+        fullname: 'Sergio Zambrano',
+        username: 'sergiomauz',
+        email: 'sergio@xmail.com',
+        admin: false,
       },
     };
     return res(ctx.status(200), ctx.json(successResponse));
