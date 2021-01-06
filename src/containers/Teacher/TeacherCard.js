@@ -16,12 +16,21 @@ const TeacherCard = props => {
           <>
             <Link to={`/teacher/${info.id}`} className="form-group">
               {
-                info.photo.length > 0 ? (
-                  <img
-                    src={info.photo}
-                    alt=""
-                    className="img-fluid teacher-photo"
-                  />
+                info.photo ? (
+                  <>
+                    {
+                      info.photo.length > 0 ? (
+                        <img
+                          src={info.photo}
+                          alt=""
+                          className="img-fluid teacher-photo"
+                        />
+                      )
+                        : (
+                          <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                        )
+                    }
+                  </>
                 )
                   : (
                     <img className="teacher-photo" src={photoTeacher} alt="Preview" />

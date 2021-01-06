@@ -140,12 +140,21 @@ const TeacherDetails = props => {
                   <div className="col-12 col-md-6">
                     <div className="form-group text-center">
                       {
-                        teacherInfo.photo.length > 0 ? (
-                          <img
-                            src={teacherInfo.photo}
-                            alt=""
-                            className="img-fluid teacher-photo"
-                          />
+                        teacherInfo.photo ? (
+                          <>
+                            {
+                              teacherInfo.photo.length > 0 ? (
+                                <img
+                                  src={teacherInfo.photo}
+                                  alt=""
+                                  className="img-fluid teacher-photo"
+                                />
+                              )
+                                : (
+                                  <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                                )
+                            }
+                          </>
                         )
                           : (
                             <img className="teacher-photo" src={photoTeacher} alt="Preview" />

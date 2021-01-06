@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BACKEND_PERSONAL_TEACHING } from '../helpers/constants';
 
-const PersonalTeaching = () => {
+const PersonalTeaching = session => {
   const sessionDefaultObject = {
     signedIn: false,
     accessToken: '',
@@ -9,16 +9,27 @@ const PersonalTeaching = () => {
     expiresAt: 0,
   };
 
-  const onSuccessSession = ({ data }) => {
-    const sessionObject = {
-      signedIn: true,
-      accessToken: data.access_token,
-      refreshToken: data.refresh_token,
-      expiresAt: Math.abs(new Date()) + 1000 * data.expires_in,
-    };
-    localStorage.setItem('sessionVar', JSON.stringify(sessionObject));
+  // Session objects managers
+  const setValidSessionObject = sessionData => {
+    if (sessionData) {
+      return {
+        signedIn: true,
+        accessToken: sessionData.access_token,
+        refreshToken: sessionData.refresh_token,
+        expiresAt: Math.abs(new Date()) + 1000 * sessionData.expires_in,
+      };
+    }
 
-    return sessionObject;
+    return sessionData;
+  };
+  const sessionPersonalTeaching = () => session;
+
+  // Methdos for processing promises
+  const onSuccessSession = ({ data }) => {
+    const sessionToStorage = setValidSessionObject(data);
+    localStorage.setItem('sessionVar', JSON.stringify(sessionToStorage));
+
+    return sessionToStorage;
   };
   const onSuccess = ({ data }) => data;
   const onFail = error => {
@@ -67,33 +78,35 @@ const PersonalTeaching = () => {
     return request;
   };
   const getSession = () => {
-    let sessionObject;
-    const sessionVar = (localStorage.getItem('sessionVar') || '');
+    let sessionObject = sessionPersonalTeaching();
+    // console.log(sessionObject);
+    if (!sessionObject) {
+      const sessionVar = (localStorage.getItem('sessionVar') || '');
 
-    if (sessionVar.length > 0) {
-      sessionObject = JSON.parse(sessionVar);
+      if (sessionVar.length > 0) {
+        sessionObject = JSON.parse(sessionVar);
 
-      if (sessionObject.refreshToken && sessionObject.expiresAt) {
-        if (Math.abs(new Date()) > sessionObject.expiresAt - 300
-          && sessionObject.expiresAt > 0
-          && sessionObject.refreshToken.length > 0) {
-          sessionObject = refreshSession(sessionObject.refreshToken);
+        if (sessionObject.refreshToken && sessionObject.expiresAt) {
+          if (Math.abs(new Date()) > sessionObject.expiresAt - 300
+            && sessionObject.expiresAt > 0
+            && sessionObject.refreshToken.length > 0) {
+            sessionObject = refreshSession(sessionObject.refreshToken);
+          }
         }
+      } else {
+        sessionObject = sessionDefaultObject;
       }
-    } else {
-      sessionObject = sessionDefaultObject;
     }
 
     return sessionObject;
   };
   const getConfig = async params => {
     const sessionObject = getSession();
-
     if (sessionObject) {
       if (sessionObject instanceof Promise) {
         const requestedData = await sessionObject;
         if (requestedData) {
-          if (requestedData.accessToken.length > 0) {
+          if (requestedData.accessToken) {
             return {
               headers: {
                 Authorization: `Bearer ${requestedData.accessToken}`,
@@ -103,8 +116,7 @@ const PersonalTeaching = () => {
           }
         }
       }
-
-      if (sessionObject.accessToken.length > 0) {
+      if (sessionObject.accessToken) {
         return {
           headers: {
             Authorization: `Bearer ${sessionObject.accessToken}`,
@@ -159,6 +171,7 @@ const PersonalTeaching = () => {
   const getCloudinaryPreset = () => makeGetRequest('cloudinary');
 
   // Teacher methods
+  const getLastTeacher = () => makeGetRequest('teachers/last');
   const getTeachersList = () => makeGetRequest('teachers');
   const getTeacherInfo = id => makeGetRequest(`teachers/${id}`);
   const getTeacherAvailability = (id, date) => makeGetRequest(`teachers/${id}/availability/${date}`);
@@ -167,6 +180,7 @@ const PersonalTeaching = () => {
   const removeTeacher = id => makeDeleteRequest(`teachers/${id}`);
 
   // User methods
+  const getLastUser = () => makeGetRequest('users/last');
   const getUsersList = () => makeGetRequest('users');
   const getUserInfo = id => makeGetRequest(`users/${id}`);
   const getMyProfile = () => makeGetRequest('users/myprofile');
@@ -175,8 +189,9 @@ const PersonalTeaching = () => {
   const removeUser = id => makeDeleteRequest(`users/${id}`);
 
   // Appointment methods
-  const getUserAppointmentsList = () => makeGetRequest('appointments');
+  const getUserAppointmentsList = () => makeGetRequest('users/myappointments');
   const getTeacherAppointmentsList = teacherId => makeGetRequest(`teachers/${teacherId}/appointments`);
+  const getLastAppointment = () => makeGetRequest('appointments/last');
   const addAppointment = appointment => makePostRequest('appointments', appointment);
   const removeAppointment = id => makeDeleteRequest(`appointments/${id}`);
 
@@ -187,6 +202,7 @@ const PersonalTeaching = () => {
 
     getCloudinaryPreset,
 
+    getLastUser,
     getUsersList,
     getUserInfo,
     getMyProfile,
@@ -194,6 +210,7 @@ const PersonalTeaching = () => {
     updateUser,
     removeUser,
 
+    getLastTeacher,
     getTeachersList,
     getTeacherInfo,
     getTeacherAvailability,
@@ -203,6 +220,7 @@ const PersonalTeaching = () => {
 
     getUserAppointmentsList,
     getTeacherAppointmentsList,
+    getLastAppointment,
     addAppointment,
     removeAppointment,
   };

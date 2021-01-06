@@ -53,7 +53,11 @@ const SignInForm = props => {
         username, password,
       }).then(requestedData => {
         if (requestedData.error) {
-          errorsList.push(requestedData.error.message);
+          if (requestedData.error.message.includes('error_description')) {
+            errorsList.push(JSON.parse(requestedData.error.message).error_description);
+          } else {
+            errorsList.push(requestedData.error.message);
+          }
           setErrors(errorsList);
           setLoading(false);
         }
@@ -63,7 +67,7 @@ const SignInForm = props => {
 
   return (
     <>
-      <h1 className="title-one green-color text-center">
+      <h1 className="title-one green-color text-center" data-test="signInTitle">
         Personal Teachers
       </h1>
       <form className="card form-container mb-3" onSubmit={handlerSignIn}>

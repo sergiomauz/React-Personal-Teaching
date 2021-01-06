@@ -1,9 +1,13 @@
-# PERSONAL TEACHING
+# PERSONAL TEACHING - REACT FRONTEND
 > This project is a front-end website that consumes a Ruby On Rails API. The chosen topic is a system for booking appointments with personal teachers.
 
 ## Screenshots
 
-![screenshot-1](https://user-images.githubusercontent.com/36812672/97628788-2f8a2380-19fb-11eb-8630-e80d5a270a77.png)
+![screenshot-1](https://user-images.githubusercontent.com/36812672/103248197-9f535680-4937-11eb-860a-acc48e7e5537.png)
+![screenshot-2](https://user-images.githubusercontent.com/36812672/103248198-9febed00-4937-11eb-9106-ade0d7d8db7d.png)
+![screenshot-3](https://user-images.githubusercontent.com/36812672/103248199-a0848380-4937-11eb-9a5f-ee669dcb36b9.png)
+![screenshot-4](https://user-images.githubusercontent.com/36812672/103248201-a0848380-4937-11eb-989e-b974e9b53434.png)
+![screenshot-5](https://user-images.githubusercontent.com/36812672/103248298-0c66ec00-4938-11eb-97b4-81ed1d45f2b3.png)
 
 
 ## Features
@@ -24,6 +28,7 @@
 - CSS Modules
 - Netlify
 - API from: [Personal Teaching Repository](https://github.com/sergiomauz/RoR-Personal-Teaching)
+- API live demo root: [Personal Teaching Repository](https://ror-personal-teaching-backend.herokuapp.com/api/v1/)
 
 
 ## Live Demo
@@ -43,12 +48,10 @@ Click -> [Personal Teaching!](https://react-personal-teaching.netlify.app/)
 - This project uses **React Testing Library** for testing classes.
 - All files are in **src/test** directory.
 - OPTIONAL: Put your public and secret keys before to test, it will help to add testing for consuming the Pet Finder API.
-- In order to run the tests, in terminal, type: ```npm test```
+- In order to run the tests, in terminal type: ```npm test```.
+- More than 60 tests:
 
-
-## Potential Features
-- Full screen mode.
-
+![screenshot-10](https://user-images.githubusercontent.com/36812672/103628232-b2a08c00-4f0c-11eb-85ec-af2725d49e60.png)
 
 ## Author
 

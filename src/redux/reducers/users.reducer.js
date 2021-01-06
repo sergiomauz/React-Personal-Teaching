@@ -15,6 +15,7 @@ const usersReducer = (state = initialState, action) => {
   if (action.payload) {
     switch (action.type) {
       case GET_SESSION:
+      case SIGN_IN_REQUEST:
         return {
           ...state,
           myProfile: {
@@ -27,13 +28,6 @@ const usersReducer = (state = initialState, action) => {
           myProfile: {
             ...action.payload.myprofile,
             signedIn: state.myProfile.signedIn,
-          },
-        };
-      case SIGN_IN_REQUEST:
-        return {
-          ...state,
-          myProfile: {
-            signedIn: action.payload.signedIn,
           },
         };
       case GET_USERS_LIST:
@@ -63,6 +57,7 @@ const usersReducer = (state = initialState, action) => {
         }
         return state;
       }
+      case UPDATE_USER_N_REDIRECT:
       case UPDATE_USER: {
         if (action.payload.user) {
           return {
@@ -72,20 +67,6 @@ const usersReducer = (state = initialState, action) => {
                 ? action.payload.user
                 : user),
             ),
-            myProfile: {
-              ...(state.myProfile.id === action.payload.user.id
-                ? action.payload.user
-                : state.myProfile),
-              signedIn: state.myProfile.signedIn,
-            },
-          };
-        }
-        return state;
-      }
-      case UPDATE_USER_N_REDIRECT: {
-        if (action.payload.user) {
-          return {
-            ...state,
             myProfile: {
               ...(state.myProfile.id === action.payload.user.id
                 ? action.payload.user

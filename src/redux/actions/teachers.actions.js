@@ -5,7 +5,7 @@ import {
 import PersonalTeaching from '../../apis/PersonalTeaching';
 import { signOutRequest } from './users.actions';
 
-const getTeachersList = () => dispatch => PersonalTeaching()
+const getTeachersList = session => dispatch => PersonalTeaching(session)
   .getTeachersList()
   .then(requestedData => {
     if (!requestedData.error) {
@@ -20,7 +20,7 @@ const getTeachersList = () => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const getTeacherInfo = id => dispatch => PersonalTeaching()
+const getTeacherInfo = (id, session) => dispatch => PersonalTeaching(session)
   .getTeacherInfo(id)
   .then(requestedData => {
     if (!requestedData.error) {
@@ -35,7 +35,7 @@ const getTeacherInfo = id => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const getTeacherAvailability = (id, date) => dispatch => PersonalTeaching()
+const getTeacherAvailability = (id, date, session) => dispatch => PersonalTeaching(session)
   .getTeacherAvailability(id, date)
   .then(requestedData => {
     if (!requestedData.error) {
@@ -55,7 +55,7 @@ const clearTeacherAvailability = () => dispatch => dispatch({
   payload: CLEAR_TEACHER_AVAILABILITY,
 });
 
-const addTeacher = teacher => dispatch => PersonalTeaching()
+const addTeacher = (teacher, session) => dispatch => PersonalTeaching(session)
   .addTeacher(teacher)
   .then(requestedData => {
     if (!requestedData.error) {
@@ -70,7 +70,7 @@ const addTeacher = teacher => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const removeTeacher = id => dispatch => PersonalTeaching()
+const removeTeacher = (id, session) => dispatch => PersonalTeaching(session)
   .removeTeacher(id)
   .then(requestedData => {
     if (!requestedData.error) {
@@ -85,7 +85,7 @@ const removeTeacher = id => dispatch => PersonalTeaching()
     return requestedData;
   });
 
-const updateTeacher = (id, teacher) => dispatch => PersonalTeaching()
+const updateTeacher = (id, teacher, session) => dispatch => PersonalTeaching(session)
   .updateTeacher(id, teacher)
   .then(requestedData => {
     if (!requestedData.error) {

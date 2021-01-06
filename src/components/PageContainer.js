@@ -66,24 +66,22 @@ const PageContainer = props => {
         sessionObject.then(requestedData => {
           setSessionCatched(true);
           if (requestedData.error) {
-            setSessionError(true);
+            signOutRequest();
           }
         });
       } else {
         setSessionCatched(true);
       }
     }
-  }, [myProfile.signedIn, sessionCatched, getSession]);
+  }, [myProfile.signedIn, sessionCatched, getSession, signOutRequest]);
 
   // Load profile if have a valid session
   useEffect(() => {
     if (sessionCatched) {
       if (myProfile.signedIn) {
-        const errorsList = [];
         getMyProfile().then(requestedData => {
           if (requestedData.error) {
-            errorsList.push(requestedData.error.message);
-            setSessionError(errorsList);
+            setSessionError(true);
           }
           setLoading(false);
         });
@@ -96,6 +94,7 @@ const PageContainer = props => {
   // Valid current session
   useEffect(() => {
     if (myProfile.signedIn && !loading && sessionError) {
+      setSessionError(false);
       signOutRequest();
     }
   }, [myProfile.signedIn, loading, sessionError, signOutRequest]);

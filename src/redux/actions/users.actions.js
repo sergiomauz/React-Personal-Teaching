@@ -28,8 +28,8 @@ const signInRequest = user => dispatch => PersonalTeaching().signInRequest(user)
     return requestedData;
   });
 
-const getSession = () => dispatch => {
-  const requestedSession = PersonalTeaching().getSession();
+const getSession = session => dispatch => {
+  const requestedSession = PersonalTeaching(session).getSession();
 
   if (requestedSession) {
     if (requestedSession instanceof Promise) {
@@ -59,7 +59,7 @@ const getSession = () => dispatch => {
   return requestedSession;
 };
 
-const getUsersList = () => dispatch => PersonalTeaching().getUsersList()
+const getUsersList = session => dispatch => PersonalTeaching(session).getUsersList()
   .then(requestedData => {
     if (!requestedData.error) {
       dispatch({
@@ -73,7 +73,7 @@ const getUsersList = () => dispatch => PersonalTeaching().getUsersList()
     return requestedData;
   });
 
-const getUserInfo = id => dispatch => PersonalTeaching().getUserInfo(id)
+const getUserInfo = (id, session) => dispatch => PersonalTeaching(session).getUserInfo(id)
   .then(requestedData => {
     if (!requestedData.error) {
       dispatch({
@@ -87,7 +87,7 @@ const getUserInfo = id => dispatch => PersonalTeaching().getUserInfo(id)
     return requestedData;
   });
 
-const getMyProfile = () => dispatch => PersonalTeaching().getMyProfile()
+const getMyProfile = session => dispatch => PersonalTeaching(session).getMyProfile()
   .then(requestedData => {
     if (!requestedData.error) {
       dispatch({
@@ -101,21 +101,21 @@ const getMyProfile = () => dispatch => PersonalTeaching().getMyProfile()
     return requestedData;
   });
 
-const addUser = user => dispatch => PersonalTeaching().addUser(user)
+const addUser = (user, session) => dispatch => PersonalTeaching(session).addUser(user)
   .then(requestedData => {
     if (!requestedData.error) {
       dispatch({
         type: ADD_USER,
         payload: requestedData,
       });
-    } if (requestedData.error.hasResponse) {
+    } else if (requestedData.error.hasResponse) {
       dispatch(signOutRequest());
     }
 
     return requestedData;
   });
 
-const removeUser = id => dispatch => PersonalTeaching().removeUser(id)
+const removeUser = (id, session) => dispatch => PersonalTeaching(session).removeUser(id)
   .then(requestedData => {
     if (!requestedData.error) {
       dispatch({
@@ -129,7 +129,7 @@ const removeUser = id => dispatch => PersonalTeaching().removeUser(id)
     return requestedData;
   });
 
-const updateUser = (id, user) => dispatch => PersonalTeaching().updateUser(id, user)
+const updateUser = (id, user, session) => dispatch => PersonalTeaching(session).updateUser(id, user)
   .then(requestedData => {
     if (!requestedData.error) {
       dispatch({

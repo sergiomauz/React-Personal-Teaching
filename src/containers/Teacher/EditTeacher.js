@@ -167,14 +167,23 @@ const EditTeacher = props => {
                         (loading) && <img className="teacher-photo" src={loadingGif} alt="Preview" />
                       }
                       {
-                        (teacherInfo.photo.length > 0
-                          && uploadedImage.length === 0
-                          && !loading) && <img className="teacher-photo" src={teacherInfo.photo} alt="Preview" />
-                      }
-                      {
-                        (teacherInfo.photo.length === 0
-                          && uploadedImage.length === 0
-                          && !loading) && <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                        teacherInfo.photo ? (
+                          <>
+                            {
+                              (teacherInfo.photo.length > 0
+                                && uploadedImage.length === 0
+                                && !loading) && <img className="teacher-photo" src={teacherInfo.photo} alt="Preview" />
+                            }
+                            {
+                              (teacherInfo.photo.length === 0
+                                && uploadedImage.length === 0
+                                && !loading) && <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                            }
+                          </>
+                        )
+                          : (
+                            <img className="teacher-photo" src={photoTeacher} alt="Preview" />
+                          )
                       }
                       {
                         (uploadedImage.length > 0 && !loading) && <img className="teacher-photo" src={uploadedImage} alt="Preview" />

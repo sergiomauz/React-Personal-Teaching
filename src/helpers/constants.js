@@ -12,6 +12,7 @@ const URL_EDIT_TEACHER = '/teacher/:id/edit';
 const URL_TEACHER_APPOINTMENTS = '/teacher/:id/appointments';
 
 const CLOUD_NAME = '{CLOUD_NAME}';
+// const BACKEND_PERSONAL_TEACHING = 'https://ror-personal-teaching-backend.herokuapp.com/api/v1/';
 const BACKEND_PERSONAL_TEACHING = 'http://localhost:3000/api/v1/';
 const ENDPOINT_FOR_UPLOAD_CLOUDINARY = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
